@@ -19,6 +19,14 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+})
+    // ->middleware(['auth'])
+    ->name('dashboard');
+
+Route::get('/devices', function () {
+    return view('devices');
+})
+    // ->middleware(['auth'])
+    ->name('devices');
 
 require __DIR__.'/auth.php';

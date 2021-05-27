@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title')</title>
+    <title>{{ env('APP_NAME') }}@isset($subTitle) - {{ $subTitle }}@endisset</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -20,15 +20,19 @@
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
 
-        @include('layouts.inc.preloader')
+        <x-layouts.app.preloader></x-layouts.app.preloader>
 
-        @include('layouts.inc.navbar')
+        <x-layouts.app.navbar></x-layouts.app.navbar>
 
-        @include('layouts.inc.sidebar')
+        <x-layouts.app.sidebar>
+            <x-slot name="navItems">{{ $navItems }}</x-slot>
+        </x-layouts.app.sidebar>
 
-        @include('layouts.inc.wrapper')
+        <x-layouts.app.wrapper>
+            <x-slot name="header">{{ $header }}</x-slot>
+        </x-layouts.app.wrapper>
 
-        @include('layouts.inc.footer')
+        <x-layouts.app.footer></x-layouts.app.footer>
 
     </div>
 
