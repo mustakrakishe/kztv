@@ -19,7 +19,7 @@ class CreateComputersTable extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->string('os', 30);
+            $table->string('os');
         });
     }
 

@@ -22,6 +22,8 @@ class CreateDevicesTable extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
+            $table->text('comment')
+                ->nullable();
         });
     }
 
