@@ -1,6 +1,6 @@
 <x-app-layout>
 
-    <x-slot name="subTitle">Устройства</x-slot>
+    <x-slot name="pageTitle">Устройства</x-slot>
     <x-slot name="header">Устройства</x-slot>
 
     <x-slot name="navItems">
