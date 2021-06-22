@@ -20,10 +20,10 @@ class CreateMovementLogsTable extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->foreignId('location_id')
-                ->constrained('sqlsrv.[mx_kztu].[dbo].[Кадры_Подразделения]')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
+            $table->foreignId('location_id');
+                // ->constrained('sqlsrv.dbo.Кадры_Подразделения')
+                // ->onUpdate('cascade')
+                // ->onDelete('cascade');
             $table->text('cause');
         });
     }
