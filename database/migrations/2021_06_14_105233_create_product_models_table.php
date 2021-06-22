@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeviceModelsTable extends Migration
+class CreateProductModelsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateDeviceModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_models', function (Blueprint $table) {
+        Schema::create('product_models', function (Blueprint $table) {
             $table->id();
             $table->foreignId('manufacture_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
             $table->string('name');
-            $table->foreignId('device_type_id')
+            $table->foreignId('product_type_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -35,6 +35,6 @@ class CreateDeviceModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_models');
+        Schema::dropIfExists('product_models');
     }
 }
