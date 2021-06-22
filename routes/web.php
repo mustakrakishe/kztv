@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DeviceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,7 @@ Route::get('/dashboard', function () {
     // ->middleware(['auth'])
     ->name('dashboard');
 
-Route::get('/devices', function () {
-    return view('devices');
-})
+Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices');
 
