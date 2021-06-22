@@ -18,7 +18,7 @@ class CreateDevicesTable extends Migration
             $table->integer('inventory_code');
             $table->integer('identificate_code')
                 ->nullable();
-            $table->foreignId('device_model_id')
+            $table->foreignId('product_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
