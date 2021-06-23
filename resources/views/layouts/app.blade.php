@@ -30,11 +30,7 @@
 
         <x-layouts.app.wrapper>
             <x-slot name="header">{{ $header }}</x-slot>
-            <x-slot name="content">
-                @isset($content)
-                    {{ $content }}
-                @endisset
-            </x-slot>
+            {{ $slot }}
         </x-layouts.app.wrapper>
 
         <x-layouts.app.footer></x-layouts.app.footer>

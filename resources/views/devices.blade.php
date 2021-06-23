@@ -10,10 +10,12 @@
         </x-layouts.app.sidebar.nav-item>
     </x-slot>
 
-    <x-slot name="content">
-        @foreach (department as department)
-            echo {{ department.Название }} . '<br>';
-        @endforeach
+    <x-slot name="header">
+        Устройства
     </x-slot>
+
+    @foreach ($departments as $department)
+        <p>{{ $department->Название }}</p>
+    @endforeach
 
 </x-app-layout>
