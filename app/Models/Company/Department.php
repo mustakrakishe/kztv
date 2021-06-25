@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Subunit extends Model
+class Department extends Model
 {
     use HasFactory;
 
     protected $connection = 'sqlsrv';
-    protected $table = 'dbo.Кадры_Подразделения';
+    protected $table = 'dbo.Кадры_Отделы';
     public $timestamps = false;
 
     protected static function booted() {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Devices;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Monitor extends Model
+class Manufacture extends Model
 {
     use HasFactory;
 

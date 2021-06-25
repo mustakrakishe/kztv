@@ -15,8 +15,8 @@ class CreateMovementLogsTable extends Migration
     {
         Schema::create('movement_logs', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->foreignId('device_id')
+            $table->timestamp('added_at')->default(microtime());
+            $table->foreignId('unit_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -24,7 +24,8 @@ class CreateMovementLogsTable extends Migration
                 // ->constrained('sqlsrv.dbo.Кадры_Подразделения')
                 // ->onUpdate('cascade')
                 // ->onDelete('cascade');
-            $table->text('cause');
+            $table->text('cause')
+                ->nullable();
         });
     }
 
