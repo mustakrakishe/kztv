@@ -28,6 +28,10 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices');
 
+    Route::get('/devices/add', [DeviceController::class, 'add'])
+    // ->middleware(['auth'])
+    ->name('devices.add');
+
     Route::get('/devices/computers', [DeviceController::class, 'show'])
         // ->middleware(['auth'])
         ->name('computers');

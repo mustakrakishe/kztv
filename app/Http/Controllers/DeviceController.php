@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Department;
 
 class DeviceController extends Controller
 {
     public function show()
     {
-        return view('devices', [
-            'departments' => Department::all()
+        
+    }
+
+    public function add()
+    {
+        return view('device.add', [
+            'user' => User::findOrFail($id)
         ]);
     }
 }
