@@ -15,7 +15,7 @@ class CreateMovementLogsTable extends Migration
     {
         Schema::create('movement_logs', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('added_at')->default(microtime());
+            $table->timestamp('added_at')->default('now');
             $table->foreignId('unit_id')
                 ->constrained()
                 ->onUpdate('cascade')
