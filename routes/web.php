@@ -28,4 +28,8 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices');
 
+    Route::get('/devices/computers', [DeviceController::class, 'show'])
+        // ->middleware(['auth'])
+        ->name('computers');
+
 require __DIR__.'/auth.php';

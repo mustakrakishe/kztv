@@ -14,8 +14,9 @@
         Устройства
     </x-slot>
 
-    @foreach ($departments as $department)
-        <p>{{ $department->Название }}</p>
-    @endforeach
+    <x-layouts.app.wrapper.category-item>
+        <x-slot name="img_path">{{ $img_path }}</x-slot>
+        <x-slot name="description">Добавить новое</x-slot>
+    </x-layouts.app.wrapper.category-item>
 
 </x-app-layout>

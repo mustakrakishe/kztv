@@ -18,6 +18,8 @@
     </a>
 
     @isset($treeview)
-        {{ $treeview }}
+        <ul class="nav nav-treeview">
+            {{ $treeview }}
+        </ul>
     @endif
 </li>
