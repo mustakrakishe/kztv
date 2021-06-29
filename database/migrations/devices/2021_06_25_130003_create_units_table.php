@@ -16,6 +16,10 @@ class CreateUnitsTable extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->integer('inventory_code');
+            $table->foreignId('type_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->foreignId('device_model_id')
                 ->constrained()
                 ->onUpdate('cascade')
