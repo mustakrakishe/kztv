@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIdentificateCodesTable extends Migration
+class CreateIdentificationCodesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateIdentificateCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('identificate_codes', function (Blueprint $table) {
+        Schema::create('identification_codes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('unit_id')
                 ->constrained()
@@ -30,6 +30,6 @@ class CreateIdentificateCodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('identificate_codes');
+        Schema::dropIfExists('identification_codes');
     }
 }

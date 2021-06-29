@@ -5,7 +5,7 @@ namespace App\Models\Devices;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IdentificateCode extends Model
+class IdentificationCode extends Model
 {
     use HasFactory;
 
