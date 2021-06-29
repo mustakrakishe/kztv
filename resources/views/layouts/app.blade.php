@@ -24,9 +24,7 @@
 
         <x-layouts.app.navbar></x-layouts.app.navbar>
 
-        <x-layouts.app.sidebar>
-            <x-slot name="navItems">{{ $navItems }}</x-slot>
-        </x-layouts.app.sidebar>
+        <x-layouts.app.sidebar></x-layouts.app.sidebar>
 
         <x-layouts.app.wrapper>
             <x-slot name="header">{{ $header }}</x-slot>

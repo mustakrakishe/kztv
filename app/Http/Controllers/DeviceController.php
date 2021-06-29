@@ -13,8 +13,6 @@ class DeviceController extends Controller
 
     public function add()
     {
-        return view('device.add', [
-            'user' => User::findOrFail($id)
-        ]);
+        return view('device.add');
     }
 }
