@@ -15,7 +15,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-child-indent" data-widget="treeview" role="menu" data-accordion="false">
 
                 <x-layouts.app.sidebar.nav-item>
-                    <x-slot name="title">Устройства</x-slot>
+                    <x-slot name="title">Пристрої</x-slot>
                     <x-slot name="iconClass">fas fa-desktop</x-slot>
                     <x-slot name="link">{{ route('devices') }}</x-slot>
                 </x-layouts.app.sidebar.nav-item>
