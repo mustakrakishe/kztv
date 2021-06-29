@@ -8,7 +8,7 @@ class DeviceController extends Controller
 {
     public function show()
     {
-        
+        return view('devices');
     }
 
     public function add()

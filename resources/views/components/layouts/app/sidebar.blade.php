@@ -2,7 +2,7 @@
 
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-        <img src="{{ asset('storage/logo.jpg') }}" alt='ПрАТ "КЗТВ"' class="brand-image img-circle elevation-3"
+        <img src="{{ asset('storage/service/logo.jpg') }}" alt='ПрАТ "КЗТВ"' class="brand-image img-circle elevation-3"
             style="opacity: .8">
         <span class="brand-text font-weight-light">ПрАТ "КЗТВ"</span>
     </a>
