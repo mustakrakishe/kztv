@@ -15,8 +15,10 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subunit_id');
-            $table->foreignId('department_id');
+            $table->foreignId('department_id')
+                ->constrained()
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
             $table->text('workplace')
                 ->nullable();
         });

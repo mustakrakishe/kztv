@@ -36,6 +36,7 @@
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Пристрій</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Виробник</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Модель</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Робоче місце</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,6 +47,7 @@
                                     <td>{{ $device->type }}</td>
                                     <td>{{ $device->manufacture }}</td>
                                     <td>{{ $device->model }}</td>
+                                    <td>{{ $device->subunit }}. {{ $device->department }}. {{ $device->workplace }}</td>
                                 </tr>
                                 @endforeach
                                 
