@@ -14,7 +14,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid"
+                        <table id="example1" class="table table-striped dataTable dtr-inline" role="grid"
                             aria-describedby="example1_info">
                             <thead>
                                 <tr role="row">
@@ -23,22 +23,29 @@
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Модель</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Характеристики</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Розташування</th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($devices as $device)
-                                <tr class="odd">
-                                    <td class="dtr-control sorting_1" tabindex="0">{{ $device->inventory_code }}
-                                        @isset($device->identification_code)
-                                        <br>
-                                        {{ $device->identification_code }}
-                                        @endisset
-                                    </td>
-                                    <td>{{ $device->type }}</td>
-                                    <td>{{ $device->model }}</td>
-                                    <td>{{ $device->properties }}</td>
-                                    <td>{{ $device->location }}</td>
-                                </tr>
+                                    <tr class="odd">
+                                        <td class="dtr-control sorting_1" tabindex="0">{{ $device->inventory_code }}
+                                            @isset($device->identification_code)
+                                                @isset($device->inventory_code)
+                                                    <br>
+                                                @endisset
+
+                                                ({{ $device->identification_code }})
+                                            @endisset
+                                        </td>
+                                        <td>{{ $device->type }}</td>
+                                        <td>{{ $device->model }}</td>
+                                        <td>{{ $device->properties }}</td>
+                                        <td>{{ $device->location }}</td>
+                                        <td><i class="fas fa-pen"></i></td>
+                                        <td><i class="fas fa-trash-alt"></i></td>
+                                    </tr>
                                 @endforeach
                                 
                             </tbody>

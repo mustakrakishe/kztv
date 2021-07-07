@@ -36,8 +36,12 @@ class DeviceController extends Controller
         return view('devices', ['devices' => $devices]);
     }
 
-    public function add()
-    {
+    public function add(){
         return view('device.add');
+    }
+
+    public function delete(Request $device_id = null)
+    {
+        # code...
     }
 }

@@ -32,8 +32,8 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.add');
 
-    Route::get('/devices/computers', [DeviceController::class, 'show'])
-        // ->middleware(['auth'])
-        ->name('computers');
+    Route::get('/devices/delete', [DeviceController::class, 'delete'])
+    // ->middleware(['auth'])
+    ->name('devices.delete');
 
 require __DIR__.'/auth.php';
