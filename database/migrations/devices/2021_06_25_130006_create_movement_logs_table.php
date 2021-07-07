@@ -16,16 +16,9 @@ class CreateMovementLogsTable extends Migration
         Schema::create('movement_logs', function (Blueprint $table) {
             $table->id();
             $table->timestamp('added_at')->default('now');
-            $table->foreignId('unit_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('location_id');
-                // ->constrained('sqlsrv.dbo.Кадры_Подразделения')
-                // ->onUpdate('cascade')
-                // ->onDelete('cascade');
-            $table->text('cause')
-                ->nullable();
+            $table->foreignId('unit_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->string('location');
+            $table->text('comment')->nullable();
         });
     }
 

@@ -15,18 +15,12 @@ class CreateUnitsTable extends Migration
     {
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->integer('inventory_code');
-            $table->foreignId('type_id')
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->foreignId('device_model_id')
-                ->nullable()
-                ->constrained()
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
-            $table->text('comment')
-                ->nullable();
+            $table->integer('inventory_code')->nullable();
+            $table->integer('identification_code')->nullable();
+            $table->foreignId('type_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->string('model')->nullable();
+            $table->text('properties')->nullable();
+            $table->string('comment')->nullable();
         });
     }
 
