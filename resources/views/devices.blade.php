@@ -44,7 +44,7 @@
                                         <td>{{ $device->properties }}</td>
                                         <td>{{ $device->location }}</td>
                                         <td><i class="fas fa-pen"></i></td>
-                                        <td><i class="fas fa-trash-alt"></i></td>
+                                        <td><a href="{{ route('devices.delete', ['device_id' => $device->id]) }}"><i class="fas fa-trash-alt"></i></a></td>
                                     </tr>
                                 @endforeach
                                 

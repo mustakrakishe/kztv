@@ -40,8 +40,9 @@ class DeviceController extends Controller
         return view('device.add');
     }
 
-    public function delete(Request $device_id = null)
-    {
-        # code...
+    public function delete(Request $data){
+        $device_id = $data->device_id;
+        DB::table('units')->where('id', '=', $device_id)->delete();
+        return redirect()->route('devices');
     }
 }
