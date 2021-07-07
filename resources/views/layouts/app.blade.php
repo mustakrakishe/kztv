@@ -31,8 +31,6 @@
             {{ $slot }}
         </x-layouts.app.wrapper>
 
-        <x-layouts.app.footer></x-layouts.app.footer>
-
     </div>
 
     <!-- REQUIRED SCRIPTS -->

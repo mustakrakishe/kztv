@@ -34,6 +34,7 @@
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Інв. №</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Тип</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Модель</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Характеристики</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Розташування</th>
                                 </tr>
                             </thead>
@@ -48,6 +49,7 @@
                                     </td>
                                     <td>{{ $device->type }}</td>
                                     <td>{{ $device->model }}</td>
+                                    <td>{{ $device->properties }}</td>
                                     <td>{{ $device->location }}</td>
                                 </tr>
                                 @endforeach
