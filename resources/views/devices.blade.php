@@ -32,22 +32,23 @@
                             <thead>
                                 <tr role="row">
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Інв. №</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Ідент. №</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Пристрій</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Виробник</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Тип</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Модель</th>
-                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Робоче місце</th>
+                                    <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Розташування</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($devices as $device)
                                 <tr class="odd">
-                                    <td class="dtr-control sorting_1" tabindex="0">{{ $device->inventory_code }}</td>
-                                    <td>{{ $device->identification_code }}</td>
+                                    <td class="dtr-control sorting_1" tabindex="0">{{ $device->inventory_code }}
+                                        @isset($device->identification_code)
+                                        <br>
+                                        {{ $device->identification_code }}
+                                        @endisset
+                                    </td>
                                     <td>{{ $device->type }}</td>
-                                    <td>{{ $device->manufacture }}</td>
                                     <td>{{ $device->model }}</td>
-                                    <td>{{ $device->subunit }}. {{ $device->department }}. {{ $device->workplace }}</td>
+                                    <td>{{ $device->location }}</td>
                                 </tr>
                                 @endforeach
                                 
