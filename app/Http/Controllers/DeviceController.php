@@ -43,6 +43,5 @@ class DeviceController extends Controller
     public function delete(Request $data){
         $device_id = $data->device_id;
         DB::table('units')->where('id', '=', $device_id)->delete();
-        return redirect()->route('devices');
     }
 }

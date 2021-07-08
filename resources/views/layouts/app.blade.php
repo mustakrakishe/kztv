@@ -15,6 +15,16 @@
     <link rel="stylesheet" href="admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="admin-lte/dist/css/adminlte.min.css">
+
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="admin-lte/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="admin-lte/dist/js/adminlte.js"></script>
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -32,16 +42,6 @@
         </x-layouts.app.wrapper>
 
     </div>
-
-    <!-- REQUIRED SCRIPTS -->
-    <!-- jQuery -->
-    <script src="admin-lte/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- overlayScrollbars -->
-    <script src="admin-lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="admin-lte/dist/js/adminlte.js"></script>
 </body>
 
 </html>
