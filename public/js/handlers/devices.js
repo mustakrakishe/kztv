@@ -18,21 +18,16 @@ $('.del_device').on('click', function () {
   });
 });
 $('.edit_device').on('click', function () {
-  console.log('edit device'); // let device = {};
-  // $(this).parent().siblings().each((i, el) => {
-  //     let prop_name = $(el).attr('name');
-  //     let prop_val = $(el).text().trim();
-  //     if(prop_val.length > 0){
-  //         device[prop_name] = pror_val;
-  //     }
-  // })
-
+  console.log('edit device');
   $(this).parent().siblings(':not(.control)').each(function (i, el) {
     var prop_name = $(el).attr('name');
     var prop_val = $(el).text().trim();
     $(el).empty();
     $(el).append('<input type="text" class="form-control" value="' + prop_val + '">');
   });
+  var btn_edit = $(this).parent().siblings('[name="edit"]');
+  $(btn_edit).attr('id', 'set_device_' + prop_val);
+  $(btn_edit).attr('class', 'set_device');
 });
 /******/ })()
 ;

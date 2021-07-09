@@ -47,11 +47,11 @@
                                         <td style="width: 30%"  name="location">{{ $device->location }}</td>
                                         <td style="width: 5%"  name="edit" class="control">
                                             <button name="device_id" id="edit_device_{{ $device->id }}" class="edit_device" value="{{ $device->id }}" hidden></button>
-                                            <label class="m-0" for="edit_device_{{ $device->id }}"><i class="fas fa-pen"></i></label>
+                                            <label class="btn btn-link m-0 p-0" for="edit_device_{{ $device->id }}"><i class="fas fa-pen"></i></label>
                                         </td>
                                         <td style="width: 5%"  name="del" class="control">
                                             <button name="device_id" id="del_device_{{ $device->id }}" class="del_device" value="{{ $device->id }}" hidden></button>
-                                            <label class="m-0" for="del_device_{{ $device->id }}"><i class="fas fa-trash-alt p-0"></i></label>
+                                            <label class="btn btn-link m-0 p-0" for="del_device_{{ $device->id }}"><i class="fas fa-trash-alt p-0"></i></label>
                                         </td>
                                     </tr>
                                 @endforeach
