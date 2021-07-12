@@ -19,6 +19,7 @@ $('.edit_device').on('click', function(){
 })
 
 $('.del_device').on('click', function(){
+    console.log('delete device #' + $(this).val());
     let device_id = $(this).val();
     
     $.ajax(
@@ -27,7 +28,7 @@ $('.del_device').on('click', function(){
             data: {'device_id': device_id}
         }
     ).done((result) => {
-        $(this).parent().eq(3).remove();
+        $(this).parents().eq(3).remove();
     })
 })
 

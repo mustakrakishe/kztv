@@ -19,6 +19,7 @@ $('.edit_device').on('click', function () {
 $('.del_device').on('click', function () {
   var _this = this;
 
+  console.log('delete device #' + $(this).val());
   var device_id = $(this).val();
   $.ajax({
     url: del_device_handler_link,
@@ -26,7 +27,7 @@ $('.del_device').on('click', function () {
       'device_id': device_id
     }
   }).done(function (result) {
-    $(_this).parent().eq(3).remove();
+    $(_this).parents().eq(3).remove();
   });
 });
 $('.cancel_upd_device').on('click', function () {
