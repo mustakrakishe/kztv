@@ -3,6 +3,19 @@ var __webpack_exports__ = {};
 /*!******************************************!*\
   !*** ./resources/js/handlers/devices.js ***!
   \******************************************/
+$('.edit_device').on('click', function () {
+  var active_row = $(this).parents().eq(3);
+  var device_propertie_cells = $(active_row).children('.info');
+  var device_ctrl_cell = $(active_row).children('.ctrl');
+  $(device_propertie_cells).each(function (index, cell) {
+    var prop_name = $(cell).attr('name');
+    var prop_val = $(cell).text().trim();
+    $(cell).empty();
+    $(cell).append('<input type="text" class="form-control" value="' + prop_val + '">');
+  });
+  $(device_ctrl_cell).children('.read-mode').attr('hidden', true);
+  $(device_ctrl_cell).children('.edit-mode').attr('hidden', false);
+});
 $('.del_device').on('click', function () {
   var _this = this;
 
@@ -13,21 +26,21 @@ $('.del_device').on('click', function () {
       'device_id': device_id
     }
   }).done(function (result) {
-    $(_this).parent().parent().remove();
-    console.log('Device id' + device_id + ' is deleted.');
+    $(_this).parent().eq(3).remove();
   });
 });
-$('.edit_device').on('click', function () {
-  console.log('edit device');
-  $(this).parent().siblings(':not(.control)').each(function (i, el) {
-    var prop_name = $(el).attr('name');
-    var prop_val = $(el).text().trim();
-    $(el).empty();
-    $(el).append('<input type="text" class="form-control" value="' + prop_val + '">');
+$('.cancel_upd_device').on('click', function () {
+  var active_row = $(this).parents().eq(3);
+  var device_propertie_cells = $(active_row).children('.info');
+  var device_ctrl_cell = $(active_row).children('.ctrl');
+  $(device_propertie_cells).each(function (index, cell) {
+    var prop_name = $(cell).attr('name');
+    var prop_val = $(cell).children().val().trim();
+    $(cell).empty();
+    $(cell).append(prop_val);
   });
-  var btn_edit = $(this).parent().siblings('[name="edit"]');
-  $(btn_edit).attr('id', 'set_device_' + prop_val);
-  $(btn_edit).attr('class', 'set_device');
+  $(device_ctrl_cell).children('.read-mode').attr('hidden', false);
+  $(device_ctrl_cell).children('.edit-mode').attr('hidden', true);
 });
 /******/ })()
 ;

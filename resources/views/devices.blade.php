@@ -26,34 +26,11 @@
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Характеристики</th>
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Розташування</th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($devices as $device)
-                                    <tr class="odd">
-                                        <td style="width: 10%"  name="inventory_code" class="dtr-control sorting_1" tabindex="0">{{ $device->inventory_code }}
-                                            @isset($device->identification_code)
-                                                @isset($device->inventory_code)
-                                                    <br>
-                                                @endisset
-
-                                                ({{ $device->identification_code }})
-                                            @endisset
-                                        </td>
-                                        <td style="width: 10%" name="type">{{ $device->type }}</td>
-                                        <td style="width: 20%"  name="model">{{ $device->model }}</td>
-                                        <td style="width: 30%"  name="properties">{{ $device->properties }}</td>
-                                        <td style="width: 30%"  name="location">{{ $device->location }}</td>
-                                        <td style="width: 5%"  name="edit" class="control">
-                                            <button name="device_id" id="edit_device_{{ $device->id }}" class="edit_device" value="{{ $device->id }}" hidden></button>
-                                            <label class="btn btn-link m-0 p-0" for="edit_device_{{ $device->id }}"><i class="fas fa-pen"></i></label>
-                                        </td>
-                                        <td style="width: 5%"  name="del" class="control">
-                                            <button name="device_id" id="del_device_{{ $device->id }}" class="del_device" value="{{ $device->id }}" hidden></button>
-                                            <label class="btn btn-link m-0 p-0" for="del_device_{{ $device->id }}"><i class="fas fa-trash-alt p-0"></i></label>
-                                        </td>
-                                    </tr>
+                                    <x-devices.table-row :device="$device"></x-devices.table-row>
                                 @endforeach
                                 
                             </tbody>
