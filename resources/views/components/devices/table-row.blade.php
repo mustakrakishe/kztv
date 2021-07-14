@@ -27,7 +27,7 @@
 
         <div class="row device-ctrl-group edit-mode" hidden>
             <div class="col-6">
-                <button name="device_id" id="upd_device_0" class="upd_device" value="{{ $device->id }}" hidden></button>
+                <button name="device_id" id="upd_device_{{ $device->id }}" class="upd_device" value="{{ $device->id }}" hidden></button>
                 <label class="btn btn-link m-0 p-0" for="upd_device_{{ $device->id }}"><i class="fas fa-check"></i></label>
             </div>
             <div class="col-6">

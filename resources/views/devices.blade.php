@@ -43,6 +43,7 @@
     </div>
 
     <script>
+        let upd_device_handler_link = @json(route('devices.update'));
         let del_device_handler_link = @json(route('devices.delete'));
     </script>
     <script src="{{ asset('js/handlers/devices.js') }}"></script>

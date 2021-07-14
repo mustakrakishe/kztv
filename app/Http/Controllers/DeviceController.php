@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Devices\Type;
+use App\Models\Devices\Unit;
 // use App\Models\Devices\IdentificationCode;
 // use App\Models\Devices\Manufacture;
 // use App\Models\Devices\DeviceModel;
@@ -34,38 +35,31 @@ class DeviceController extends Controller{
         return view('devices', ['devices' => $devices]);
     }
 
-    public function update(Request $data){
-        $input_data = $data->device;
+    public function update(Request $input_data){
+        $device_input_data = $input_data->device;
 
-        // firstOrCreate() has a bug with a duplication of the id (visit https://github.com/laravel/framework/issues/19372)
-        $type_db_record = DB::table('types')
-            ->where('name', $input_data['type'])
-            ->get()
-            ->first();
+        $type = Type::firstOrCreate(
+            ['name' => $device_input_data['type']]
+        );
 
-        $type_id = $type_db_record->id;
-
-        $qr = $type_id;
-        if($type_id == null){
-            $qr = DB::table('types')
-                ->insert(
-                    ['name' => $input_data['type']]
-                );
-
-            $type_id = $type->id;
+        $device_new_data = array_filter($device_input_data, function($prop_name){
+            return in_array($prop_name, [
+                'inventory_code',
+                'identification_code',
+                'model',
+                'properties'
+            ]);
+        }, ARRAY_FILTER_USE_KEY);
+        $device_new_data['type_id'] = $type->id;
+        
+        $device = Unit::find($device_input_data['id']);
+        foreach ($device_new_data as $prop_name => $prop_val) {
+            $device->$prop_name = $prop_val;
         }
 
-        return $qr;
-
-        // $device = DB::table('units')->find($device->id);
-        
-        // foreach ($device as $prop_name => $prop_val) {
-        //     if($prop_val != $input_data->$prop_name){
-        //         $device->$prop_val = $input_data->$prop_name;
-        //     }
-        // }
-
-        // $device->save();
+        if($device->isDirty()){
+            $device->save();
+        }
 
         // $last_movement_log = DB::table('muvement_logs')
         //     ->where('unit_id', '=', $input_data->id)

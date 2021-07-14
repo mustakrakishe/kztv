@@ -28,9 +28,9 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices');
 
-    Route::get('/devices/add', [DeviceController::class, 'add'])
+    Route::any('/devices/update', [DeviceController::class, 'update'])
     // ->middleware(['auth'])
-    ->name('devices.add');
+    ->name('devices.update');
 
     Route::get('/devices/delete', [DeviceController::class, 'delete'])
     // ->middleware(['auth'])
