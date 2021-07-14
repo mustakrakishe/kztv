@@ -6,15 +6,32 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Devices\Type;
 use App\Models\Devices\Unit;
+use App\Models\Devices\MovementLog;
 // use App\Models\Devices\IdentificationCode;
 // use App\Models\Devices\Manufacture;
 // use App\Models\Devices\DeviceModel;
 
 class DeviceController extends Controller{
     public function show(){
+        $last_movement_dates = MovementLog::select(
+                'unit_id',
+                DB::raw('MAX(created_at) as created_at')
+            )
+            ->groupBy('unit_id');
+            
+        $last_movement_logs = DB::table('movement_logs')
+            ->rightJoinSub($last_movement_dates, 'last_movement_dates', function($rightJoin){
+                $rightJoin
+                    ->on('movement_logs.unit_id', '=', 'last_movement_dates.unit_id')
+                    ->whereColumn('movement_logs.created_at', 'last_movement_dates.created_at');
+            })
+            ->select('movement_logs.*');
+
         $devices = DB::table('units')
             ->join('types', 'units.type_id', '=', 'types.id')
-            ->join('movement_logs', 'units.id', '=', 'movement_logs.unit_id')
+            ->joinSub($last_movement_logs, 'last_movement_logs', function($join){
+                $join->on('units.id', '=', 'last_movement_logs.unit_id');
+            })
             ->select(
                 'units.id',
                 'units.inventory_code',
@@ -22,12 +39,12 @@ class DeviceController extends Controller{
                 'types.name as type',
                 'units.model',
                 'units.properties',
-                'movement_logs.id as movement_log_id',
-                'movement_logs.location',
-                'movement_logs.added_at',
+                'last_movement_logs.id as movement_log_id',
+                'last_movement_logs.location',
+                'last_movement_logs.created_at',
                 'units.comment'
             )
-            ->orderBy('movement_logs.added_at')
+            ->orderBy('created_at')
             ->orderBy('movement_log_id', 'desc')
             ->get();
 
@@ -61,17 +78,16 @@ class DeviceController extends Controller{
             $device->save();
         }
 
-        // $last_movement_log = DB::table('muvement_logs')
-        //     ->where('unit_id', '=', $input_data->id)
-        //     ->orderByDesc('added_at')
-        //     ->limit(1);
+        $last_movement_log = MovementLog::where('unit_id', $device_input_data['id'])
+            ->latest()
+            ->first();
         
-        // if($last_movement_log->location != $input_data->location){
-        //     DB::table('muvement_logs')->insert([
-        //         'unit_id' => $input_data->id,
-        //         'location' => $input_data->location
-        //     ]);
-        // }
+        if($last_movement_log->location != $device_input_data['location']){
+            $new_movement_log = new MovementLog;
+            $new_movement_log->unit_id = $device->id;
+            $new_movement_log->location = $device_input_data['location'];
+            $new_movement_log->save();
+        }
     }
 
     public function delete(Request $data){
