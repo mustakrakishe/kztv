@@ -13,25 +13,9 @@ use App\Models\Devices\MovementLog;
 
 class DeviceController extends Controller{
     public function show(){
-        $last_movement_dates = MovementLog::select(
-                'unit_id',
-                DB::raw('MAX(created_at) as created_at')
-            )
-            ->groupBy('unit_id');
-            
-        $last_movement_logs = DB::table('movement_logs')
-            ->rightJoinSub($last_movement_dates, 'last_movement_dates', function($rightJoin){
-                $rightJoin
-                    ->on('movement_logs.unit_id', '=', 'last_movement_dates.unit_id')
-                    ->whereColumn('movement_logs.created_at', 'last_movement_dates.created_at');
-            })
-            ->select('movement_logs.*');
-
+        // #2
         $devices = DB::table('units')
             ->join('types', 'units.type_id', '=', 'types.id')
-            ->joinSub($last_movement_logs, 'last_movement_logs', function($join){
-                $join->on('units.id', '=', 'last_movement_logs.unit_id');
-            })
             ->select(
                 'units.id',
                 'units.inventory_code',
@@ -39,15 +23,68 @@ class DeviceController extends Controller{
                 'types.name as type',
                 'units.model',
                 'units.properties',
-                'last_movement_logs.id as movement_log_id',
-                'last_movement_logs.location',
-                'last_movement_logs.created_at',
                 'units.comment'
             )
-            ->orderBy('created_at')
-            ->orderBy('movement_log_id', 'desc')
-            ->get();
+            ->addSelect([
+                'movement_log_id' => MovementLog::select('id')
+                ->whereColumn('unit_id', 'units.id')
+                ->latest()
+                ->limit(1),
 
+                'created_at' => MovementLog::select('created_at')
+                ->whereColumn('unit_id', 'units.id')
+                ->latest()
+                ->limit(1),
+
+                'location' => MovementLog::select('location')
+                ->whereColumn('unit_id', 'units.id')
+                ->latest()
+                ->limit(1),
+            ])
+            ->orderBy('created_at')
+            ->orderByDesc('movement_log_id')
+            ->get();
+        
+        
+        
+        
+        
+        
+        // 1
+        // $last_movement_dates = MovementLog::select(
+        //         'unit_id',
+        //         DB::raw('MAX(created_at) as created_at')
+        //     )
+        //     ->groupBy('unit_id');
+            
+        // $last_movement_logs = DB::table('movement_logs')
+        //     ->rightJoinSub($last_movement_dates, 'last_movement_dates', function($rightJoin){
+        //         $rightJoin
+        //             ->on('movement_logs.unit_id', '=', 'last_movement_dates.unit_id')
+        //             ->whereColumn('movement_logs.created_at', 'last_movement_dates.created_at');
+        //     })
+        //     ->select('movement_logs.*');
+
+        // $devices = DB::table('units')
+        //     ->join('types', 'units.type_id', '=', 'types.id')
+        //     ->joinSub($last_movement_logs, 'last_movement_logs', function($join){
+        //         $join->on('units.id', '=', 'last_movement_logs.unit_id');
+        //     })
+        //     ->select(
+        //         'units.id',
+        //         'units.inventory_code',
+        //         'units.identification_code',
+        //         'types.name as type',
+        //         'units.model',
+        //         'units.properties',
+        //         'last_movement_logs.id as movement_log_id',
+        //         'last_movement_logs.location',
+        //         'last_movement_logs.created_at',
+        //         'units.comment'
+        //     )
+        //     ->orderBy('created_at')
+        //     ->orderBy('movement_log_id', 'desc')
+        //     ->get();
         
         return view('devices', ['devices' => $devices]);
     }
@@ -55,10 +92,12 @@ class DeviceController extends Controller{
     public function update(Request $input_data){
         $device_input_data = $input_data->device;
 
+        // Update Types table
         $type = Type::firstOrCreate(
             ['name' => $device_input_data['type']]
         );
 
+        // Update Devices table
         $device_new_data = array_filter($device_input_data, function($prop_name){
             return in_array($prop_name, [
                 'inventory_code',
@@ -78,6 +117,7 @@ class DeviceController extends Controller{
             $device->save();
         }
 
+        // Update Movement_logs table
         $last_movement_log = MovementLog::where('unit_id', $device_input_data['id'])
             ->latest()
             ->first();
