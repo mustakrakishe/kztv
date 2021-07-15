@@ -26,23 +26,30 @@ class DeviceController extends Controller{
                 'units.comment'
             )
             ->addSelect([
-                'movement_log_id' => MovementLog::select('id')
+                'movement_log_id' => MovementLog::latest()
+                ->orderByDesc('id')
+                ->select('id')
                 ->whereColumn('unit_id', 'units.id')
                 ->latest()
                 ->limit(1),
 
-                'created_at' => MovementLog::select('created_at')
+                'created_at' => MovementLog::latest()
+                ->orderByDesc('id')
+                ->select('created_at')
                 ->whereColumn('unit_id', 'units.id')
                 ->latest()
                 ->limit(1),
 
-                'location' => MovementLog::select('location')
+                'location' => MovementLog::latest()
+                ->orderByDesc('id')
+                ->select('location')
                 ->whereColumn('unit_id', 'units.id')
                 ->latest()
                 ->limit(1),
             ])
-            ->orderBy('created_at')
-            ->orderByDesc('movement_log_id')
+            // ->orderBy('created_at')
+            // ->orderByDesc('movement_log_id')
+            ->orderByDesc('id')
             ->get();
         
         
