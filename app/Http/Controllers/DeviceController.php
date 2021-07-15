@@ -14,7 +14,7 @@ use App\Models\Devices\MovementLog;
 class DeviceController extends Controller{
     public function show(){
         // #2
-        $devices = DB::table('units')
+        $device_last_movement_log_ids = DB::table('units')
             ->join('types', 'units.type_id', '=', 'types.id')
             ->select(
                 'units.id',
@@ -31,67 +31,22 @@ class DeviceController extends Controller{
                 ->select('id')
                 ->whereColumn('unit_id', 'units.id')
                 ->latest()
-                ->limit(1),
+                ->limit(1)
+            ]);
 
-                'created_at' => MovementLog::latest()
-                ->orderByDesc('id')
-                ->select('created_at')
-                ->whereColumn('unit_id', 'units.id')
-                ->latest()
-                ->limit(1),
-
-                'location' => MovementLog::latest()
-                ->orderByDesc('id')
-                ->select('location')
-                ->whereColumn('unit_id', 'units.id')
-                ->latest()
-                ->limit(1),
-            ])
+        $devices = DB::table('movement_logs')
+            ->joinSub($device_last_movement_log_ids, 'device_last_movement_log_ids', function($join){
+                $join->on('movement_logs.id', '=', 'device_last_movement_log_ids.movement_log_id');
+            })
+            ->select(
+                'device_last_movement_log_ids.*',
+                'movement_logs.location',
+                'movement_logs.created_at',
+            )
             // ->orderBy('created_at')
             // ->orderByDesc('movement_log_id')
-            ->orderByDesc('id')
+            ->orderBy('id')
             ->get();
-        
-        
-        
-        
-        
-        
-        // 1
-        // $last_movement_dates = MovementLog::select(
-        //         'unit_id',
-        //         DB::raw('MAX(created_at) as created_at')
-        //     )
-        //     ->groupBy('unit_id');
-            
-        // $last_movement_logs = DB::table('movement_logs')
-        //     ->rightJoinSub($last_movement_dates, 'last_movement_dates', function($rightJoin){
-        //         $rightJoin
-        //             ->on('movement_logs.unit_id', '=', 'last_movement_dates.unit_id')
-        //             ->whereColumn('movement_logs.created_at', 'last_movement_dates.created_at');
-        //     })
-        //     ->select('movement_logs.*');
-
-        // $devices = DB::table('units')
-        //     ->join('types', 'units.type_id', '=', 'types.id')
-        //     ->joinSub($last_movement_logs, 'last_movement_logs', function($join){
-        //         $join->on('units.id', '=', 'last_movement_logs.unit_id');
-        //     })
-        //     ->select(
-        //         'units.id',
-        //         'units.inventory_code',
-        //         'units.identification_code',
-        //         'types.name as type',
-        //         'units.model',
-        //         'units.properties',
-        //         'last_movement_logs.id as movement_log_id',
-        //         'last_movement_logs.location',
-        //         'last_movement_logs.created_at',
-        //         'units.comment'
-        //     )
-        //     ->orderBy('created_at')
-        //     ->orderBy('movement_log_id', 'desc')
-        //     ->get();
         
         return view('devices', ['devices' => $devices]);
     }
