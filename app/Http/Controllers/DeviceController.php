@@ -13,18 +13,7 @@ use App\Models\Devices\MovementLog;
 
 class DeviceController extends Controller{
     public function show(){
-        // #2
-        $device_last_movement_log_ids = DB::table('units')
-            ->join('types', 'units.type_id', '=', 'types.id')
-            ->select(
-                'units.id',
-                'units.inventory_code',
-                'units.identification_code',
-                'types.name as type',
-                'units.model',
-                'units.properties',
-                'units.comment'
-            )
+        $last_movement_log_ids = Unit::select('id as unit_id')
             ->addSelect([
                 'movement_log_id' => MovementLog::latest()
                 ->orderByDesc('id')
@@ -34,21 +23,33 @@ class DeviceController extends Controller{
                 ->limit(1)
             ]);
 
-        $devices = DB::table('movement_logs')
-            ->joinSub($device_last_movement_log_ids, 'device_last_movement_log_ids', function($join){
-                $join->on('movement_logs.id', '=', 'device_last_movement_log_ids.movement_log_id');
+        $last_movement_logs = DB::table('movement_logs')
+            ->joinSub($last_movement_log_ids, 'last_movement_log_ids', function($join){
+                $join->on('movement_logs.id', '=', 'last_movement_log_ids.movement_log_id');
+            })
+            ->select('movement_logs.*');
+
+        $device_full_info = DB::table('units')
+            ->join('types', 'types.id', 'units.type_id')
+            ->joinSub($last_movement_logs, 'last_movement_logs', function($join){
+                $join->on('units.id', '=', 'last_movement_logs.unit_id');
             })
             ->select(
-                'device_last_movement_log_ids.*',
-                'movement_logs.location',
-                'movement_logs.created_at',
+                'units.id',
+                'units.inventory_code',
+                'units.identification_code',
+                'types.name as type',
+                'units.model',
+                'units.properties',
+                'last_movement_logs.location',
+                'last_movement_logs.id as last_movement_log_id',
+                'last_movement_logs.created_at',
             )
-            // ->orderBy('created_at')
-            // ->orderByDesc('movement_log_id')
-            ->orderBy('id')
+            ->orderBy('created_at')
+            ->orderByDesc('id')
             ->get();
         
-        return view('devices', ['devices' => $devices]);
+        return view('devices', ['devices' => $device_full_info]);
     }
 
     public function update(Request $input_data){
