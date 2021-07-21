@@ -1,19 +1,19 @@
-<tr class="odd">
-    <td style="width: 5%" name="inventory_code" class="info">
+<x-devices.table-row-empty display="{{ $display }}">
+    <x-slot name="codes">
         {{ $device->inventory_code }}
+        
         @isset($device->identification_code)
-            @isset($device->inventory_code)
-                <br>
-            @endisset
-
+            @isset($device->inventory_code)<br>@endisset
             ({{ $device->identification_code }})
         @endisset
-    </td>
-    <td width="10%" name="type" class="info">{{ $device->type }}</td>
-    <td width="20%" name="model" class="info">{{ $device->model }}</td>
-    <td width="30%" name="properties" class="info">{{ $device->properties }}</td>
-    <td width="30%" name="location" class="info">{{ $device->location }}</td>
-    <td class="ctrl" width="5%">
+    </x-slot>
+
+    <x-slot name="type">{{ $device->type }}</x-slot>
+    <x-slot name="model">{{ $device->model }}</x-slot>
+    <x-slot name="properties">{{ $device->properties }}</x-slot>
+    <x-slot name="location">{{ $device->location }}</x-slot>
+
+    <x-slot name="ctrl_btns">
         <div class="row device-ctrl-group read-mode">
             <div class="col-6">
                 <button name="device_id" id="edit_device_{{ $device->id }}" class="edit_device" value="{{ $device->id }}" hidden></button>
@@ -35,5 +35,6 @@
                 <label class="btn btn-link m-0 p-0" for="cancel_upd_device_{{ $device->id }}"><i class="fas fa-ban"></i></label>
             </div>
         </div>
-    </td>
-</tr>
+    </x-slot>
+
+</x-devices.table-row-empty>

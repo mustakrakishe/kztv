@@ -69,5 +69,10 @@ $('.upd_device').on('click', function () {
     $(device_ctrl_cell).children('.edit-mode').attr('hidden', true);
   });
 });
+$('button#new_device').on('click', function () {
+  var destination_block = $('#device_table').children('tbody');
+  var new_device_form = $('tr#new_device_form_template').clone().removeAttr('id').show();
+  $(destination_block).children('.new_device_form').last().after($(new_device_form));
+});
 /******/ })()
 ;

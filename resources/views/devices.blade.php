@@ -12,12 +12,13 @@
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-6 text-right mt-auto" style="padding: 8px 23px;">
-                        <i class="fas fa-plus"></i>
+                        <button name="btn_new_device" id="new_device" value="true" hidden></button>
+                        <label class="btn btn-link m-0 p-0" for="new_device"><i class="fas fa-plus"></i></label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table class="table table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                        <table id="device_table" class="table table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
                             <thead>
                                 <tr role="row">
                                     <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1">Інв. №</th>
@@ -29,8 +30,9 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <x-devices.table-row-form id="new_device_form_template" class="new_device_form" display="none"></x-devices.table-row-form>
                                 @foreach($devices as $device)
-                                    <x-devices.table-row :device="$device"></x-devices.table-row>
+                                    <x-devices.table-row-device display="table-row" :device="$device"></x-devices.table-row-device>
                                 @endforeach
                                 
                             </tbody>
