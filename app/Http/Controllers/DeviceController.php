@@ -7,9 +7,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Devices\Type;
 use App\Models\Devices\Unit;
 use App\Models\Devices\MovementLog;
-// use App\Models\Devices\IdentificationCode;
-// use App\Models\Devices\Manufacture;
-// use App\Models\Devices\DeviceModel;
 
 class DeviceController extends Controller{
     public function show(){
