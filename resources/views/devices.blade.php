@@ -30,9 +30,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <x-devices.table-row-form id="new_device_form_template" class="new_device_form" display="none"></x-devices.table-row-form>
                                 @foreach($devices as $device)
-                                    <x-devices.table-row-device display="table-row" :device="$device"></x-devices.table-row-device>
+                                    <x-devices.table-row-device :device="$device"></x-devices.table-row-device>
                                 @endforeach
                                 
                             </tbody>
@@ -47,6 +46,8 @@
     <script>
         let upd_device_handler_link = @json(route('devices.update'));
         let del_device_handler_link = @json(route('devices.delete'));
+        let table_row_form = `<x-devices.table-row-form></x-devices.table-row-form>`;
     </script>
+    
     <script src="{{ asset('js/handlers/devices.js') }}"></script>
 </x-app-layout>

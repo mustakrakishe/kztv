@@ -15,6 +15,8 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
-]);
-
-mix.js('resources/js/handlers/devices.js', 'public/js/handlers');
+])
+    .scripts([
+        'resources/js/functions/devices.js',
+        'resources/js/handlers/devices.js'
+    ], 'public/js/handlers/devices.js');

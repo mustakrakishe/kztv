@@ -1,8 +1,5 @@
-<tr 
-    id="@isset($id){{ $id }}@endisset"
-    class="odd @isset($class){{ $class }}@endisset"
-    style="display: {{ $display }};"
->
+<tr class="device_table_row">
+    <p name="id" class="info" hide>@isset($id){{ $id }}@endisset</p>
     <td width="5%" name="codes" class="info">@isset($codes){{ $codes }}@endisset</td>
     <td width="10%" name="type" class="info">@isset($type){{ $type }}@endisset</td>
     <td width="20%" name="model" class="info">@isset($model){{ $model }}@endisset</td>

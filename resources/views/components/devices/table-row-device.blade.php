@@ -1,4 +1,4 @@
-<x-devices.table-row-empty display="{{ $display }}">
+<x-devices.table-row-empty>
     <x-slot name="codes">
         {{ $device->inventory_code }}
         
