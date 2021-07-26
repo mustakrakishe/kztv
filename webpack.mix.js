@@ -20,3 +20,5 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
         'resources/js/functions/devices.js',
         'resources/js/handlers/devices.js'
     ], 'public/js/handlers/devices.js');
+
+mix.postCss('resources/css/devices.css', 'public/css');

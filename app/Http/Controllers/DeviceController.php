@@ -28,8 +28,8 @@ class DeviceController extends Controller{
 
         $device_full_info = DB::table('units')
             ->join('types', 'types.id', 'units.type_id')
-            ->joinSub($last_movement_logs, 'last_movement_logs', function($join){
-                $join->on('units.id', '=', 'last_movement_logs.unit_id');
+            ->leftJoinSub($last_movement_logs, 'last_movement_logs', function($leftJoin){
+                $leftJoin->on('units.id', '=', 'last_movement_logs.unit_id');
             })
             ->select(
                 'units.id',

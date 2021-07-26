@@ -43,6 +43,8 @@
         <!-- /.card-body -->
     </div>
 
+    <link rel="stylesheet" href="css\devices.css">
+
     <script>
         let upd_device_handler_link = @json(route('devices.update'));
         let del_device_handler_link = @json(route('devices.delete'));
