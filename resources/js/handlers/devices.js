@@ -1,6 +1,11 @@
 $('button#new_device').on('click', function(){
     let destination = $('#device_table').children('tbody');
-    add_new_device_form(destination);
+    insert_new_device_form(destination);
+
+    $('button.cancel_add_device').on('click', function(){
+        let active_row = $(this).parents().eq(4);
+        $(active_row).remove();
+    })
 })
 
 $('.add_device').on('click', function(){

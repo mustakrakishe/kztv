@@ -1,4 +1,4 @@
-function add_new_device_form(destination){
+function insert_new_device_form(destination){
     $(destination).prepend(table_row_form);
 }
 
