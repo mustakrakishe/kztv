@@ -49,6 +49,10 @@ class DeviceController extends Controller{
         return view('devices', ['devices' => $device_full_info]);
     }
 
+    public function get_table_row_device(Request $device){
+        return view('components.devices.table-row-device', ['device' => $device]);
+    }
+
     public function add(Request $input_data){
         $type = Type::firstOrCreate(
             ['name' => $input_data->device['type']]

@@ -33,11 +33,6 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.add');
 
-    // Route::any('/devices/add', function (Request $request) {
-    //     dump($request);
-    // })
-    // ->name('devices.add');
-
     Route::any('/devices/update', [DeviceController::class, 'update'])
     // ->middleware(['auth'])
     ->name('devices.update');
@@ -45,5 +40,9 @@ Route::get('/devices', [DeviceController::class, 'show'])
     Route::get('/devices/delete', [DeviceController::class, 'delete'])
     // ->middleware(['auth'])
     ->name('devices.delete');
+
+    Route::get('/devices/get_table_row_device', [DeviceController::class, 'get_table_row_device'])
+    // ->middleware(['auth'])
+    ->name('devices.get_table_row_device');
 
 require __DIR__.'/auth.php';

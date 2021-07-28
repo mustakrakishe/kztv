@@ -49,6 +49,7 @@
         let add_device_handler_link = @json(route('devices.add'));
         let upd_device_handler_link = @json(route('devices.update'));
         let del_device_handler_link = @json(route('devices.delete'));
+        let get_table_row_device_handler_link = @json(route('devices.get_table_row_device'));
         let table_row_form = `<x-devices.table-row-form></x-devices.table-row-form>`;
     </script>
     
