@@ -53,5 +53,5 @@
         let table_row_form = `<x-devices.table-row-form></x-devices.table-row-form>`;
     </script>
     
-    <script src="{{ asset('js/handlers/devices.js') }}"></script>
+    <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 </x-app-layout>
