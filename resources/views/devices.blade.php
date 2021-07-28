@@ -46,6 +46,7 @@
     <link rel="stylesheet" href="css\devices.css">
 
     <script>
+        let add_device_handler_link = @json(route('devices.add'));
         let upd_device_handler_link = @json(route('devices.update'));
         let del_device_handler_link = @json(route('devices.delete'));
         let table_row_form = `<x-devices.table-row-form></x-devices.table-row-form>`;

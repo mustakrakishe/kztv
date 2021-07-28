@@ -1,18 +1,6 @@
-$('button#new_device').on('click', function(){
-    let destination = $('#device_table').children('tbody');
-    insert_new_device_form(destination);
+table_row_form = set_form_btn_handlers($(table_row_form)); // table_row_form from the Devices view
 
-    $('button.cancel_add_device').on('click', function(){
-        let active_row = $(this).parents().eq(4);
-        $(active_row).remove();
-    })
-})
-
-$('.add_device').on('click', function(){
-    let active_row = $(this).parents().eq(3);
-    let new_device = get_device_row_data(active_row);
-    add_new_device(new_device);
-});
+$('button#new_device').on('click', insert_new_device_form);
 
 $('button.edit_device').on('click', function(){
     let active_row = $(this).parents().eq(3);
@@ -75,4 +63,3 @@ $('.upd_device').on('click', function(){
         $(device_ctrl_cell).children('.edit-mode').attr('hidden', true);
     })
 })
-

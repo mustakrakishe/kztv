@@ -1,4 +1,5 @@
 <tr class="device_table_row">
+    {{ $slot }}
     <p name="id" class="info" hide>@isset($id){{ $id }}@endisset</p>
     <td width="5%" name="codes" class="info">@isset($codes){{ $codes }}@endisset</td>
     <td width="10%" name="type" class="info">@isset($type){{ $type }}@endisset</td>

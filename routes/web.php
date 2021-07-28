@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,15 @@ Route::get('/dashboard', function () {
 Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices');
+
+    Route::any('/devices/add', [DeviceController::class, 'add'])
+    // ->middleware(['auth'])
+    ->name('devices.add');
+
+    // Route::any('/devices/add', function (Request $request) {
+    //     dump($request);
+    // })
+    // ->name('devices.add');
 
     Route::any('/devices/update', [DeviceController::class, 'update'])
     // ->middleware(['auth'])

@@ -49,6 +49,30 @@ class DeviceController extends Controller{
         return view('devices', ['devices' => $device_full_info]);
     }
 
+    public function add(Request $input_data){
+        $type = Type::firstOrCreate(
+            ['name' => $input_data->device['type']]
+        );
+        
+        $new_device = new Unit;
+        $new_device->inventory_code = $input_data->device['inventory_code'];
+        $new_device->identification_code = $input_data->device['identification_code'];
+        $new_device->type_id = $type->id;
+        $new_device->model = $input_data->device['model'];
+        $new_device->properties = $input_data->device['properties'];
+        $new_device->save();
+
+        $new_movement_log = new MovementLog;
+        $new_movement_log->unit_id = $new_device->id;
+        $new_movement_log->location = $input_data->device['location'];
+        $new_movement_log->save();
+
+        $new_device_log = $input_data->device;
+        $new_device_log['id'] = $new_device->id;
+
+        return json_encode($new_device_log);
+    }
+
     public function update(Request $input_data){
         $device_input_data = $input_data->device;
 
