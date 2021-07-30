@@ -31,7 +31,7 @@
                             </thead>
                             <tbody>
                                 @foreach($devices as $device)
-                                    <x-devices.table-row-device :device="$device"></x-devices.table-row-device>
+                                    <x-devices.table-rows.device :device="$device"></x-devices.table-rows.>
                                 @endforeach
                                 
                             </tbody>
@@ -50,7 +50,8 @@
         let upd_device_handler_link = @json(route('devices.update'));
         let del_device_handler_link = @json(route('devices.delete'));
         let get_table_row_device_handler_link = @json(route('devices.get_table_row_device'));
-        let table_row_form = `<x-devices.table-row-form></x-devices.table-row-form>`;
+        let get_device_by_id_handler_link = @json(route('devices.get_device_by_id'));
+        let table_row_form = `<x-devices.table-rows.form></x-devices.table-rows.form>`;
     </script>
     
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>

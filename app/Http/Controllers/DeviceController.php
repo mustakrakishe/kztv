@@ -50,31 +50,28 @@ class DeviceController extends Controller{
     }
 
     public function get_table_row_device(Request $device){
-        return view('components.devices.table-row-device', ['device' => $device]);
+        return view('components.devices.table-rows.device', ['device' => $device]);
     }
 
     public function add(Request $input_data){
         $type = Type::firstOrCreate(
-            ['name' => $input_data->device['type']]
+            ['name' => $input_data['type']]
         );
         
         $new_device = new Unit;
-        $new_device->inventory_code = $input_data->device['inventory_code'];
-        $new_device->identification_code = $input_data->device['identification_code'];
+        $new_device->inventory_code = $input_data['inventory_code'];
+        $new_device->identification_code = $input_data['identification_code'];
         $new_device->type_id = $type->id;
-        $new_device->model = $input_data->device['model'];
-        $new_device->properties = $input_data->device['properties'];
+        $new_device->model = $input_data['model'];
+        $new_device->properties = $input_data['properties'];
         $new_device->save();
 
         $new_movement_log = new MovementLog;
         $new_movement_log->unit_id = $new_device->id;
-        $new_movement_log->location = $input_data->device['location'];
+        $new_movement_log->location = $input_data['location'];
         $new_movement_log->save();
 
-        $new_device_log = $input_data->device;
-        $new_device_log['id'] = $new_device->id;
-
-        return json_encode($new_device_log);
+        return $new_device->id;
     }
 
     public function update(Request $input_data){
@@ -119,7 +116,30 @@ class DeviceController extends Controller{
     }
 
     public function delete(Request $data){
-        $device_id = $data->device_id;
-        DB::table('units')->where('id', '=', $device_id)->delete();
+        DB::table('units')->where('id', $data->id)->delete();
+    }
+
+    public function get_device_by_id(Request $data){
+        $id = $data->id;
+
+        $device_full_info = DB::table('units')
+            ->join('types', 'types.id', 'units.type_id')
+            ->select(
+                'units.id',
+                'units.inventory_code',
+                'units.identification_code',
+                'types.name as type',
+                'units.model',
+                'units.properties'
+            )
+            ->where('units.id', $id)
+            ->addSelect(['location' => MovementLog::select('location')
+                ->where('unit_id', $id)
+                ->latest()
+                ->limit(1)
+            ])
+            ->get();
+
+            return $device_full_info;
     }
 }
