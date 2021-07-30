@@ -1,5 +1,5 @@
 # KZTV
-A digital company document flow web application.
+A company digital document flow web application.
 
 ## Description
 It will be a collection of the services or subapplications for each company department that is needing in.
