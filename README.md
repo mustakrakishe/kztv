@@ -16,6 +16,9 @@ It will be a collection of the services or subapplications for each company depa
 
 ## What's new
 
+### 1.0.2
+- CSA - Devices: A problem when it was displayed not correct location after the second changing is fixed.
+
 ### 1.0.1
 - CSA - Devices: New device log is inserting before the existing device logs instead of a new device form replacing.
 
