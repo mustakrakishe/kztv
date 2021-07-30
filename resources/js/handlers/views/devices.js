@@ -1,6 +1,5 @@
 // при добавлении нового устройства он не добавляется в таблицу
 function show_new_device_form(){
-    let destination = $('table#device_table').children('tbody');
     let new_device_form = generate_device_form();
 
     let handlers= {
@@ -8,29 +7,29 @@ function show_new_device_form(){
         cancel: cancel_add_new_device_form
     }
     new_device_form = bind_new_device_form_handlers(new_device_form, handlers);
-
-    insert_new_device_form(destination, new_device_form);
+    $('table#device_table').children('tbody').prepend($(new_device_form));
 }
 
     function add_new_device(event){
         let new_device_form = get_active_new_device_form(event);
         let input_data = get_form_data(new_device_form);
         add_device_to_db(input_data)
-            .done((new_device_id) => {
-                let destination = $(new_device_form);
-                let new_device = Object.assign(input_data, {id: new_device_id});
+        .done((new_device_id) => {
+            get_device_by_id(new_device_id)
+            .done(new_device => {
+                new_device = JSON.parse(new_device);
                 generate_device_log(new_device)
-                    .done(new_device_log => {
-                        let handlers= {
-                            edit: show_device_edit_form,
-                            delete: delete_device
-                        }
-                        new_device_log = bind_device_log_handlers($(new_device_log), handlers);
-                        show_device_log(destination, new_device_log);
-                        $(new_device_form).remove();
-                    })
+                .done(new_device_log => {
+                    let handlers= {
+                        edit: show_device_edit_form,
+                        delete: delete_device
+                    }
+                    new_device_log = bind_device_log_handlers($(new_device_log), handlers);
+                    $('table#device_table').children('tbody').children('.log_row:first').before($(new_device_log));
+                    $(new_device_form).remove();
+                });
             });
-        
+        });
     }
 
     function cancel_add_new_device_form(event){
@@ -41,7 +40,6 @@ function show_new_device_form(){
 function show_device_edit_form(event){
     let active_device_log = get_active_device_log(event);
     let device_data = get_device_log_data(active_device_log);
-    let destination = $(active_device_log);
     
     let device_edit_form = generate_device_form();
     let handlers = {
@@ -50,9 +48,7 @@ function show_device_edit_form(event){
     }
     device_edit_form = bind_device_edit_form_handlers(device_edit_form, handlers);
     device_edit_form = fill_form_with_data(device_edit_form, device_data);
-
-    insert_device_edit_form(destination, device_edit_form);
-    $(active_device_log).remove();
+    $(active_device_log).replaceWith($(device_edit_form));
 }
 
 function update_device(event){
@@ -70,9 +66,7 @@ function update_device(event){
                     delete: delete_device
                 }
                 updated_device_log = bind_device_log_handlers($(updated_device_log), handlers);
-                let destination = $(active_device_edit_form);
-                show_device_log(destination, updated_device_log);
-                $(active_device_edit_form).remove();
+                $(active_device_edit_form).replaceWith($(updated_device_log));
             });
         });
     });
@@ -91,9 +85,7 @@ function cancel_update_device(event){
                     delete: delete_device
                 }
                 old_device_log = bind_device_log_handlers($(old_device_log), handlers);
-                let destination = $(active_device_edit_form);
-                show_device_log(destination, old_device_log);
-                $(active_device_edit_form).remove();
+                $(active_device_edit_form).replaceWith($(old_device_log));
             })
     })
 }

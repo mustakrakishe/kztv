@@ -1,4 +1,5 @@
 <x-devices.table-rows.template>
+    <x-slot name="row_class">form_row</x-slot>
     @csrf
     <x-slot name="id"><input name="id" type="text" class="form-control"></x-slot>
     <x-slot name="inventory_code"><input name="inventory_code" type="text" class="form-control"></x-slot>

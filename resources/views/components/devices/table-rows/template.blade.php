@@ -1,4 +1,4 @@
-<tr class="device_table_row">
+<tr class="{{ $row_class }}">
     {{ $slot }}
     <td class="info" name="id" hidden>{{ $id }}</td>
     <td width="5%" class="codes">
