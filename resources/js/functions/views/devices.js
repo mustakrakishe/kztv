@@ -31,7 +31,7 @@ function get_form_data(form){
     return form_data;
 }
 
-function save_new_device_input_data(input_data){
+function add_device_to_db(input_data){
     return $.post({
         url: add_device_handler_link, // add_device_handler_link from the Devices view
         data: input_data
@@ -77,9 +77,9 @@ function get_device_log_data(device_log){
 
 function delete_device_from_db_by_id(device_id){
     return $.ajax({
-        url: del_device_handler_link,
+        url: del_device_handler_link, // del_device_handler_link from the Devices view
         data: {id: device_id}
-    }); // del_device_handler_link from the Devices view
+    });
 }
 
 function fill_form_with_data(device_edit_form, device_data){
@@ -107,9 +107,16 @@ function get_active_device_edit_form(event){
     return active_device_edit_form;
 }
 
+function update_device_in_db(device){
+    return $.ajax({
+        url: upd_device_handler_link, // upd_device_handler_link from the Devices view
+        data: {'device': device}
+    })
+}
+
 function get_device_by_id(id){
     return $.ajax({
         url: get_device_by_id_handler_link,
         data: {id: id}
-    });
+    })
 }

@@ -31,7 +31,7 @@ function get_form_data(form){
     return form_data;
 }
 
-function save_new_device_input_data(input_data){
+function add_device_to_db(input_data){
     return $.post({
         url: add_device_handler_link, // add_device_handler_link from the Devices view
         data: input_data
@@ -77,9 +77,9 @@ function get_device_log_data(device_log){
 
 function delete_device_from_db_by_id(device_id){
     return $.ajax({
-        url: del_device_handler_link,
+        url: del_device_handler_link, // del_device_handler_link from the Devices view
         data: {id: device_id}
-    }); // del_device_handler_link from the Devices view
+    });
 }
 
 function fill_form_with_data(device_edit_form, device_data){
@@ -107,11 +107,18 @@ function get_active_device_edit_form(event){
     return active_device_edit_form;
 }
 
+function update_device_in_db(device){
+    return $.ajax({
+        url: upd_device_handler_link, // upd_device_handler_link from the Devices view
+        data: {'device': device}
+    })
+}
+
 function get_device_by_id(id){
     return $.ajax({
         url: get_device_by_id_handler_link,
         data: {id: id}
-    });
+    })
 }
 // при добавлении нового устройства он не добавляется в таблицу
 function show_new_device_form(){
@@ -130,7 +137,7 @@ function show_new_device_form(){
     function add_new_device(event){
         let new_device_form = get_active_new_device_form(event);
         let input_data = get_form_data(new_device_form);
-        save_new_device_input_data(input_data)
+        add_device_to_db(input_data)
             .done((new_device_id) => {
                 let destination = $(new_device_form);
                 let new_device = Object.assign(input_data, {id: new_device_id});
@@ -171,51 +178,34 @@ function show_device_edit_form(event){
 }
 
 function update_device(event){
-    let activated_btn = event.currentTarget;
-    let active_row = $(activated_btn).parents().eq(3);
-
-    let device = {
-        id: $(this).val()
-    };
-
-    let device_propertie_cells = $(active_row).children('.info');
-
-    $(device_propertie_cells).each((index, cell) => {
-        let prop_name = $(cell).attr('name');
-        let prop_val = $(cell).children().val().trim();
-
-        device[prop_name] = prop_val;
-    })
-
-    $.ajax(
-        {
-            url: upd_device_handler_link,
-            data: {'device': device}
-        }
-    ).done((response) => {
-        console.log(response);
-
-        $(device_propertie_cells).each((index, cell) => {
-            let prop_val = $(cell).children().val().trim();
-
-            $(cell).empty();
-            $(cell).append(prop_val);
-        })
-        
-        let device_ctrl_cell = $(active_row).children('.ctrl');
-        $(device_ctrl_cell).children('.read-mode').attr('hidden', false);
-        $(device_ctrl_cell).children('.edit-mode').attr('hidden', true);
-    })
+    let active_device_edit_form = get_active_device_edit_form(event);
+    let input_data = get_form_data(active_device_edit_form);
+    update_device_in_db(input_data)
+    .done(() => {
+        get_device_by_id(input_data.id)
+        .done(updated_device => {
+            updated_device = JSON.parse(updated_device);
+            generate_device_log(updated_device)
+            .done(updated_device_log => {
+                let handlers= {
+                    edit: show_device_edit_form,
+                    delete: delete_device
+                }
+                updated_device_log = bind_device_log_handlers($(updated_device_log), handlers);
+                let destination = $(active_device_edit_form);
+                show_device_log(destination, updated_device_log);
+                $(active_device_edit_form).remove();
+            });
+        });
+    });
 }
 
 function cancel_update_device(event){
-    // Изменить, чтоб возвращались данные из бд
-    
     let active_device_edit_form = get_active_device_edit_form(event);
     let device_id = $(active_device_edit_form).find('input[name="id"]').val();
     get_device_by_id(device_id)
-    .done((response) => {
-        let device_old_data = response[0];
+    .done(device_old_data => {
+        device_old_data = JSON.parse(device_old_data);
         generate_device_log(device_old_data)
             .done(old_device_log => {
                 let handlers= {

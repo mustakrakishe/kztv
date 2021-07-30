@@ -140,6 +140,6 @@ class DeviceController extends Controller{
             ])
             ->get();
 
-            return $device_full_info;
+        return json_encode($device_full_info[0]);
     }
 }
