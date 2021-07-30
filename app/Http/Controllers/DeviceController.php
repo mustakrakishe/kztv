@@ -9,14 +9,13 @@ use App\Models\Devices\Unit;
 use App\Models\Devices\MovementLog;
 
 class DeviceController extends Controller{
-    public function show(){
+    public function get(){
         $last_movement_log_ids = Unit::select('id as unit_id')
             ->addSelect([
-                'movement_log_id' => MovementLog::latest()
-                ->orderByDesc('id')
-                ->select('id')
+                'movement_log_id' => MovementLog::select('id')
                 ->whereColumn('unit_id', 'units.id')
-                ->latest()
+                ->latest('updated_at')
+                ->orderByDesc('id')
                 ->limit(1)
             ]);
 
@@ -40,13 +39,24 @@ class DeviceController extends Controller{
                 'units.properties',
                 'last_movement_logs.location',
                 'last_movement_logs.id as last_movement_log_id',
-                'last_movement_logs.created_at',
+                'last_movement_logs.updated_at',
             )
-            ->orderBy('created_at')
+            ->latest('updated_at')
             ->orderByDesc('id')
             ->get();
         
-        return view('devices', ['devices' => $device_full_info]);
+        return $device_full_info;
+    }
+
+    public function show(){
+        $allDevices = $this->get();
+        return view('devices', ['devices' => $allDevices]);
+    }
+
+    public function get_device_by_id(Request $data){
+        $device = $this->get();
+        $device->whereIn('id', [$data->id]);
+        return json_encode($device[0]);
     }
 
     public function get_table_row_device(Request $device){
@@ -117,29 +127,5 @@ class DeviceController extends Controller{
 
     public function delete(Request $data){
         DB::table('units')->where('id', $data->id)->delete();
-    }
-
-    public function get_device_by_id(Request $data){
-        $id = $data->id;
-
-        $device_full_info = DB::table('units')
-            ->join('types', 'types.id', 'units.type_id')
-            ->select(
-                'units.id',
-                'units.inventory_code',
-                'units.identification_code',
-                'types.name as type',
-                'units.model',
-                'units.properties'
-            )
-            ->where('units.id', $id)
-            ->addSelect(['location' => MovementLog::select('location')
-                ->where('unit_id', $id)
-                ->latest()
-                ->limit(1)
-            ])
-            ->get();
-
-        return json_encode($device_full_info[0]);
     }
 }

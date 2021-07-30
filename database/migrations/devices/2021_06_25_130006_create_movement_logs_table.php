@@ -15,7 +15,7 @@ class CreateMovementLogsTable extends Migration
     {
         Schema::create('movement_logs', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('created_at')->default('now');
+            $table->timestamps();
             $table->foreignId('unit_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('location');
             $table->text('comment')->nullable();

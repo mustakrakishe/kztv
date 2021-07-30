@@ -13,12 +13,12 @@ function bind_device_edit_form_handlers(device_edit_form, handlers){
     return $(device_edit_form);
 }
 
-function bind_device_log_handlers(new_device_log, handlers){
-    let btn_edit_device = $(new_device_log).find('button.edit');
-    let btn_delete_device = $(new_device_log).find('button.delete');
+function bind_device_log_handlers(device_log, handlers){
+    let btn_edit_device = $(device_log).find('button.edit');
+    let btn_delete_device = $(device_log).find('button.delete');
     $(btn_edit_device).on('click', handlers.edit);
     $(btn_delete_device).on('click', handlers.delete);
-    return $(new_device_log);
+    return $(device_log);
 }
 
 function bind_new_device_form_handlers(new_device_form, handlers){

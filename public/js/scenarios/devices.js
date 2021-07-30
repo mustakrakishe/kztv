@@ -13,12 +13,12 @@ function bind_device_edit_form_handlers(device_edit_form, handlers){
     return $(device_edit_form);
 }
 
-function bind_device_log_handlers(new_device_log, handlers){
-    let btn_edit_device = $(new_device_log).find('button.edit');
-    let btn_delete_device = $(new_device_log).find('button.delete');
+function bind_device_log_handlers(device_log, handlers){
+    let btn_edit_device = $(device_log).find('button.edit');
+    let btn_delete_device = $(device_log).find('button.delete');
     $(btn_edit_device).on('click', handlers.edit);
     $(btn_delete_device).on('click', handlers.delete);
-    return $(new_device_log);
+    return $(device_log);
 }
 
 function bind_new_device_form_handlers(new_device_form, handlers){
@@ -147,17 +147,23 @@ function show_new_device_form(){
                         delete: delete_device
                     }
                     new_device_log = bind_device_log_handlers($(new_device_log), handlers);
-                    $('table#device_table').children('tbody').children('.log_row:first').before($(new_device_log));
+                    let table_last_log = $('table#device_table').children('tbody').children('.log_row:first');
+                    if(table_last_log.length){
+                        $(table_last_log).before($(new_device_log));
+                    }
+                    else{
+                        $('table#device_table').children('tbody').append($(new_device_log));
+                    }
                     $(new_device_form).remove();
                 });
             });
         });
     }
 
-    function cancel_add_new_device_form(event){
-        let new_device_form = get_active_new_device_form(event);
-        $(new_device_form).remove();
-    }
+function cancel_add_new_device_form(event){
+    let new_device_form = get_active_new_device_form(event);
+    $(new_device_form).remove();
+}
 
 function show_device_edit_form(event){
     let active_device_log = get_active_device_log(event);

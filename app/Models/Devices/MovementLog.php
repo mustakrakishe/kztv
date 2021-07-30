@@ -8,6 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class MovementLog extends Model
 {
     use HasFactory;
-
-    public $timestamps = false;
 }
