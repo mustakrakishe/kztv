@@ -14,7 +14,6 @@ class DeviceController extends Controller{
             ->addSelect([
                 'movement_log_id' => MovementLog::select('id')
                 ->whereColumn('unit_id', 'units.id')
-                ->latest('updated_at')
                 ->orderByDesc('id')
                 ->limit(1)
             ]);
@@ -41,8 +40,7 @@ class DeviceController extends Controller{
                 'last_movement_logs.id as last_movement_log_id',
                 'last_movement_logs.updated_at',
             )
-            ->latest('updated_at')
-            ->orderByDesc('id')
+            ->orderByDesc('last_movement_log_id', 'id')
             ->get();
         
         return $device_full_info;
@@ -114,7 +112,7 @@ class DeviceController extends Controller{
 
         // Update Movement_logs table
         $last_movement_log = MovementLog::where('unit_id', $device_input_data['id'])
-            ->latest()
+            ->orderByDesc('id')
             ->first();
         
         if($last_movement_log->location != $device_input_data['location']){
