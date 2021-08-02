@@ -2,13 +2,19 @@
     <link rel="stylesheet" href="css\devices.css">
 
     <script>
-        let add_device_handler_link = @json(route('devices.add'));
-        let upd_device_handler_link = @json(route('devices.update'));
-        let del_device_handler_link = @json(route('devices.delete'));
-        let get_table_row_device_handler_link = @json(route('devices.get_table_row_device'));
-        let get_device_by_id_handler_link = @json(route('devices.get_device_by_id'));
-        let new_device_form = `<x-devices.table-rows.new-device-form></x-devices.table-rows.new-device-form>`;
-        let edit_device_form = `<x-devices.table-rows.edit-device-form></x-devices.table-rows.edit-device-form>`;
+        let links = {
+            add_device: @json(route('devices.add')),
+            delete_device: @json(route('devices.delete')),
+            update_device: @json(route('devices.update'))
+        };
+
+        let table_rows = {
+            device_log: `<x-devices.table-rows.device-log></x-devices.table-rows.device-log>`,
+            new_device_form: `<x-devices.table-rows.new-device-form></x-devices.table-rows.new-device-form>`,
+            edit_device_form: `<x-devices.table-rows.edit-device-form></x-devices.table-rows.edit-device-form>`
+        };
+
+        let device_old_data = {};
     </script>
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 
