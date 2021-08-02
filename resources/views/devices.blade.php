@@ -1,4 +1,17 @@
 <x-app-layout>
+    <link rel="stylesheet" href="css\devices.css">
+
+    <script>
+        let add_device_handler_link = @json(route('devices.add'));
+        let upd_device_handler_link = @json(route('devices.update'));
+        let del_device_handler_link = @json(route('devices.delete'));
+        let get_table_row_device_handler_link = @json(route('devices.get_table_row_device'));
+        let get_device_by_id_handler_link = @json(route('devices.get_device_by_id'));
+        let new_device_form = `<x-devices.table-rows.new-device-form></x-devices.table-rows.new-device-form>`;
+        let edit_device_form = `<x-devices.table-rows.edit-device-form></x-devices.table-rows.edit-device-form>`;
+    </script>
+    <script src="{{ asset('js/scenarios/devices.js') }}"></script>
+
     <x-slot name="pageTitle">Пристрої</x-slot>
     <x-slot name="header">Пристрої</x-slot>
 
@@ -12,7 +25,7 @@
                         </div>
                     </div>
                     <div class="col-sm-1 col-md-6 text-right mt-auto" style="padding: 8px 23px;">
-                        <button name="btn_new_device" id="new_device" value="true" hidden></button>
+                        <button name="btn_new_device" id="new_device" onclick="show_new_device_form()" hidden></button>
                         <label class="btn btn-link m-0 p-0" for="new_device"><i class="fas fa-plus"></i></label>
                     </div>
                 </div>
@@ -31,9 +44,8 @@
                             </thead>
                             <tbody>
                                 @foreach($devices as $device)
-                                    <x-devices.table-rows.device :device="$device"></x-devices.table-rows.>
+                                    <x-devices.table-rows.device-log :device="$device"></x-devices.table-rows.device-log>
                                 @endforeach
-                                
                             </tbody>
                         </table>
                     </div>
@@ -42,17 +54,4 @@
         </div>
         <!-- /.card-body -->
     </div>
-
-    <link rel="stylesheet" href="css\devices.css">
-
-    <script>
-        let add_device_handler_link = @json(route('devices.add'));
-        let upd_device_handler_link = @json(route('devices.update'));
-        let del_device_handler_link = @json(route('devices.delete'));
-        let get_table_row_device_handler_link = @json(route('devices.get_table_row_device'));
-        let get_device_by_id_handler_link = @json(route('devices.get_device_by_id'));
-        let table_row_form = `<x-devices.table-rows.form></x-devices.table-rows.form>`;
-    </script>
-    
-    <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 </x-app-layout>

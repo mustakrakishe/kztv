@@ -5,30 +5,6 @@ function add_device_to_db(input_data){
     });
 }
 
-function bind_device_edit_form_handlers(device_edit_form, handlers){
-    let btn_update_device = $(device_edit_form).find('button.ok');
-    let btn_cancel_update_device = $(device_edit_form).find('button.cancel');
-    $(btn_update_device).on('click', handlers.ok);
-    $(btn_cancel_update_device).on('click', handlers.cancel);
-    return $(device_edit_form);
-}
-
-function bind_device_log_handlers(device_log, handlers){
-    let btn_edit_device = $(device_log).find('button.edit');
-    let btn_delete_device = $(device_log).find('button.delete');
-    $(btn_edit_device).on('click', handlers.edit);
-    $(btn_delete_device).on('click', handlers.delete);
-    return $(device_log);
-}
-
-function bind_new_device_form_handlers(new_device_form, handlers){
-    let btn_add_device = $(new_device_form).find('button.ok');
-    let btn_cancel_add_device = $(new_device_form).find('button.cancel');
-    $(btn_add_device).on('click', handlers.ok);
-    $(btn_cancel_add_device).on('click', handlers.cancel);
-    return $(new_device_form);
-}
-
 function delete_device_from_db_by_id(device_id){
     return $.ajax({
         url: del_device_handler_link, // del_device_handler_link from the Devices view
@@ -43,8 +19,9 @@ function fill_form_with_data(device_edit_form, device_data){
     return device_edit_form;
 }
 
-function generate_device_form(){
-    return $(table_row_form).clone(true, true); // table_row_form from the Devices view
+function generate_edit_device_form(){
+    return edit_device_form;
+    // return $(table_row_form).clone(true, true); // table_row_form from the Devices view
 }
 
 function generate_device_log(device){

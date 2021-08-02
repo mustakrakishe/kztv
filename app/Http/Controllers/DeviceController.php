@@ -9,7 +9,7 @@ use App\Models\Devices\Unit;
 use App\Models\Devices\MovementLog;
 
 class DeviceController extends Controller{
-    public function get(){
+    public function get($ids = null){
         $last_movement_log_ids = Unit::select('id as unit_id')
             ->addSelect([
                 'movement_log_id' => MovementLog::select('id')
@@ -40,10 +40,16 @@ class DeviceController extends Controller{
                 'last_movement_logs.id as last_movement_log_id',
                 'last_movement_logs.updated_at',
             )
-            ->orderByDesc('last_movement_log_id', 'id')
-            ->get();
+            ->orderByDesc('last_movement_log_id', 'id');
+            
         
-        return $device_full_info;
+        if($ids){
+            $device_full_info->whereIn('units.id', $ids);
+        }
+        
+        $result = $device_full_info->get();
+        
+        return $result;
     }
 
     public function show(){
@@ -52,13 +58,12 @@ class DeviceController extends Controller{
     }
 
     public function get_device_by_id(Request $data){
-        $device = $this->get();
-        $device->whereIn('id', [$data->id]);
+        $device = $this->get([$data->id]);
         return json_encode($device[0]);
     }
 
     public function get_table_row_device(Request $device){
-        return view('components.devices.table-rows.device', ['device' => $device]);
+        return view('components.devices.table-rows.device-log', ['device' => $device]);
     }
 
     public function add(Request $input_data){
