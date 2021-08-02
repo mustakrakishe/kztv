@@ -15,6 +15,8 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.3
+- CSA - Devices: Add, update and cancel_update functions works faster.
 
 ### 1.0.2
 - CSA - Devices: A problem when it was displayed not correct location after the second changing is fixed.
