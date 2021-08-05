@@ -56,18 +56,19 @@ function get_active_new_device_form(event){
     return active_new_device_form;
 }
 
-function get_device_by_id(id){
-    return $.ajax({
-        url: get_device_by_id_handler_link,
-        data: {id: id}
-    })
-}
-function get_device_log_by_id(id){
-    return $.ajax({
-        url: get_device_log_by_id_handler_link,
-        data: {id: id}
-    })
-}
+// function get_device_by_id(id){
+//     return $.ajax({
+//         url: get_device_by_id_handler_link,
+//         data: {id: id}
+//     })
+// }
+
+// function get_device_log_by_id(id){
+//     return $.ajax({
+//         url: get_device_log_by_id_handler_link,
+//         data: {id: id}
+//     })
+// }
 
 function get_device_log_data(device_log){
     let device_log_data = {};
@@ -108,23 +109,11 @@ function get_form_old_data(form){
     return form_old_data;
 }
 
-function get_new_device_log_destination(){
-    return $('table#device_table').children('tbody').children('tr.log_row').first();
-}
-
 function save_form_old_data(form){
     $(form).find('input').each((index, input) => {
         $(input).attr('old_value', $(input).val());
     });
     return form;
-}
-
-function show_updated_device_log(destination, updated_device_log){
-    $(destination).after($(updated_device_log));
-}
-
-function show_new_device_log(destination, new_device_log){
-    $(destination).before($(new_device_log));
 }
 
 function update_device_in_db(device){
