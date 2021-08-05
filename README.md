@@ -18,6 +18,7 @@ It will be a collection of the services or subapplications for each company depa
 ### 1.0.4
 - CSA - Devices:
     - identification code is including into the round brackets;
+    - fixed codes cell owerflowing by increasing it's width;
 
 ### 1.0.3
 - CSA - Devices: Add, update and cancel_update functions works faster.
