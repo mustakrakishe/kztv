@@ -13,8 +13,6 @@
             new_device_form: `<x-devices.table-rows.new-device-form></x-devices.table-rows.new-device-form>`,
             edit_device_form: `<x-devices.table-rows.edit-device-form></x-devices.table-rows.edit-device-form>`
         };
-
-        let device_old_data = {};
     </script>
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 
