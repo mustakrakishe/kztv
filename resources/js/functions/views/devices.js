@@ -56,20 +56,6 @@ function get_active_new_device_form(event){
     return active_new_device_form;
 }
 
-// function get_device_by_id(id){
-//     return $.ajax({
-//         url: get_device_by_id_handler_link,
-//         data: {id: id}
-//     })
-// }
-
-// function get_device_log_by_id(id){
-//     return $.ajax({
-//         url: get_device_log_by_id_handler_link,
-//         data: {id: id}
-//     })
-// }
-
 function get_device_log_data(device_log){
     let device_log_data = {};
 
@@ -107,6 +93,19 @@ function get_form_old_data(form){
     });
 
     return form_old_data;
+}
+
+function preteat_form_data(form_data){
+    form_data.identification_code = form_data.identification_code.match(/\d+/);
+    return form_data;
+}
+
+function preteat_log_data(log_data){
+    let identification_code = log_data.identification_code;
+    if(identification_code){
+        log_data.identification_code = '(' + log_data.identification_code + ')';
+    }
+    return log_data;
 }
 
 function save_form_old_data(form){
