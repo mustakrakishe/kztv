@@ -19,6 +19,7 @@ It will be a collection of the services or subapplications for each company depa
 - CSA - Devices:
     - identification code is including into the round brackets;
     - fixed codes cell owerflowing by increasing it's width;
+    - added prompts for inventory and identification codes;
 
 ### 1.0.3
 - CSA - Devices: Add, update and cancel_update functions works faster.
