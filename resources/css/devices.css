@@ -9,13 +9,12 @@ table#device_table td[name="type"]{
 table#device_table td[name="model"]{
     width: 20%
 }
- 
-
-table#device_table td[name="type"]{
-    width: 20%;
-}
 
 table#device_table td[name="properties"]{
+    width: 30%;
+}
+
+table#device_table td[name="location"]{
     width: 30%;
 }
 

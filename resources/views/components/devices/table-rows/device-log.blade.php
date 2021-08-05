@@ -1,4 +1,4 @@
-<x-devices.table-rows.template>
+<x-devices.table-rows.templates.table-row>
     <x-slot name="row_class">device-log</x-slot>
 
     <x-slot name="id">@isset($device->id){{ $device->id }}@endisset</x-slot>
@@ -10,19 +10,6 @@
     <x-slot name="location">@isset($device->location){{ $device->location }}@endisset</x-slot>
 
     <x-slot name="ctrl_btns">
-        <div class="row">
-            <div class="col-6">
-                <label class="btn btn-link m-0 p-0">
-                    <button class="edit" onclick="show_device_edit_form(event)" hidden></button>
-                    <i class="fas fa-pen"></i>
-                </label>
-            </div>
-            <div class="col-6">
-                <label class="btn btn-link m-0 p-0">
-                    <button class="delete" onclick="delete_device(event)" hidden></button>
-                    <i class="fas fa-trash-alt"></i>
-                </label>
-            </div>
-        </div>
+        <x-devices.btn-groups.device-log></x-devices.btn-groups.device-log>
     </x-slot>
-</x-devices.table-rows.template>
+</x-devices.table-rows.templates.table-row>
