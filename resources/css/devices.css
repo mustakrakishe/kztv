@@ -11,15 +11,15 @@ table#device_table td[name="model"]{
 }
 
 table#device_table td[name="properties"]{
-    width: 30%;
+    width: auto;
 }
 
 table#device_table td[name="location"]{
-    width: 30%;
+    width: 20%;
 }
 
-table#device_table td.ctrl{
-    width: 5%;
+table#device_table > thead > tr > th[name="control"]{
+    width: 6%;
 }
 
 input[type="text"]{

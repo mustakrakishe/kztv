@@ -1,0 +1,25 @@
+div.table,
+div[name="head"],
+div[name="body"],
+div.table-row{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+div[name="head"]{
+    font-weight: bold;
+    text-align: center;
+}
+
+div.table-row{
+    width: 100%;
+    margin: -1px 0;
+    border-top: 1px solid #6c757d;
+    border-bottom: 1px solid #6c757d;
+}
+
+div.table-cell{
+    padding: 12px;
+    float: left;
+}
