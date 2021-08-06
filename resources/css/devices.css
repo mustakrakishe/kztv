@@ -1,25 +1,21 @@
-table#device_table td.codes{
-    width: 6%;
+div#device-table{
+    width: 100%;
+    padding: 7.5px;
 }
 
-table#device_table td[name="type"]{
-    width: 9%;
+div#device-table > div[name="head"]{
+    font-weight: bold;
+    border: 1px solid #6c757d;
+    border-left: none;
+    border-right: none;
 }
 
-table#device_table td[name="model"]{
-    width: 20%
+div#device-table .table-row{
+    border-bottom: 1px solid #6c757d;
 }
 
-table#device_table td[name="properties"]{
-    width: auto;
-}
-
-table#device_table td[name="location"]{
-    width: 20%;
-}
-
-table#device_table > thead > tr > th[name="control"]{
-    width: 6%;
+div#device-table .cell{
+    padding: 12px;
 }
 
 input[type="text"]{

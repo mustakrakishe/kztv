@@ -24,4 +24,3 @@ mix.scripts([
     ], 'public/js/scenarios/devices.js');
 
 mix.postCss('resources/css/devices.css', 'public/css');
-mix.postCss('resources/css/components/table.css', 'public/css/components');

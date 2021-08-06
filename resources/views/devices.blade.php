@@ -1,18 +1,11 @@
 <x-app-layout>
     <link rel="stylesheet" href="css\devices.css">
-    <link rel="stylesheet" href="css\components\table.css">
 
     <script>
         let links = {
             add_device: @json(route('devices.add')),
             delete_device: @json(route('devices.delete')),
             update_device: @json(route('devices.update'))
-        };
-
-        let table_rows = {
-            device_log: `<x-devices.table-rows.device-log></x-devices.table-rows.device-log>`,
-            new_device_form: `<x-devices.table-rows.new-device-form></x-devices.table-rows.new-device-form>`,
-            edit_device_form: `<x-devices.table-rows.edit-device-form></x-devices.table-rows.edit-device-form>`
         };
     </script>
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>
@@ -30,34 +23,25 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <x-table.table id="device-table-1">
-                            <x-slot name="head">
-                                <x-table.row>
-                                    <x-table.cell class="codes col-1">Інв. №</x-table.cell>
-                                    <x-table.cell class="type col-1">Тип</x-table.cell>
-                                    <x-table.cell class="model col-2">Модель</x-table.cell>
-                                    <x-table.cell class="properties col-4">Характеристики</x-table.cell>
-                                    <x-table.cell class="location col-3">Розташування</x-table.cell>
-                                </x-table.row>
-                            </x-slot>
-                            <x-slot name="body">
+
+                    <div id="device-table">
+                        <div name="head" class="row">
+                            <div class="cell col-1">Інв. №</div>
+                            <div class="cell col-1">Тип</div>
+                            <div class="cell col-2">Модель</div>
+                            <div class="cell col-4">Характеристики</div>
+                            <div class="cell col-3">Розташування</div>
+                        </div>
+
+                        <div name="body" class="row">
+                            <div class="col">
                                 @foreach($devices as $device)
-                                    <x-table.row>
-                                        <x-table.cell class="info id" hidden>{{ $device->id }}</x-table.cell>
-                                        <x-table.cell class="info codes col-1">{{ $device->inventory_code }}</x-table.cell>
-                                        <x-table.cell class="info type col-1">{{ $device->type }}</x-table.cell>
-                                        <x-table.cell class="info model col-2">{{ $device->model }}</x-table.cell>
-                                        <x-table.cell class="info properties col-4">{{ $device->properties }}</x-table.cell>
-                                        <x-table.cell class="info location col-3">{{ $device->location }}</x-table.cell>
-                                        <x-table.cell class="control col-1">
-                                            <x-devices.btn-groups.device-log></x-devices.btn-groups.device-log>
-                                        </x-table.cell>
-                                    </x-table.row>
+                                    <x-devices.table.row :device="$device" class="log"></x-devices.table.row>
                                 @endforeach
-                            </x-slot>
-                        </x-table.table>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
