@@ -1,4 +1,6 @@
 <x-devices.table.row class="new-device-form">
+    @csrf
+
     <x-slot name="id"></x-slot>
     <x-slot name="inventory_code"><input type="text" name="inventory_code" class="form-control"></x-slot>
     <x-slot name="identification_code"><input type="text" name="identification_code" class="form-control"></x-slot>

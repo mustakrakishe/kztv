@@ -28,7 +28,7 @@ class DeviceController extends Controller{
         $new_movement_log->save();
 
         $new_device_full_info = ($this->get([$new_device->id]))[0];
-        return json_encode($new_device_full_info);
+        return view('components.devices.table.log', ['device' => $new_device_full_info]);
     }
 
     public function delete(Request $data){
@@ -66,7 +66,8 @@ class DeviceController extends Controller{
                 'last_movement_logs.id as last_movement_log_id',
                 'last_movement_logs.updated_at',
             )
-            ->orderByDesc('last_movement_log_id', 'id');
+            ->orderByDesc('last_movement_log_id', 'id')
+            ->limit(5);
             
         
         if($ids){

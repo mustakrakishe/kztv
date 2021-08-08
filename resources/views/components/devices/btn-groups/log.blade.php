@@ -2,7 +2,7 @@
     <div class="col-4">
         <label class="btn btn-link m-0 p-0">
             <button class="more" onclick="show_device_more_info(event)" hidden></button>
-            <i class="fas fa-ellipsis-v"></i>
+            <i class="far fa-window-maximize"></i>
         </label>
     </div>
     <div class="col-4">
