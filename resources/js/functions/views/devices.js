@@ -56,6 +56,13 @@ function get_active_new_device_form(event){
     return active_new_device_form;
 }
 
+function get_device_form(device_id){
+    return $.ajax({
+        url: links.get_device_form, // links from the Devices view
+        data: {id: device_id}
+    });
+}
+
 function get_device_log_data(device_log){
     let device_log_data = {};
 

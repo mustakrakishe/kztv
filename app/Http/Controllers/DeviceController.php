@@ -27,7 +27,7 @@ class DeviceController extends Controller{
         $new_movement_log->location = $input_data['location'];
         $new_movement_log->save();
 
-        $new_device_full_info = ($this->get([$new_device->id]))[0];
+        $new_device_full_info = $this->getDevice($new_device->id);
         return view('components.devices.table.log', ['device' => $new_device_full_info]);
     }
 
@@ -35,7 +35,11 @@ class DeviceController extends Controller{
         DB::table('units')->where('id', $data->id)->delete();
     }
 
-    public function get($ids = null){
+    public function getDevice($id){
+        return ($this->getDevices([$id]))[0];
+    }
+
+    public function getDevices($ids = null){
         $last_movement_log_ids = Unit::select('id as unit_id')
             ->addSelect([
                 'movement_log_id' => MovementLog::select('id')
@@ -79,8 +83,16 @@ class DeviceController extends Controller{
         return $result;
     }
 
+    public function get_device_form(Request $data){
+        $types = Type::all();
+        $device_full_info = [];
+        if($data->device_id){
+            $device_full_info = getDevice($data->device_id);
+        }
+    }
+
     public function show(){
-        $allDevices = $this->get();
+        $allDevices = $this->getDevices();
         return view('devices', ['devices' => $allDevices]);
     }
 

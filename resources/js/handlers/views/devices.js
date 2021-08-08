@@ -40,17 +40,15 @@ function hide_device_more_info(event){
 
 function show_device_edit_form(event){
     let active_device_log = get_active_device_log(event);
-    let device_log_data = get_device_log_data(active_device_log);
-    device_log_data = preteat_form_data(device_log_data);
-    let device_edit_form = generate_edit_device_form(device_log_data);
-    device_edit_form = save_form_old_data(device_edit_form);
-    $(active_device_log).replaceWith($(device_edit_form));
+    let device_id = get_device_log_data($(active_device_log)).id;
+    device_edit_form = get_device_form(device_id);
+    $(active_device_log).replaceWith(device_edit_form);
 }
 
 function show_device_more_info(event){
     let active_device_log = get_active_device_log(event);
     let device_id = get_device_log_data($(active_device_log)).id;
-    $(active_device_log).after('<tr class="addition_info"><td>Дополнительная информация об устройстве #' + device_id + '</td></tr>');
+    $(active_device_log).after('<div class="addition_info"><p>Дополнительная информация об устройстве #' + device_id + '</p></div>');
 
     let btn_more = event.currentTarget;
     $(btn_more).attr('onclick', 'hide_device_more_info(event)');
