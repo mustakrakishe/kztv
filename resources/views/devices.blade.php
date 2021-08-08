@@ -7,6 +7,10 @@
             delete_device: @json(route('devices.delete')),
             update_device: @json(route('devices.update'))
         };
+
+        let table_rows = {
+            new_device_form: `<x-devices.table.new-device-form></x-devices.table.new-device-form>`
+        };
     </script>
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 
@@ -33,10 +37,10 @@
                             <div class="cell col-3">Розташування</div>
                         </div>
 
-                        <div name="body" class="row">
-                            <div class="col">
+                        <div class="row">
+                            <div name="body" class="col">
                                 @foreach($devices as $device)
-                                    <x-devices.table.row :device="$device" class="log"></x-devices.table.row>
+                                    <x-devices.table.log :device="$device"></x-devices.table.log>
                                 @endforeach
                             </div>
                         </div>
