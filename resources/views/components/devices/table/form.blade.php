@@ -9,11 +9,12 @@
     <x-slot name="inventory_code"><input type="text" name="inventory_code" class="form-control" placeholder="Інв. №" value="@isset($device){{ $device->inventory_code }}@endisset"></x-slot>
     <x-slot name="identification_code"><input type="text" name="identification_code" class="form-control" placeholder="Ідент. №" value="@isset($device){{ $device->identification_code }}@endisset"></x-slot>
     <x-slot name="type">
-        <select name="type" class="form-control">
+        <select name="type" class="form-control" onchange="check_type(event)">
                 <option class="placeholder" disabled selected>Тип</option>
             @foreach ($types as $type)
                 <option value="{{ $type->id }}">{{ $type->name }}</option>
             @endforeach
+                <option value="new">Новий</option>
         </select>
     </x-slot>
     <x-slot name="model"><input type="text" name="model" class="form-control" placeholder="Модель" value="@isset($device){{ $device->model }}@endisset"></x-slot>

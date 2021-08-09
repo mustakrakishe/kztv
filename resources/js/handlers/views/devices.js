@@ -21,6 +21,18 @@ function cancel_update_device(event){
     $(active_device_edit_form).replaceWith($(device_old_log));
 }
 
+function check_type(event){
+    let select = event.target;
+    let selected_type = $(select).children('option:selected').val();
+    if(selected_type == 'new'){
+        let new_type_input = '<input type="text" name="type" class="form-control" placeholder="Тип"></input>';
+        $(select).after(new_type_input);
+    }
+    else{
+        $(select).siblings('input').remove();
+    }
+}
+
 function delete_device(event){
     let active_device_log = get_active_device_log(event);
     let device_id = get_device_log_data($(active_device_log)).id;
