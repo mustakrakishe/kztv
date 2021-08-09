@@ -37,7 +37,7 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.delete');
 
-    Route::any('/devices/get_device_form', [DeviceController::class, 'get_device_form'])
+    Route::get('/devices/get_device_form', [DeviceController::class, 'get_device_form'])
     // ->middleware(['auth'])
     ->name('devices.get_device_form');
 

@@ -19,23 +19,10 @@ function fill_device_form(form, device){
     return form;
 }
 
-function fill_device_log(log, device){
-    for(let param_name in device){
-        $(log).find('.info[name="' + param_name + '"]').text(device[param_name]);
-    }
-    return log;
-}
-
 function generate_edit_device_form(device){
     let form = table_rows.edit_device_form;  // table_rows from the Devices view
     form = fill_device_form($(form), device);
     return form;
-}
-
-function generate_device_log(device){
-    let device_log = table_rows.device_log;  // table_rows from the Devices view
-    device_log = fill_device_log($(device_log), device);
-    return device_log;
 }
 
 function get_active_device_edit_form(event){
@@ -56,7 +43,7 @@ function get_active_new_device_form(event){
     return active_new_device_form;
 }
 
-function get_device_form(device_id){
+function get_device_form(device_id = null){
     return $.ajax({
         url: links.get_device_form, // links from the Devices view
         data: {id: device_id}

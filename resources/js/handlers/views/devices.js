@@ -55,7 +55,10 @@ function show_device_more_info(event){
 }
 
 function show_new_device_form(){
-    $('#device-table').find('[name="body"]').prepend($(table_rows.new_device_form));  // table_rows from the Devices view
+    get_device_form()
+    .done(new_device_form => {
+        $('#device-table').find('[name="body"]').prepend(new_device_form);  // table_rows from the Devices view
+    })
 }
 
 function update_device(event){

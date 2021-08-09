@@ -8,10 +8,6 @@
             delete_device: @json(route('devices.delete')),
             update_device: @json(route('devices.update'))
         };
-
-        let table_rows = {
-            new_device_form: `<x-devices.table.new-device-form></x-devices.table.new-device-form>`
-        };
     </script>
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 
