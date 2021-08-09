@@ -1,11 +1,12 @@
 function add_new_device(event){
     let new_device_form = get_active_new_device_form(event);
     let input_data = get_form_data(new_device_form);
-    add_device_to_db(input_data)
-    .done((new_device_log) => {
-        $('#device-table').find('.new-device-form').last().after(new_device_log);
-        $(new_device_form).remove();
-    });
+    console.log(input_data);
+    // add_device_to_db(input_data)
+    // .done((new_device_log) => {
+    //     $('#device-table').find('.new-device-form').last().after(new_device_log);
+    //     $(new_device_form).remove();
+    // });
 }
 
 function cancel_add_new_device(event){

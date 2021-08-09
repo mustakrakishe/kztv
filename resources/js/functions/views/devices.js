@@ -73,6 +73,12 @@ function get_form_data(form){
         form_data[name] = value;
     });
 
+    if(!form_data.hasOwnProperty('type')){
+        let select = $(form).find('select[name="type"]');
+        let value = $(select).children('option:selected').val();
+        form_data['type'] = value;
+    }
+
     return form_data;
 }
 
