@@ -4,8 +4,9 @@
     <script>
         let links = {
             add_device: @json(route('devices.add')),
-            get_device_log: @json(route('devices.get_device_log')),
             get_device_form: @json(route('devices.get_device_form')),
+            get_device_log: @json(route('devices.get_device_log')),
+            get_device_more_info: @json(route('devices.get_device_more_info')),
             delete_device: @json(route('devices.delete')),
             update_device: @json(route('devices.update'))
         };

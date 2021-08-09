@@ -63,7 +63,11 @@ function show_device_edit_form(event){
 function show_device_more_info(event){
     let active_device_log = get_active_device_log(event);
     let device_id = get_device_log_data($(active_device_log)).id;
-    $(active_device_log).after('<div class="addition_info"><p>Дополнительная информация об устройстве #' + device_id + '</p></div>');
+    get_device_more_info(device_id)
+    .done(device_more_info => {
+        console.log(device_more_info);
+        // $(active_device_log).after(device_more_info);
+    });
 
     let btn_more = event.currentTarget;
     $(btn_more).attr('onclick', 'hide_device_more_info(event)');

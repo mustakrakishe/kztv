@@ -45,6 +45,10 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.get_device_log');
 
+    Route::get('/devices/get_device_more_info', [DeviceController::class, 'get_device_more_info'])
+    // ->middleware(['auth'])
+    ->name('devices.get_device_more_info');
+
     Route::any('/devices/update', [DeviceController::class, 'update'])
     // ->middleware(['auth'])
     ->name('devices.update');

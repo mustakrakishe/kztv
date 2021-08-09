@@ -37,7 +37,7 @@ function get_device_form(device_id = null){
     });
 }
 
-function get_device_log(device_id = null){
+function get_device_log(device_id){
     return $.ajax({
         url: links.get_device_log, // links from the Devices view
         data: {id: device_id}
@@ -55,6 +55,13 @@ function get_device_log_data(device_log){
     });
 
     return device_log_data;
+}
+
+function get_device_more_info(device_id){
+    return $.ajax({
+        url: links.get_device_more_info, // links from the Devices view
+        data: {id: device_id}
+    });
 }
 
 function get_device_form_data(form){

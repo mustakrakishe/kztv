@@ -100,6 +100,13 @@ class DeviceController extends Controller{
         return view('components.devices.table.log', ['device' => $device_full_info]);
     }
 
+    public function get_device_more_info(Request $data){
+        $device_id = $data->id;
+
+        $movement_history = MovementLog::where('unit_id', $device_id)->get();
+        return $movement_history;
+    }
+
     public function show(){
         $allDevices = $this->getDevices();
         return view('devices', ['devices' => $allDevices]);
