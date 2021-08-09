@@ -1,6 +1,11 @@
 @php
     $rowClass = isset($device) ? 'edit-device-form' : 'new-device-form';
     $btnGroupComponentName = 'devices.btn-groups.' . $rowClass;
+    function checkSelected($device, $type){
+        if(isset($device) && $type->name == $device->type){
+            return 'selected';
+        }
+    }
 @endphp
 <x-devices.table.row class="{{ $rowClass }}">
     @csrf
@@ -10,11 +15,15 @@
     <x-slot name="identification_code"><input type="text" name="identification_code" class="form-control" placeholder="Ідент. №" value="@isset($device){{ $device->identification_code }}@endisset"></x-slot>
     <x-slot name="type">
         <select name="type" class="form-control" onchange="check_type(event)">
+            @empty($device)
                 <option class="placeholder" disabled selected>Тип</option>
+            @endempty
+
             @foreach ($types as $type)
-                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                <option value="{{ $type->id }}" @php echo checkSelected($device, $type); @endphp>{{ $type->name }}</option>
             @endforeach
-                <option value="new">Новий</option>
+
+            <option value="new">Новий</option>
         </select>
     </x-slot>
     <x-slot name="model"><input type="text" name="model" class="form-control" placeholder="Модель" value="@isset($device){{ $device->model }}@endisset"></x-slot>

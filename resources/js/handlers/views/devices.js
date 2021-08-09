@@ -1,12 +1,11 @@
 function add_new_device(event){
     let new_device_form = get_active_new_device_form(event);
     let input_data = get_form_data(new_device_form);
-    console.log(input_data);
-    // add_device_to_db(input_data)
-    // .done((new_device_log) => {
-    //     $('#device-table').find('.new-device-form').last().after(new_device_log);
-    //     $(new_device_form).remove();
-    // });
+    add_device_to_db(input_data)
+    .done((new_device_log) => {
+        $('#device-table').find('.new-device-form').last().after(new_device_log);
+        $(new_device_form).remove();
+    });
 }
 
 function cancel_add_new_device(event){
@@ -54,8 +53,11 @@ function hide_device_more_info(event){
 function show_device_edit_form(event){
     let active_device_log = get_active_device_log(event);
     let device_id = get_device_log_data($(active_device_log)).id;
-    device_edit_form = get_device_form(device_id);
-    $(active_device_log).replaceWith(device_edit_form);
+    get_device_form(device_id)
+    .done(device_edit_form => {
+        console.log(device_edit_form);
+        $(active_device_log).replaceWith(device_edit_form);
+    })
 }
 
 function show_device_more_info(event){

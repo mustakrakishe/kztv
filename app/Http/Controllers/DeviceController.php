@@ -10,6 +10,7 @@ use App\Models\Devices\MovementLog;
 
 class DeviceController extends Controller{
     public function add(Request $input_data){
+        // Type is selecting not by id because somebody can delete this type from the table while you are trying to set this type id.
         $type = Type::firstOrCreate(
             ['name' => $input_data['type']]
         );
@@ -84,8 +85,14 @@ class DeviceController extends Controller{
     }
 
     public function get_device_form(Request $data){
+        $device_full_info = null;
         $types = Type::all();
-        return view('components.devices.table.form', ['types' => $types]);
+
+        if(isset($data->id)){
+            $device_full_info = $this->getDevice($data->id);
+        }
+
+        return view('components.devices.table.form', ['types' => $types, 'device' => $device_full_info]);
     }
 
     public function show(){

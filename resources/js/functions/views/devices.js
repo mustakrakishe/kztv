@@ -75,7 +75,7 @@ function get_form_data(form){
 
     if(!form_data.hasOwnProperty('type')){
         let select = $(form).find('select[name="type"]');
-        let value = $(select).children('option:selected').val();
+        let value = $(select).children('option:selected').text();
         form_data['type'] = value;
     }
 
