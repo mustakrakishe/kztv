@@ -96,8 +96,8 @@ class DeviceController extends Controller{
     }
 
     public function get_device_log(Request $data){
-        $new_device_full_info = $this->getDevice($data->id);
-        return view('components.devices.table.log', ['device' => $new_device_full_info]);
+        $device_full_info = $this->getDevice($data->id);
+        return view('components.devices.table.log', ['device' => $device_full_info]);
     }
 
     public function show(){
@@ -136,7 +136,7 @@ class DeviceController extends Controller{
             $new_movement_log->save();
         }
 
-        $updated_device_full_info = ($this->get([$device->id]))[0];
-        return json_encode($updated_device_full_info);
+        $updated_device_full_info = $this->getDevice($device->id);
+        return view('components.devices.table.log', ['device' => $updated_device_full_info]);
     }
 }

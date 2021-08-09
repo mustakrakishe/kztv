@@ -12,12 +12,6 @@ function delete_device_from_db(device_id){
     });
 }
 
-function generate_edit_device_form(device){
-    let form = table_rows.edit_device_form;  // table_rows from the Devices view
-    form = fill_device_form($(form), device);
-    return form;
-}
-
 function get_active_device_edit_form(event){
     let activated_btn = event.currentTarget;
     let active_device_edit_form = $(activated_btn).parents().eq(4);
@@ -63,7 +57,7 @@ function get_device_log_data(device_log){
     return device_log_data;
 }
 
-function get_form_data(form){
+function get_device_form_data(form){
     let form_data = {};
 
     $(form).find('input')

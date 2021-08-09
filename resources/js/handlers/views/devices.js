@@ -1,6 +1,6 @@
 function add_new_device(event){
     let new_device_form = get_active_new_device_form(event);
-    let input_data = get_form_data(new_device_form);
+    let input_data = get_device_form_data(new_device_form);
     add_device_to_db(input_data)
     .done((new_device_log) => {
         $('#device-table').find('.new-device-form').last().after(new_device_log);
@@ -15,7 +15,7 @@ function cancel_add_new_device(event){
 
 function cancel_update_device(event){
     let active_device_edit_form = get_active_device_edit_form(event);
-    let device_id = get_form_data(active_device_edit_form).id;
+    let device_id = get_device_form_data(active_device_edit_form).id;
     get_device_log(device_id)
     .done(old_device_log => {
         $(active_device_edit_form).replaceWith(old_device_log);
@@ -78,12 +78,9 @@ function show_new_device_form(){
 
 function update_device(event){
     let active_device_edit_form = get_active_device_edit_form(event);
-    let input_data = get_form_data(active_device_edit_form);
+    let input_data = get_device_form_data(active_device_edit_form);
     update_device_in_db(input_data)
-    .done((updated_device) => {
-        updated_device = JSON.parse(updated_device);
-        updated_device = preteat_log_data(updated_device);
-        let updated_device_log = generate_device_log(updated_device);
-        $(active_device_edit_form).replaceWith($(updated_device_log));
+    .done(updated_device_log => {
+        $(active_device_edit_form).replaceWith(updated_device_log);
     });
 }
