@@ -95,6 +95,11 @@ class DeviceController extends Controller{
         return view('components.devices.table.form', ['types' => $types, 'device' => $device_full_info]);
     }
 
+    public function get_device_log(Request $data){
+        $new_device_full_info = $this->getDevice($data->id);
+        return view('components.devices.table.log', ['device' => $new_device_full_info]);
+    }
+
     public function show(){
         $allDevices = $this->getDevices();
         return view('devices', ['devices' => $allDevices]);
