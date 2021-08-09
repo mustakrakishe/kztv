@@ -18,7 +18,13 @@ div#device-table .cell{
     padding: 12px;
 }
 
-input[type="text"]{
+div#device-table input[type="text"]{
+    margin-left: -12px;
+    width: calc(100% + 12px);
+}
+
+div#device-table select{
+    padding-left: 8px;
     margin-left: -12px;
     width: calc(100% + 12px);
 }

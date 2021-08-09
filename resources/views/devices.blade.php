@@ -28,9 +28,9 @@
                     <div id="device-table">
                         <div name="head" class="row">
                             <div class="cell col-1">Інв. №</div>
-                            <div class="cell col-1">Тип</div>
+                            <div class="cell col-2">Тип</div>
                             <div class="cell col-2">Модель</div>
-                            <div class="cell col-4">Характеристики</div>
+                            <div class="cell col-3">Характеристики</div>
                             <div class="cell col-3">Розташування</div>
                         </div>
 

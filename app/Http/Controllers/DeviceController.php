@@ -84,8 +84,8 @@ class DeviceController extends Controller{
     }
 
     public function get_device_form(Request $data){
-        
-        return view('components.devices.table.form');
+        $types = Type::all();
+        return view('components.devices.table.form', ['types' => $types]);
     }
 
     public function show(){
