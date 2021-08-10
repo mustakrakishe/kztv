@@ -27,23 +27,20 @@
                 </div>
                 <div class="row">
 
-                    <div id="device-table">
-                        <div name="head" class="row">
+                    <x-table id="device-table">
+                        <x-slot name="head">
                             <div class="cell col-1">Інв. №</div>
                             <div class="cell col-2">Тип</div>
                             <div class="cell col-2">Модель</div>
                             <div class="cell col-3">Характеристики</div>
                             <div class="cell col-3">Розташування</div>
-                        </div>
-
-                        <div class="row">
-                            <div name="body" class="col">
-                                @foreach($devices as $device)
-                                    <x-devices.table.log :device="$device"></x-devices.table.log>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
+                        </x-slot>
+                        <x-slot name="body">
+                            @foreach($devices as $device)
+                                <x-devices.table.log :device="$device"></x-devices.table.log>
+                            @endforeach
+                        </x-slot>
+                    </x-table>
 
                 </div>
             </div>

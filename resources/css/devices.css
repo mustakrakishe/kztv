@@ -1,30 +1,48 @@
-div#device-table{
+.table-title{
+    font-weight: bold;
+}
+
+.table{
     width: 100%;
     padding: 7.5px;
 }
 
-div#device-table > div[name="head"]{
+.table > div[name="head"]{
     font-weight: bold;
     border: 1px solid #6c757d;
     border-left: none;
     border-right: none;
 }
 
-div#device-table .table-row{
+.table .table-row{
     border-bottom: 1px solid #6c757d;
 }
 
-div#device-table .cell{
+.table-row:nth-of-type(odd){
+    background-color: rgba(0,0,0,.05);
+}
+
+.table .cell{
     padding: 12px;
 }
 
-div#device-table input[type="text"]{
+.table input[type="text"]{
     margin-left: -12px;
     width: calc(100% + 12px);
 }
 
-div#device-table select{
+.table select{
     padding-left: 8px;
     margin-left: -12px;
     width: calc(100% + 12px);
+}
+
+.table .additional-info{
+    width: 90%;
+    height: 0;
+
+    margin: 0 auto;
+    padding: 0;
+
+    overflow: hidden;
 }

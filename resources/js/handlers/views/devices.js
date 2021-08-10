@@ -45,7 +45,14 @@ function delete_device(event){
 
 function hide_device_more_info(event){
     let active_device_log = get_active_device_log(event);
-    $(active_device_log).next().remove();
+    let device_additional_info = $(active_device_log).find('.additional-info');
+
+    $(device_additional_info).animate({
+            height: 0,
+            padding: 0
+    }, 500, function(){
+        $(device_additional_info).remove()
+    });
 
     let btn_more = event.currentTarget;
     $(btn_more).attr('onclick', 'show_device_more_info(event)');
@@ -64,9 +71,15 @@ function show_device_more_info(event){
     let active_device_log = get_active_device_log(event);
     let device_id = get_device_log_data($(active_device_log)).id;
     get_device_more_info(device_id)
-    .done(device_more_info => {
-        console.log(device_more_info);
-        // $(active_device_log).after(device_more_info);
+    .done(device_additional_info_response => {
+        $(active_device_log).children('.table-row-content').append(device_additional_info_response);
+        let device_additional_info = $(active_device_log).find('.additional-info');
+        let content_height = $(device_additional_info).children().first().height();
+
+        $(device_additional_info).animate({
+            height: content_height + 24,    //height = content_height + (padding-top + padding-bottom)
+            padding: '12px'
+        }, 500);
     });
 
     let btn_more = event.currentTarget;

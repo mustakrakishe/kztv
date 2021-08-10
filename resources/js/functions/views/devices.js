@@ -14,19 +14,19 @@ function delete_device_from_db(device_id){
 
 function get_active_device_edit_form(event){
     let activated_btn = event.currentTarget;
-    let active_device_edit_form = $(activated_btn).parents().eq(4);
+    let active_device_edit_form = $(activated_btn).parents().eq(6);
     return active_device_edit_form;
 }
 
 function get_active_device_log(event){
     let activated_btn = event.currentTarget;
-    let active_device_log = $(activated_btn).parents().eq(4);
+    let active_device_log = $(activated_btn).parents().eq(6);
     return active_device_log;
 }
 
 function get_active_new_device_form(event){
     let activated_btn = event.currentTarget;
-    let active_new_device_form = $(activated_btn).parents().eq(4);
+    let active_new_device_form = $(activated_btn).parents().eq(6);
     return active_new_device_form;
 }
 
@@ -47,7 +47,7 @@ function get_device_log(device_id){
 function get_device_log_data(device_log){
     let device_log_data = {};
 
-    let fields = $(device_log).find('.info');
+    let fields = $(device_log).find('.main-info').find('.info');
     $(fields).each((index, field) => {
         let name = $(field).attr('name');
         let value = $(field).text();
@@ -67,7 +67,7 @@ function get_device_more_info(device_id){
 function get_device_form_data(form){
     let form_data = {};
 
-    $(form).find('input')
+    $(form).find('.main-info').find('input')
     .each((index, input) => {
         let name = $(input).attr('name');
         let value = $(input).val();
@@ -75,7 +75,7 @@ function get_device_form_data(form){
     });
 
     if(!form_data.hasOwnProperty('type')){
-        let select = $(form).find('select[name="type"]');
+        let select = $(form).find('.main-info').find('select[name="type"]');
         let value = $(select).children('option:selected').text();
         form_data['type'] = value;
     }
