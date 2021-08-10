@@ -5,45 +5,10 @@ function add_device_to_db(input_data){
     });
 }
 
-function collapse_block(block, speed){
-    return new Promise(resolve => {
-        $(block).animate({
-            height: 0,
-            padding: 0
-        }, speed, function(){
-            resolve(block);
-        });
-    });
-}
-
 function delete_device_from_db(device_id){
     return $.ajax({
         url: links.delete_device, // links from the Devices view
         data: {id: device_id}
-    });
-}
-
-function expand_block(block, speed){
-    return new Promise(resolve => {
-        let finish_height = $(block).height();
-        let finish_margin = $(block).css('margin');
-        let finish_padding = $(block).css('padding');
-
-        $(block).css({
-            'height': 0,
-            'margin-top': 0,
-            'margin-bottom': 0,
-            'padding-top': 0,
-            'padding-bottom': 0,
-        })
-
-        $(block).animate({
-            height: finish_height,
-            margin: finish_margin,
-            padding: finish_padding
-        }, speed, function(){
-            resolve(block);
-        });
     });
 }
 

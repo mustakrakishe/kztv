@@ -45,12 +45,16 @@ function delete_device(event){
 
 function hide_device_more_info(event){
     let active_device_log = get_active_device_log(event);
-    let device_additional_info = $(active_device_log).find('.additional-info');
+    
+    // animate an addition info block collapsing
+    let main_info_block = $(active_device_log).find('.main-info');
+    let additional_info_block = $(active_device_log).find('.additional-info');
 
-    collapse_block(device_additional_info, 500)  //not using a collapse('hide') bootstrap function because it has a problem with an element's padding hiding.
-    .then(device_additional_info => {
-        $(device_additional_info).remove();
-    })
+    $(active_device_log).animate({
+        height: $(main_info_block).outerHeight()
+    }, 500, function(){
+        $(additional_info_block).remove();
+    });
 
     let btn_more = event.currentTarget;
     $(btn_more).attr('onclick', 'show_device_more_info(event)');
@@ -69,10 +73,17 @@ function show_device_more_info(event){
     let active_device_log = get_active_device_log(event);
     let device_id = get_device_log_data($(active_device_log)).id;
     get_device_more_info(device_id)
-    .done(device_additional_info_response => {
-        $(active_device_log).children('.table-row-content').append(device_additional_info_response);
-        let device_additional_info = $(active_device_log).find('.additional-info');
-        expand_block(device_additional_info, 500);
+    .done(device_additional_info => {
+        $(active_device_log).children('.table-row-content').append(device_additional_info);
+
+        // animate an addition info block expanding
+        let main_info_block = $(active_device_log).find('.main-info');
+        let additional_info_block = $(active_device_log).find('.additional-info');
+
+        $(active_device_log).height($(main_info_block).outerHeight());
+        $(active_device_log).animate({
+            height: $(main_info_block).outerHeight() + $(additional_info_block).outerHeight()
+        }, 500);
     });
 
     let btn_more = event.currentTarget;

@@ -102,10 +102,11 @@ class DeviceController extends Controller{
 
     public function get_device_more_info(Request $data){
         $device_id = $data->id;
-        $movement_history = MovementLog::where('unit_id', $device_id)->get();
-        // return $movement_history;
+        $movement_history = MovementLog::where('unit_id', $device_id)
+            ->orderByDesc('created_at')
+            ->get();
 
-        return view('components.devices.table.additional-info', ['movementHistory' => $movement_history]);
+        return view('components.devices.table.additional-info.main-block', ['movementHistory' => $movement_history]);
     }
 
     public function show(){
