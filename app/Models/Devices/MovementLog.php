@@ -9,7 +9,7 @@ class MovementLog extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'created_at' => 'datetime:Y-m-d',
-    ];
+    protected function serializeDate($date){
+        return $date->format('Y-m-d');
+    }
 }

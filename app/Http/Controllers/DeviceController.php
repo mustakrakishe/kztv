@@ -28,7 +28,7 @@ class DeviceController extends Controller{
         $new_movement_log->location = $input_data['location'];
         $new_movement_log->save();
 
-        $new_device_full_info = $this->getDevice($new_device->id);
+        $new_device_full_info = $this->get_device($new_device->id);
         return $this->generate_device_log_view($new_device_full_info);
     }
 
@@ -36,11 +36,11 @@ class DeviceController extends Controller{
         DB::table('units')->where('id', $data->id)->delete();
     }
 
-    protected function getDevice($id){
-        return ($this->getDevices([$id]))[0];
+    protected function get_device($id){
+        return ($this->get_devices([$id]))[0];
     }
 
-    protected function getDevices($ids = null){
+    protected function get_devices($ids = null){
         $last_movement_log_ids = Unit::select('id as unit_id')
             ->addSelect([
                 'movement_log_id' => MovementLog::select('id')
@@ -71,7 +71,7 @@ class DeviceController extends Controller{
                 'last_movement_logs.id as last_movement_log_id',
                 'last_movement_logs.created_at',
             )
-            ->orderBy('last_movement_logs.created_at')
+            ->latest('last_movement_logs.created_at')
             ->orderByDesc('last_movement_log_id', 'id')
             ->limit(5);
             
@@ -90,21 +90,22 @@ class DeviceController extends Controller{
         $types = Type::all();
 
         if(isset($data->id)){
-            $device_full_info = $this->getDevice($data->id);
+            $device_full_info = $this->get_device($data->id);
         }
 
         return $this->generate_device_form_view($types, $device_full_info);
     }
 
     public function get_device_log(Request $data){
-        $device_full_info = $this->getDevice($data->id);
+        $device_full_info = $this->get_device($data->id);
         return $this->generate_device_log_view($device_full_info);
     }
 
     public function get_device_more_info(Request $data){
         $device_id = $data->id;
         $movement_history = MovementLog::where('unit_id', $device_id)
-            ->orderByDesc('created_at')
+            ->latest('created_at')
+            ->orderByDesc('id')
             ->get()
             ->toJSON();
 
@@ -120,7 +121,7 @@ class DeviceController extends Controller{
     }
 
     public function show(){
-        $allDevices = $this->getDevices();
+        $allDevices = $this->get_devices();
         return view('devices', ['devices' => $allDevices]);
     }
 
@@ -155,7 +156,7 @@ class DeviceController extends Controller{
             $new_movement_log->save();
         }
 
-        $updated_device_full_info = $this->getDevice($device->id);
+        $updated_device_full_info = $this->get_device($device->id);
         return $this->generate_device_log_view($updated_device_full_info);
     }
 }

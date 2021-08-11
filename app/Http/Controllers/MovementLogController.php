@@ -9,7 +9,6 @@ use App\Models\Devices\MovementLog;
 class MovementLogController extends Controller{
 
     public function add(Request $input_data){
-        
         $new_movement_log = new MovementLog;
         $new_movement_log->unit_id = $input_data['unit_id'];
         $new_movement_log->created_at = $input_data['created_at'];
@@ -17,7 +16,8 @@ class MovementLogController extends Controller{
         $new_movement_log->comment = $input_data['comment'];
         $new_movement_log->save();
 
-        return $this->generate_log_view(json_decode($new_movement_log->toJSON())); // Прогонка через Json, потому что свойство модели MovementLog::casts приводит дату к заданному виду только при конвертировании этой даты.
+        $movement_log = $this->get_log($new_movement_log->id);
+        return $this->generate_log_view($movement_log);
     }
 
     protected function generate_form_view($log, $unit_id){
@@ -44,21 +44,23 @@ class MovementLogController extends Controller{
     }
 
     protected function get_log($id){
-        $log = $this->get_logs(['ids' => $id]);
+        $log = $this->get_logs(['ids' => [$id]]);
         return $log[0];
     }
 
-    protected function get_logs($limits){
-        $logs = MovementLog::orderByDesc('created_at')->all();
+    protected function get_logs($limits = null){
+        $logs = MovementLog::orderByDesc('created_at');
 
-        if(isset($limits->ids)){
-            $logs->whereIn('id', $limits->ids);
+        if(isset($limits['ids'])){
+            $logs->whereIn('id', $limits['ids']);
         }
 
-        if(isset($limits->unit_ids)){
-            $logs->whereIn('id', $limits->unit_ids);
+        if(isset($limits['unit_ids'])){
+            $logs->whereIn('id', $limits['unit_ids']);
         }
 
-        return $logs;
+        $result = $logs->get();
+        
+        return json_decode($result->toJSON()); // Json converting for model property MovementLog::casts casts a created_at field.
     }
 }

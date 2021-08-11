@@ -11,7 +11,6 @@ function add_new_device(event){
 function add_new_movement_log(event){
     let new_movement_log_form = get_active_new_movement_log_form(event);
     let input_data = get_movement_log_form_data(new_movement_log_form);
-    console.log(input_data);
     add_movement_log_to_db(input_data)
     .done((new_movement_log) => {
         $(new_movement_log_form).parent().children('.new-form').last().after(new_movement_log);
@@ -111,7 +110,7 @@ function show_device_more_info(event){
 function show_new_device_form(){
     get_device_form()
     .done(new_device_form => {
-        $('#device-table').find('[name="body"]').prepend(new_device_form);
+        $('#device-table').find('[name="body"]').first().prepend(new_device_form);
     })
 }
 
