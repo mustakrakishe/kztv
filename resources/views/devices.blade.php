@@ -37,7 +37,7 @@
                         </x-slot>
                         <x-slot name="body">
                             @foreach($devices as $device)
-                                <x-views.devices.table.log :device="$device"></x-views.devices.table.log>
+                                <x-views.devices.device-table.log :device="$device"></x-views.devices.table.log>
                             @endforeach
                         </x-slot>
                     </x-table>
