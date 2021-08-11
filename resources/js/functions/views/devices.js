@@ -30,6 +30,13 @@ function get_active_new_device_form(event){
     return active_new_device_form;
 }
 
+function get_active_movement_history_table(event){
+    let activated_btn = event.currentTarget;
+    let active_additional_info_content = $(activated_btn).parents().eq(4);
+    let active_movement_history_table = $(active_additional_info_content).find('.movement-history-table');
+    return active_movement_history_table;
+}
+
 function get_device_form(device_id = null){
     return $.ajax({
         url: links.get_device_form, // links from the Devices view
@@ -81,6 +88,13 @@ function get_device_form_data(form){
     }
 
     return form_data;
+}
+
+function get_movement_log_form(movement_log_id = null){
+    return $.ajax({
+        url: links.get_movement_log_form, // links from the Devices view
+        data: {id: movement_log_id}
+    });
 }
 
 function update_device_in_db(device){

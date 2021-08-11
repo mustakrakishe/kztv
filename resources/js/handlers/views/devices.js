@@ -83,7 +83,9 @@ function show_device_more_info(event){
         $(active_device_log).height($(main_info_block).outerHeight());
         $(active_device_log).animate({
             height: $(main_info_block).outerHeight() + $(additional_info_block).outerHeight()
-        }, 500);
+        }, 500, function(){
+            $(active_device_log).height('auto');
+        });
     });
 
     let btn_more = event.currentTarget;
@@ -93,7 +95,15 @@ function show_device_more_info(event){
 function show_new_device_form(){
     get_device_form()
     .done(new_device_form => {
-        $('#device-table').find('[name="body"]').prepend(new_device_form);  // table_rows from the Devices view
+        $('#device-table').find('[name="body"]').prepend(new_device_form);
+    })
+}
+
+function show_new_movement_log_form(event){
+    let active_movement_history_table = get_active_movement_history_table(event);
+    get_movement_log_form()
+    .done(new_movement_log_form => {
+        $(active_movement_history_table).find('[name="body"]').prepend(new_movement_log_form);
     })
 }
 

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\MovementLogController;
 use Illuminate\Http\Request;
 
 /*
@@ -48,6 +49,10 @@ Route::get('/devices', [DeviceController::class, 'show'])
     Route::get('/devices/get_device_more_info', [DeviceController::class, 'get_device_more_info'])
     // ->middleware(['auth'])
     ->name('devices.get_device_more_info');
+
+    Route::get('/devices/get_movement_log_form', [MovementLogController::class, 'get_form'])
+    // ->middleware(['auth'])
+    ->name('devices.get_movement_log_form');
 
     Route::any('/devices/update', [DeviceController::class, 'update'])
     // ->middleware(['auth'])

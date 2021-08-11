@@ -69,8 +69,9 @@ class DeviceController extends Controller{
                 'units.properties',
                 'last_movement_logs.location',
                 'last_movement_logs.id as last_movement_log_id',
-                'last_movement_logs.updated_at',
+                'last_movement_logs.created_at',
             )
+            ->orderBy('last_movement_logs.created_at')
             ->orderByDesc('last_movement_log_id', 'id')
             ->limit(5);
             

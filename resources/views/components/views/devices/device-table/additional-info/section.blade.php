@@ -6,6 +6,8 @@
     </div>
 
     <div class="row section-content">
-        {{ $content }}
+        <div class="col">
+            {{ $content }}
+        </div>
     </div>
 </div>
