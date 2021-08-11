@@ -29,7 +29,7 @@ class DeviceController extends Controller{
         $new_movement_log->save();
 
         $new_device_full_info = $this->getDevice($new_device->id);
-        return view('components.devices.table.log', ['device' => $new_device_full_info]);
+        return view('components.views.devices.table.log', ['device' => $new_device_full_info]);
     }
 
     public function delete(Request $data){
@@ -92,12 +92,12 @@ class DeviceController extends Controller{
             $device_full_info = $this->getDevice($data->id);
         }
 
-        return view('components.devices.table.form', ['types' => $types, 'device' => $device_full_info]);
+        return view('components.views.devices.table.form', ['types' => $types, 'device' => $device_full_info]);
     }
 
     public function get_device_log(Request $data){
         $device_full_info = $this->getDevice($data->id);
-        return view('components.devices.table.log', ['device' => $device_full_info]);
+        return view('components.views.devices.table.log', ['device' => $device_full_info]);
     }
 
     public function get_device_more_info(Request $data){
@@ -107,7 +107,7 @@ class DeviceController extends Controller{
             ->get()
             ->toJSON();
 
-        return view('components.devices.table.additional-info.main-block', ['movementHistory' => json_decode($movement_history)]);
+        return view('components.views.devices.table.additional-info.main-block', ['movementHistory' => json_decode($movement_history)]);
     }
 
     public function show(){
@@ -147,6 +147,6 @@ class DeviceController extends Controller{
         }
 
         $updated_device_full_info = $this->getDevice($device->id);
-        return view('components.devices.table.log', ['device' => $updated_device_full_info]);
+        return view('components.views.devices.table.log', ['device' => $updated_device_full_info]);
     }
 }

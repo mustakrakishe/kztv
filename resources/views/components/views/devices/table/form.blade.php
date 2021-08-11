@@ -1,13 +1,13 @@
 @php
     $rowClass = isset($device) ? 'edit-device-form' : 'new-device-form';
-    $btnGroupComponentName = 'devices.btn-groups.' . $rowClass;
+    $btnGroupComponentName = 'views.devices.btn-groups.' . $rowClass;
     function checkSelected($device, $type){
         if(isset($device) && $type->name == $device->type){
             return 'selected';
         }
     }
 @endphp
-<x-devices.table.row class="{{ $rowClass }}">
+<x-views.devices.table.row class="{{ $rowClass }}">
     @csrf
 
     <x-slot name="id"><input type="text" name="id" class="form-control" value="@isset($device){{ $device->id }}@endisset"></x-slot>
@@ -33,4 +33,4 @@
     <x-slot name="control">
         <x-dynamic-component :component="$btnGroupComponentName"/>
     </x-slot>
-</x-devices.table.row>
+</x-views.devices.table.row>
