@@ -4,6 +4,7 @@
     <script>
         let links = {
             add_device: @json(route('devices.add')),
+            add_movement_log: @json(route('devices.add_movement_log')),
             get_device_form: @json(route('devices.get_device_form')),
             get_device_log: @json(route('devices.get_device_log')),
             get_device_more_info: @json(route('devices.get_device_more_info')),

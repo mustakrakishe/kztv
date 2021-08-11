@@ -8,6 +8,17 @@ function add_new_device(event){
     });
 }
 
+function add_new_movement_log(event){
+    let new_movement_log_form = get_active_new_movement_log_form(event);
+    let input_data = get_movement_log_form_data(new_movement_log_form);
+    add_movement_log_to_db(input_data)
+    .done((new_movement_log) => {
+        console.log(new_movement_log);
+    //     $('#device-table').find('.new-device-form').last().after(new_device_log);
+    //     $(new_device_form).remove();
+    });
+}
+
 function cancel_add_new_device(event){
     let new_device_form = get_active_new_device_form(event);
     $(new_device_form).remove();
@@ -106,7 +117,9 @@ function show_new_device_form(){
 
 function show_new_movement_log_form(event){
     let active_movement_history_table = get_active_movement_history_table(event);
-    get_movement_log_form()
+    let active_device_log = $(active_movement_history_table).parents().eq(6);
+    let device_id = get_device_log_data($(active_device_log)).id;
+    get_movement_log_form({unit_id: device_id})
     .done(new_movement_log_form => {
         $(active_movement_history_table).find('[name="body"]').prepend(new_movement_log_form);
     })

@@ -5,6 +5,13 @@ function add_device_to_db(input_data){
     });
 }
 
+function add_movement_log_to_db(input_data){
+    return $.post({
+        url: links.add_movement_log, // links from the Devices view
+        data: input_data
+    });
+}
+
 function delete_device_from_db(device_id){
     return $.ajax({
         url: links.delete_device, // links from the Devices view
@@ -96,11 +103,24 @@ function get_device_form_data(form){
     return form_data;
 }
 
-function get_movement_log_form(movement_log_id = null){
+function get_movement_log_form(send_data){
     return $.ajax({
         url: links.get_movement_log_form, // links from the Devices view
-        data: {id: movement_log_id}
+        data: send_data
     });
+}
+
+function get_movement_log_form_data(form){
+    let form_data = {};
+
+    $(form).find('input')
+    .each((index, input) => {
+        let name = $(input).attr('name');
+        let value = $(input).val();
+        form_data[name] = value;
+    });
+
+    return form_data;
 }
 
 function update_device_in_db(device){

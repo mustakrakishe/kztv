@@ -34,6 +34,10 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.add');
 
+    Route::any('/devices/add_movement_log', [MovementLogController::class, 'add'])
+    // ->middleware(['auth'])
+    ->name('devices.add_movement_log');
+
     Route::any('/devices/delete', [DeviceController::class, 'delete'])
     // ->middleware(['auth'])
     ->name('devices.delete');
