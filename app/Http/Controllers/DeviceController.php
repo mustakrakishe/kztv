@@ -104,9 +104,10 @@ class DeviceController extends Controller{
         $device_id = $data->id;
         $movement_history = MovementLog::where('unit_id', $device_id)
             ->orderByDesc('created_at')
-            ->get();
+            ->get()
+            ->toJSON();
 
-        return view('components.devices.table.additional-info.main-block', ['movementHistory' => $movement_history]);
+        return view('components.devices.table.additional-info.main-block', ['movementHistory' => json_decode($movement_history)]);
     }
 
     public function show(){
