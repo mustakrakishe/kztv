@@ -8,6 +8,6 @@
     <x-slot name="location">{{ $device->location }}</x-slot>
 
     <x-slot name="control">
-        <x-views.devices.btn-groups.log></x-views.devices.btn-groups.log>
+        <x-views.devices.device-table.btn-groups.log></x-views.devices.device-table.btn-groups.log>
     </x-slot>
 </x-views.devices.device-table.row>
