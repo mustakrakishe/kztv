@@ -13,6 +13,11 @@ function cancel_add_new_device(event){
     $(new_device_form).remove();
 }
 
+function cancel_add_new_movement_log(event){
+    let new_movement_log_form = get_active_new_movement_log_form(event);
+    $(new_movement_log_form).remove();
+}
+
 function cancel_update_device(event){
     let active_device_edit_form = get_active_device_edit_form(event);
     let device_id = get_device_form_data(active_device_edit_form).id;

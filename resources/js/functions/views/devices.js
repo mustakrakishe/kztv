@@ -30,6 +30,12 @@ function get_active_new_device_form(event){
     return active_new_device_form;
 }
 
+function get_active_new_movement_log_form(event){
+    let activated_btn = event.currentTarget;
+    let active_new_movement_log_form = $(activated_btn).parents().eq(4);
+    return active_new_movement_log_form;
+}
+
 function get_active_movement_history_table(event){
     let activated_btn = event.currentTarget;
     let active_additional_info_content = $(activated_btn).parents().eq(4);
