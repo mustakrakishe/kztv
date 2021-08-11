@@ -9,7 +9,7 @@
         }
     }
 @endphp
-<x-views.devices.device-table.row class="{{ $rowClass }}">
+<x-views.devices.device-table.rows.layout class="{{ $rowClass }}">
     @csrf
 
     <x-slot name="id"><input type="text" name="id" class="form-control" value="@isset($device){{ $device->id }}@endisset"></x-slot>
@@ -35,4 +35,4 @@
     <x-slot name="control">
         <x-dynamic-component :component="$btnGroupComponentName"/>
     </x-slot>
-</x-views.devices.device-table.row>
+</x-views.devices.device-table.rows.layout>

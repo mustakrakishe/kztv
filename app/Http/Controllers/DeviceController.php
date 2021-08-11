@@ -29,18 +29,18 @@ class DeviceController extends Controller{
         $new_movement_log->save();
 
         $new_device_full_info = $this->getDevice($new_device->id);
-        return view('components.views.devices.device-table.log', ['device' => $new_device_full_info]);
+        return $this->generate_device_log_view($new_device_full_info);
     }
 
     public function delete(Request $data){
         DB::table('units')->where('id', $data->id)->delete();
     }
 
-    public function getDevice($id){
+    protected function getDevice($id){
         return ($this->getDevices([$id]))[0];
     }
 
-    public function getDevices($ids = null){
+    protected function getDevices($ids = null){
         $last_movement_log_ids = Unit::select('id as unit_id')
             ->addSelect([
                 'movement_log_id' => MovementLog::select('id')
@@ -92,12 +92,12 @@ class DeviceController extends Controller{
             $device_full_info = $this->getDevice($data->id);
         }
 
-        return view('components.views.devices.device-table.form', ['types' => $types, 'device' => $device_full_info]);
+        return $this->generate_device_form_view($types, $device_full_info);
     }
 
     public function get_device_log(Request $data){
         $device_full_info = $this->getDevice($data->id);
-        return view('components.views.devices.device-table.log', ['device' => $device_full_info]);
+        return $this->generate_device_log_view($device_full_info);
     }
 
     public function get_device_more_info(Request $data){
@@ -108,6 +108,14 @@ class DeviceController extends Controller{
             ->toJSON();
 
         return view('components.views.devices.device-table.additional-info.main-block', ['movementHistory' => json_decode($movement_history)]);
+    }
+
+    protected function generate_device_form_view($types, $device){
+        return view('components.views.devices.device-table.rows.form', ['types' => $types, 'device' => $device]);
+    }
+
+    protected function generate_device_log_view($device){
+        return view('components.views.devices.device-table.rows.log', ['device' => $device]);
     }
 
     public function show(){
@@ -147,6 +155,6 @@ class DeviceController extends Controller{
         }
 
         $updated_device_full_info = $this->getDevice($device->id);
-        return view('components.views.devices.device-table.log', ['device' => $updated_device_full_info]);
+        return $this->generate_device_log_view($updated_device_full_info);
     }
 }
