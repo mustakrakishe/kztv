@@ -1,4 +1,5 @@
 <div {{ $attributes->merge(['class' => 'table-row row']) }}>
+    {{ $slot }}
     <div class="cell info" name="id" hidden>{{ $id }}</div>
     <div class="cell info col-2" name="unit_id" hidden>{{ $unit_id }}</div>
     <div class="cell info col-2" name="created_at">{{ $created_at }}</div>
