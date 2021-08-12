@@ -32,6 +32,11 @@ class MovementLogController extends Controller{
         return view('components.views.devices.device-table.additional-info.movement-history-table.rows.log', ['log' => $log]);
     }
 
+    public function get_log_view(Request $data){
+        $log = $this->get_log($data->id);
+        return $this->generate_log_view($log);
+    }
+
     public function get_form(Request $data){
         $log = null;
         $unit_id = null;

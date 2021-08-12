@@ -58,6 +58,10 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.get_device_more_info');
 
+    Route::get('/devices/get_movement_log_view', [MovementLogController::class, 'get_log_view'])
+    // ->middleware(['auth'])
+    ->name('devices.get_movement_log_view');
+
     Route::get('/devices/get_movement_log_form', [MovementLogController::class, 'get_form'])
     // ->middleware(['auth'])
     ->name('devices.get_movement_log_form');

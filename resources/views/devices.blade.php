@@ -8,6 +8,7 @@
             get_device_form: @json(route('devices.get_device_form')),
             get_device_log: @json(route('devices.get_device_log')),
             get_device_more_info: @json(route('devices.get_device_more_info')),
+            get_movement_log_view: @json(route('devices.get_movement_log_view')),
             get_movement_log_form: @json(route('devices.get_movement_log_form')),
             delete_device: @json(route('devices.delete')),
             delete_movement_log: @json(route('devices.delete_movement_log')),

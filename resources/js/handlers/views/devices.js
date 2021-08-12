@@ -37,6 +37,15 @@ function cancel_update_device(event){
     })
 }
 
+function cancel_update_movement_log(event){
+    let active_movement_log_form = get_active_movement_log_edit_form(event);
+    let movement_log_id = get_movement_log_form_data(active_movement_log_form).id;
+    get_movement_log_view(movement_log_id)
+    .done(old_movement_log => {
+        $(active_movement_log_form).replaceWith(old_movement_log);
+    })
+}
+
 function check_type(event){
     let select = event.target;
     let selected_type = $(select).children('option:selected').val();
