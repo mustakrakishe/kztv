@@ -37,7 +37,7 @@ class MovementLogController extends Controller{
         $unit_id = null;
 
         if(isset($data->log_id)){
-            $log = MovementLog::fing($data->log_id);
+            $log = MovementLog::find($data->log_id);
             $unit_id = $log->unit_id;
         }
         else{

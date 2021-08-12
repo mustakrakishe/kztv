@@ -1,13 +1,8 @@
 @php
     $rowClass = isset($log) ? 'edit-form' : 'new-form';
     $btnGroupComponentName = 'views.devices.device-table.additional-info.movement-history-table.btn-groups.' . $rowClass;
-    if(isset($log)){
-        $created_at = $log->created_at;
-    }
-    else{
-        $time = time();
-        $created_at = date('Y-m-d', $time) . 'T' . date('H:i', $time);
-    }
+    $time = isset($log) ? strtotime($log->created_at) : time();
+    $created_at = date('Y-m-d', $time) . 'T' . date('H:i', $time);
 @endphp
 <x-views.devices.device-table.additional-info.movement-history-table.rows.layout class="{{ $rowClass }}">
     @csrf

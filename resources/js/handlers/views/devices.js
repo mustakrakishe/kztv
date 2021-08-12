@@ -116,6 +116,15 @@ function show_device_more_info(event){
     $(btn_more).attr('onclick', 'hide_device_more_info(event)');
 }
 
+function show_movement_log_edit_form(event){
+    let active_movement_log_log = get_active_movement_log(event);
+    let movement_log_id = get_movement_log_data($(active_movement_log_log)).id;
+    get_movement_log_form({log_id: movement_log_id})
+    .done(movement_log_edit_form => {
+        $(active_movement_log_log).replaceWith(movement_log_edit_form);
+    })
+}
+
 function show_new_device_form(){
     get_device_form()
     .done(new_device_form => {
