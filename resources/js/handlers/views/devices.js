@@ -159,3 +159,12 @@ function update_device(event){
         $(active_device_edit_form).replaceWith(updated_device_log);
     });
 }
+
+function update_movement_log(event){
+    let active_movement_log_edit_form = get_active_movement_log_edit_form(event);
+    let input_data = get_movement_log_form_data(active_movement_log_edit_form);
+    update_movement_log_in_db(input_data)
+    .done(updated_movement_log => {
+        $(active_movement_log_edit_form).replaceWith(updated_movement_log);
+    });
+}

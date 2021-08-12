@@ -72,4 +72,20 @@ class MovementLogController extends Controller{
         
         return json_decode($result->toJSON()); // Json converting for model property MovementLog::casts casts a created_at field.
     }
+
+    public function update(Request $input_data){
+        $log = MovementLog::find($input_data->id);
+        $log->unit_id = $input_data->unit_id;
+        $log->created_at = $input_data->created_at;
+        $log->location = $input_data->location;
+        $log->comment = $input_data->comment;
+        $log->save();
+
+        if($log->isDirty()){
+            $log->save();
+        }
+
+        $updated_log = $this->get_log($log->id);
+        return $this->generate_log_view($updated_log);
+    }
 }

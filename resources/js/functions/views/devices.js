@@ -168,3 +168,10 @@ function update_device_in_db(device){
         data: device
     })
 }
+
+function update_movement_log_in_db(log){
+    return $.ajax({
+        url: links.update_movement_log, // links from the Devices view
+        data: log
+    })
+}

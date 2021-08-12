@@ -12,7 +12,8 @@
             get_movement_log_form: @json(route('devices.get_movement_log_form')),
             delete_device: @json(route('devices.delete')),
             delete_movement_log: @json(route('devices.delete_movement_log')),
-            update_device: @json(route('devices.update'))
+            update_device: @json(route('devices.update')),
+            update_movement_log: @json(route('devices.update_movement_log'))
         };
     </script>
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>

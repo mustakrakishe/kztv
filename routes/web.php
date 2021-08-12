@@ -69,6 +69,10 @@ Route::get('/devices', [DeviceController::class, 'show'])
     Route::any('/devices/update', [DeviceController::class, 'update'])
     // ->middleware(['auth'])
     ->name('devices.update');
+
+    Route::any('/devices/update_movement_log', [MovementLogController::class, 'update'])
+    // ->middleware(['auth'])
+    ->name('devices.update_movement_log');
     
 
 require __DIR__.'/auth.php';
