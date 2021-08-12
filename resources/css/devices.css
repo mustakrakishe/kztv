@@ -33,6 +33,14 @@
         .table select{
             padding-left: 8px;
         }
+        
+        .info[name="identification_code"]:before{
+            content: '(';
+        }
+
+        .info[name="identification_code"]:after{
+            content: ')';
+        }
 /* additional info */
 
 .additional-info{

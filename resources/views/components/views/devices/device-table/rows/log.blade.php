@@ -1,11 +1,15 @@
 <x-views.devices.device-table.rows.layout class="log">
-    <x-slot name="id">{{ $device->id }}</x-slot>
-    <x-slot name="inventory_code">{{ $device->inventory_code }}</x-slot>
-    <x-slot name="identification_code">{{ $device->identification_code }}</x-slot>
-    <x-slot name="type">{{ $device->type }}</x-slot>
-    <x-slot name="model">{{ $device->model }}</x-slot>
-    <x-slot name="properties">{{ $device->properties }}</x-slot>
-    <x-slot name="location">{{ $device->location }}</x-slot>
+    <x-slot name="id"><div class="info" name="id">{{ $device->id }}</div></x-slot>
+    <x-slot name="inventory_code"><div class="info" name="inventory_code">{{ $device->inventory_code }}</div></x-slot>
+    <x-slot name="identification_code">
+        @isset($device->identification_code)
+            <div class="info" name="identification_code">{{ $device->identification_code }}</div>
+        @endisset
+    </x-slot>
+    <x-slot name="type"><div class="info" name="type">{{ $device->type }}</div></x-slot>
+    <x-slot name="model"><div class="info" name="model">{{ $device->model }}</div></x-slot>
+    <x-slot name="properties"><div class="info" name="properties">{{ $device->properties }}</div></x-slot>
+    <x-slot name="location"><div class="info" name="location">{{ $device->location }}</div></x-slot>
 
     <x-slot name="control">
         <x-views.devices.device-table.btn-groups.log/>
