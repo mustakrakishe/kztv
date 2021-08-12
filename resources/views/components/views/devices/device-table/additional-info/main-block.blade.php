@@ -7,7 +7,7 @@
         </x-slot>
     </x-views.devices.device-table.additional-info.section>
 
-    <x-views.devices.device-table.additional-info.section class="col-7">
+    <x-views.devices.device-table.additional-info.section class="col-8">
         <x-slot name="title">Історія переміщення</x-slot>
         <x-slot name="content">
             
@@ -23,8 +23,8 @@
             <div class="row">
                 <x-table class="movement-history-table">
                     <x-slot name="head">
-                        <div class="cell col-2">Дата</div>
-                        <div class="cell col-5">Розташування</div>
+                        <div class="cell col-3">Дата</div>
+                        <div class="cell col-4">Розташування</div>
                         <div class="cell col-4">Коментар</div>
                     </x-slot>
 

@@ -10,6 +10,6 @@ class MovementLog extends Model
     use HasFactory;
 
     protected function serializeDate($date){
-        return $date->format('Y-m-d');
+        return $date->format('d.m.Y H:i');
     }
 }

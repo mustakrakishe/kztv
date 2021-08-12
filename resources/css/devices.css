@@ -24,15 +24,14 @@
             padding: 12px;
         }
 
-        .table input[type="text"]{
+        .table input,
+        .table select{
             margin-left: -12px;
             width: calc(100% + 12px);
         }
 
         .table select{
             padding-left: 8px;
-            margin-left: -12px;
-            width: calc(100% + 12px);
         }
 /* additional info */
 
