@@ -50,9 +50,9 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.get_device_form');
 
-    Route::get('/devices/get_device_log', [DeviceController::class, 'get_device_log'])
+    Route::get('/devices/get_device_log_view', [DeviceController::class, 'get_device_log_view'])
     // ->middleware(['auth'])
-    ->name('devices.get_device_log');
+    ->name('devices.get_device_log_view');
 
     Route::get('/devices/get_device_more_info', [DeviceController::class, 'get_device_more_info'])
     // ->middleware(['auth'])

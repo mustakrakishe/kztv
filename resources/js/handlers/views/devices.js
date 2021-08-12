@@ -31,7 +31,7 @@ function cancel_add_new_movement_log(event){
 function cancel_update_device(event){
     let active_device_edit_form = get_active_device_edit_form(event);
     let device_id = get_device_form_data(active_device_edit_form).id;
-    get_device_log(device_id)
+    get_device_log_view(device_id)
     .done(old_device_log => {
         $(active_device_edit_form).replaceWith(old_device_log);
     })

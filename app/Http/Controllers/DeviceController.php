@@ -96,7 +96,7 @@ class DeviceController extends Controller{
         return $this->generate_device_form_view($types, $device_full_info);
     }
 
-    public function get_device_log(Request $data){
+    public function get_device_log_view(Request $data){
         $device_full_info = $this->get_device($data->id);
         return $this->generate_device_log_view($device_full_info);
     }
