@@ -36,6 +36,18 @@ class DeviceController extends Controller{
         Unit::find($data->id)->delete();
     }
 
+    public function find_devices(Request $data){
+        return $device_ids = Unit::search($data->string)->get();
+        $views = [];
+        foreach($device_ids as $device_id){
+            $device_full_info = $this->get_device($device_id);
+            $device_view = $this->generate_device_log_view($device_full_info);
+            array_push($views, $device_view);
+        }
+
+        return $views;
+    }
+
     protected function get_device($id){
         return ($this->get_devices([$id]))[0];
     }
