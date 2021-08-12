@@ -72,8 +72,7 @@ class DeviceController extends Controller{
                 'last_movement_logs.created_at',
             )
             ->latest('last_movement_logs.created_at')
-            ->orderByDesc('last_movement_log_id', 'id')
-            ->limit(5);
+            ->orderByDesc('last_movement_log_id', 'id');
             
         
         if($ids){

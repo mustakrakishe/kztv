@@ -1,12 +1,5 @@
 <div class="row additional-info">
 
-    <x-views.devices.device-table.additional-info.section class="col-3">
-        <x-slot name="title">Статус</x-slot>
-        <x-slot name="content">
-            <p class="mx-auto">2021-08-01: Новий</p>
-        </x-slot>
-    </x-views.devices.device-table.additional-info.section>
-
     <x-views.devices.device-table.additional-info.section class="col-8">
         <x-slot name="title">Історія переміщення</x-slot>
         <x-slot name="content">

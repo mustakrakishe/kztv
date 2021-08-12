@@ -37,13 +37,13 @@
 
 .additional-info{
     width: 90%;
-    margin: 12px auto;
+    margin: auto;
     padding: 24px 0;
 }
 
-.additional-info .section{
-    margin: 12px auto;
-}
+    .additional-info .section{
+        margin: 0 auto;
+    }
 
     .additional-info .section-title{
         margin-bottom: 12px;

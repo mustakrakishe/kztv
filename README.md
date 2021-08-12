@@ -15,6 +15,9 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.5
+- CSA - Movement history editing is available.
+
 ### 1.0.4
 - CSA - Devices:
     - identification code is including into the round brackets;
