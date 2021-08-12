@@ -19,6 +19,13 @@ function delete_device_from_db(device_id){
     });
 }
 
+function delete_movement_log_from_db(log_id){
+    return $.ajax({
+        url: links.delete_movement_log, // links from the Devices view
+        data: {id: log_id}
+    });
+}
+
 function get_active_device_edit_form(event){
     let activated_btn = event.currentTarget;
     let active_device_edit_form = $(activated_btn).parents().eq(6);
@@ -35,6 +42,12 @@ function get_active_new_device_form(event){
     let activated_btn = event.currentTarget;
     let active_new_device_form = $(activated_btn).parents().eq(6);
     return active_new_device_form;
+}
+
+function get_active_movement_log(event){
+    let activated_btn = event.currentTarget;
+    let active_device_log = $(activated_btn).parents().eq(4);
+    return active_device_log;
 }
 
 function get_active_new_movement_log_form(event){
@@ -101,6 +114,19 @@ function get_device_form_data(form){
     }
 
     return form_data;
+}
+
+function get_movement_log_data(log){
+    let log_data = {};
+
+    let fields = $(log).find('.info');
+    $(fields).each((index, field) => {
+        let name = $(field).attr('name');
+        let value = $(field).text();
+        log_data[name] = value;
+    });
+
+    return log_data;
 }
 
 function get_movement_log_form(send_data){

@@ -20,6 +20,10 @@ class MovementLogController extends Controller{
         return $this->generate_log_view($movement_log);
     }
 
+    public function delete(Request $data){
+        MovementLog::find($data->id)->delete();
+    }
+
     protected function generate_form_view($log, $unit_id){
         return view('components.views.devices.device-table.additional-info.movement-history-table.rows.form', ['log' => $log, 'unit_id' =>  $unit_id]);
     }

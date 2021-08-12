@@ -58,6 +58,15 @@ function delete_device(event){
     })
 }
 
+function delete_movement_log(event){
+    let active_movement_log = get_active_movement_log(event);
+    let movement_log_id = get_movement_log_data($(active_movement_log)).id;
+    delete_movement_log_from_db(movement_log_id)
+    .done(() => {
+        $(active_movement_log).remove();
+    })
+}
+
 function hide_device_more_info(event){
     let active_device_log = get_active_device_log(event);
     

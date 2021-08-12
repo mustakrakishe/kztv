@@ -33,7 +33,7 @@ class DeviceController extends Controller{
     }
 
     public function delete(Request $data){
-        DB::table('units')->where('id', $data->id)->delete();
+        Unit::find($data->id)->delete();
     }
 
     protected function get_device($id){
