@@ -75,7 +75,7 @@ function delete_movement_log(event){
         $(active_movement_log).remove();
     })
 }
-// Не всталяет результаты
+
 function find_devices(event){
     if(event.key === 'Enter'){
         let input = event.target;
