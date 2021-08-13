@@ -27,7 +27,7 @@
             <div id="wrapper" class="wrapper">
                 <div class="row">
                     <div class="col search-container">
-                        <input type="search" id="device-table-search" class="form-control" placeholder="Пошук пристроїв..." aria-controls="example1" onkeydown="find_devices(event)">
+                        <input type="search" id="device-table-search" class="form-control" placeholder="Пошук фрази..." aria-controls="example1" onkeydown="find_devices(event)">
                     </div>
 
                     <div class="col text-right mt-auto" style="padding: 8px 23px;">
