@@ -37,12 +37,37 @@ class DeviceController extends Controller{
     }
 
     public function find_devices(Request $data){
-        return $device_ids = Unit::search($data->string)->get();
+        $searched_string = $data->string;
+        $matched_type_ids = Type::where('name', 'ilike', "%$searched_string%")
+            ->select('id')
+            ->get()
+            ->toArray();
+
+        $matched_last_movement_log_device_ids = Unit::select('id')
+            ->where(function($select){
+                $select->select('location')
+                ->from('movement_logs')
+                ->whereColumn('unit_id', 'units.id')
+                ->latest('created_at')
+                ->orderByDesc('id')
+                ->limit(1);
+            }, 'ilike', "%$searched_string%");
+        
+        $matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$searched_string%")
+            ->orWhere('identification_code', 'LIKE', "%$searched_string%")
+            ->orWhere('model', 'ilike', "%$searched_string%")
+            ->orWhere('properties', 'ilike', "%$searched_string%")
+            ->orWhereIn('type_id', $matched_type_ids)
+            ->select('id')
+            ->union($matched_last_movement_log_device_ids)
+            ->get()
+            ->toArray();
+
+        $matched_devices_full_info = $this->get_devices($matched_device_ids);
+
         $views = [];
-        foreach($device_ids as $device_id){
-            $device_full_info = $this->get_device($device_id);
-            $device_view = $this->generate_device_log_view($device_full_info);
-            array_push($views, $device_view);
+        foreach($matched_devices_full_info as $device_full_info){
+            array_push($views, $this->generate_device_log_view($device_full_info)->render());
         }
 
         return $views;
@@ -87,7 +112,7 @@ class DeviceController extends Controller{
             ->orderByDesc('last_movement_log_id', 'id');
             
         
-        if($ids){
+        if($ids !== null){
             $device_full_info->whereIn('units.id', $ids);
         }
         

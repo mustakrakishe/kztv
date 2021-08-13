@@ -75,17 +75,16 @@ function delete_movement_log(event){
         $(active_movement_log).remove();
     })
 }
-
+// Не всталяет результаты
 function find_devices(event){
     if(event.key === 'Enter'){
         let input = event.target;
         let input_string = $(input).val();
         find_devices_in_db(input_string)
         .done(device_logs => {
-            console.log(device_logs);
             let destination = $('#device-table').find('div[name="body"]').first();
             $(destination).empty();
-            device_logs.forEach(log => {
+            device_logs.forEach(function(log){
                 $(destination).append(log);
             })
 
