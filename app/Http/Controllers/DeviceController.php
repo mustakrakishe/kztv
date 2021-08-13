@@ -37,32 +37,84 @@ class DeviceController extends Controller{
     }
 
     public function find_devices(Request $data){
+        $views = [];
         $searched_string = $data->string;
         
-        $matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$searched_string%")
-            ->orWhere('identification_code', 'LIKE', "%$searched_string%")
-            ->orWhere('model', 'ilike', "%$searched_string%")
-            ->orWhere('properties', 'ilike', "%$searched_string%")
-            ->orWhere(function($query){
-                $query->select('name')
-                    ->from('types')
-                    ->whereColumn('id', 'units.type_id');
-            }, 'ilike', "%$searched_string%")
-            ->orWhere(function($query){
-                $query->select('location')
-                    ->from('movement_logs')
-                    ->whereColumn('unit_id', 'units.id')
-                    ->latest('created_at')
-                    ->orderByDesc('id')
-                    ->limit(1);
-            }, 'ilike', "%$searched_string%")
+        // $searched_string_matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$searched_string%")
+        //     ->orWhere('identification_code', 'LIKE', "%$searched_string%")
+        //     ->orWhere('model', 'ilike', "%$searched_string%")
+        //     ->orWhere('properties', 'ilike', "%$searched_string%")
+        //     ->orWhere(function($query){
+        //         $query->select('name')
+        //             ->from('types')
+        //             ->whereColumn('id', 'units.type_id');
+        //     }, 'ilike', "%$searched_string%")
+        //     ->orWhere(function($query){
+        //         $query->select('location')
+        //             ->from('movement_logs')
+        //             ->whereColumn('unit_id', 'units.id')
+        //             ->latest('created_at')
+        //             ->orderByDesc('id')
+        //             ->limit(1);
+        //     }, 'ilike', "%$searched_string%")
+        //     ->select('id');
+
+        // $matched_devices_full_info = $this->get_devices($matched_device_ids);
+
+        // foreach($matched_devices_full_info as $device_full_info){
+        //     array_push($views, $this->generate_device_log_view($device_full_info)->render());
+        // }
+        
+        $keywords = preg_split('/\s+/', $searched_string);
+
+        $keywords_matched_device_ids = [];
+
+        foreach($keywords as $keyword){
+            $keyword_matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$keyword%")
+                ->orWhere('identification_code', 'LIKE', "%$keyword%")
+                ->orWhere('model', 'ilike', "%$keyword%")
+                ->orWhere('properties', 'ilike', "%$keyword%")
+                ->orWhere(function($query){
+                    $query->select('name')
+                        ->from('types')
+                        ->whereColumn('id', 'units.type_id');
+                }, 'ilike', "%$keyword%")
+                ->orWhere(function($query){
+                    $query->select('location')
+                        ->from('movement_logs')
+                        ->whereColumn('unit_id', 'units.id')
+                        ->latest('created_at')
+                        ->orderByDesc('id')
+                        ->limit(1);
+                }, 'ilike', "%$keyword%");
+            
+            array_push($keywords_matched_device_ids, $keyword_matched_device_ids);
+        }
+
+        $keywords_matches_union = $keywords_matched_device_ids[0];
+        for($i = 1; $i < count($keywords_matched_device_ids); $i++){
+            $keywords_matches_union->unionAll($keywords_matched_device_ids[$i]);
+        }
+        
+        $union_query_response = $keywords_matches_union->get()->toQuery();
+// Группирует, но неправильно считает count. Должно вернуть count 2, а не т.
+        return $matched_device_id_statistic = $union_query_response->selectRaw('id, count(id)')
+            ->having('id', 299)
+            ->groupBy('id')
+            ->pluck('id', 'count')->all();
+        return $matched_device_id_statistic;
+        return $matches_max_count = $matched_device_id_statistic->toQuery()->max('match_count')->get();
+
+        $matched_device_id_orderBy_statistic = $matched_device_id_statistic->get()
+            ->toQuery()
             ->select('id')
+            ->groupBy('id')
+            ->orderBy('match_count')
             ->get()
             ->toArray();
 
-        $matched_devices_full_info = $this->get_devices($matched_device_ids);
+        $matched_devices_full_info = $this->get_devices($union_query_response);
 
-        $views = [];
         foreach($matched_devices_full_info as $device_full_info){
             array_push($views, $this->generate_device_log_view($device_full_info)->render());
         }

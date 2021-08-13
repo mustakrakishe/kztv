@@ -82,6 +82,7 @@ function find_devices(event){
         let input_string = $(input).val();
         find_devices_in_db(input_string)
         .done(device_logs => {
+            console.log(device_logs);
             let destination = $('#device-table').find('div[name="body"]').first();
             $(destination).empty();
             device_logs.forEach(function(log){
