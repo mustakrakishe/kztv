@@ -38,28 +38,25 @@ class DeviceController extends Controller{
 
     public function find_devices(Request $data){
         $searched_string = $data->string;
-        $matched_type_ids = Type::where('name', 'ilike', "%$searched_string%")
-            ->select('id')
-            ->get()
-            ->toArray();
-
-        $matched_last_movement_log_device_ids = Unit::select('id')
-            ->where(function($select){
-                $select->select('location')
-                ->from('movement_logs')
-                ->whereColumn('unit_id', 'units.id')
-                ->latest('created_at')
-                ->orderByDesc('id')
-                ->limit(1);
-            }, 'ilike', "%$searched_string%");
         
         $matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$searched_string%")
             ->orWhere('identification_code', 'LIKE', "%$searched_string%")
             ->orWhere('model', 'ilike', "%$searched_string%")
             ->orWhere('properties', 'ilike', "%$searched_string%")
-            ->orWhereIn('type_id', $matched_type_ids)
+            ->orWhere(function($query){
+                $query->select('name')
+                    ->from('types')
+                    ->whereColumn('id', 'units.type_id');
+            }, 'ilike', "%$searched_string%")
+            ->orWhere(function($query){
+                $query->select('location')
+                    ->from('movement_logs')
+                    ->whereColumn('unit_id', 'units.id')
+                    ->latest('created_at')
+                    ->orderByDesc('id')
+                    ->limit(1);
+            }, 'ilike', "%$searched_string%")
             ->select('id')
-            ->union($matched_last_movement_log_device_ids)
             ->get()
             ->toArray();
 
