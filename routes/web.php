@@ -26,6 +26,10 @@ Route::get('/dashboard', function () {
     // ->middleware(['auth'])
     ->name('dashboard');
 
+    // Route::any('/devices', [DeviceController::class, 'find_devices'])
+    //     // ->middleware(['auth'])
+    //     ->name('devices');
+
 Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices');

@@ -37,33 +37,60 @@ class DeviceController extends Controller{
     }
 
     public function find_devices(Request $data){
-        $searched_string = $data->string;
-        
-        $matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$searched_string%")
-            ->orWhere('identification_code', 'LIKE', "%$searched_string%")
-            ->orWhere('model', 'ilike', "%$searched_string%")
-            ->orWhere('properties', 'ilike', "%$searched_string%")
-            ->orWhere(function($query){
-                $query->select('name')
-                    ->from('types')
-                    ->whereColumn('id', 'units.type_id');
-            }, 'ilike', "%$searched_string%")
-            ->orWhere(function($query){
-                $query->select('location')
-                    ->from('movement_logs')
-                    ->whereColumn('unit_id', 'units.id')
-                    ->latest('created_at')
-                    ->orderByDesc('id')
-                    ->limit(1);
-            }, 'ilike', "%$searched_string%")
-            ->select('id')
-            ->get()
-            ->toArray();
-
-        $matched_devices_full_info = $this->get_devices($matched_device_ids);
-
         $views = [];
-        foreach($matched_devices_full_info as $device_full_info){
+        $searched_string = $data->string;
+
+        // $searched_string_matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$searched_string%")
+        //     ->orWhere('identification_code', 'LIKE', "%$searched_string%")
+        //     ->orWhere('model', 'ilike', "%$searched_string%")
+        //     ->orWhere('properties', 'ilike', "%$searched_string%")
+        //     ->orWhere(function($query){
+        //         $query->select('name')
+        //             ->from('types')
+        //             ->whereColumn('id', 'units.type_id');
+        //     }, 'ilike', "%$searched_string%")
+        //     ->orWhere(function($query){
+        //         $query->select('location')
+        //             ->from('movement_logs')
+        //             ->whereColumn('unit_id', 'units.id')
+        //             ->latest('created_at')
+        //             ->orderByDesc('id')
+        //             ->limit(1);
+        //     }, 'ilike', "%$searched_string%")
+        //     ->select('id');
+
+        // $matched_devices_full_info = $this->get_devices($matched_device_ids);
+
+        // foreach($matched_devices_full_info as $device_full_info){
+        //     array_push($views, $this->generate_device_log_view($device_full_info)->render());
+        // }
+        
+        $keywords = preg_split('/\s+/', $searched_string);
+
+        $keywords_matched_device_ids = [];
+        foreach($keywords as $keyword) {
+            $keyword_matched_device_ids = Unit::whereRaw('inventory_code::char like ' . "'%$keyword%'")
+                ->orWhereRaw('identification_code::char like ' . "'%$keyword%'")
+                ->orWhereRaw('model ilike ' . "'%$keyword%'")
+                ->orWhereRaw('properties ilike ' . "'%$keyword%'")
+                ->orWhereRaw('(select name from types where types.id = units.type_id) ilike ' . "'%$keyword%'")
+                ->orWhereRaw('(select  location from  movement_logs where movement_logs.unit_id = units.id order by created_at desc, id desc limit 1) ilike ' . "'%$keyword%'");
+                array_push($keywords_matched_device_ids, $keyword_matched_device_ids);
+        }
+
+        $keywords_matched_device_ids_union = $keywords_matched_device_ids[0];
+
+        for($i = 1; $i < count($keywords_matched_device_ids); $i++){
+            $keywords_matched_device_ids_union = $keywords_matched_device_ids_union->unionAll($keywords_matched_device_ids[$i]);
+        }
+
+        $union_query = $keywords_matched_device_ids_union->toSql();
+        $final_query = 'select id from (select id, count(id) from (' . $union_query . ') as u group by u.id order by u.count desc) f';
+        
+        $response = DB::select($final_query);
+
+        foreach($response as $row){
+            $device_full_info = $this->get_device($row->id);
             array_push($views, $this->generate_device_log_view($device_full_info)->render());
         }
 
@@ -155,7 +182,7 @@ class DeviceController extends Controller{
 
     public function show(){
         $allDevices = $this->get_devices();
-        return view('devices', ['devices' => $allDevices]);
+        return view('devices', ['devices' => $allDevices->take(10)]);
     }
 
     public function update(Request $input_data){
