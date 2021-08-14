@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Devices\Type;
 use App\Models\Devices\Unit;
 use App\Models\Devices\MovementLog;
+use Illuminate\Support\Arr;
 
 class DeviceController extends Controller{
     public function add(Request $input_data){
@@ -85,12 +86,13 @@ class DeviceController extends Controller{
         }
 
         $union_query = $keywords_matched_device_ids_union->toSql();
-        $final_query = 'select id from (select id, count(id) from (' . $union_query . ') as u group by u.id order by u.count desc) f';
+        $final_query = 'select id, count(id) from (' . $union_query . ') as u group by u.id order by u.count desc';
         
-        $response = DB::select($final_query);
+        $ids = Arr::pluck(DB::select($final_query), 'id');
+        $devices_full_info = $this->get_devices($ids);
 
-        foreach($response as $row){
-            $device_full_info = $this->get_device($row->id);
+        foreach($ids as $id){
+            $device_full_info = $this->get_device($id);
             array_push($views, $this->generate_device_log_view($device_full_info)->render());
         }
 

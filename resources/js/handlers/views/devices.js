@@ -80,8 +80,10 @@ function find_devices(event){
     if(event.key === 'Enter'){
         let input = event.target;
         let input_string = $(input).val();
+        $(input).after('<div id="search_info">Йде пошук...</div>');
         find_devices_in_db(input_string)
         .done(device_logs => {
+            $('#search_info').remove();
             let destination = $('#device-table').find('div[name="body"]').first();
             $(destination).empty();
             device_logs.forEach(function(log){
