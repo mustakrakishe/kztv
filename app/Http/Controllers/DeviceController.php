@@ -40,37 +40,27 @@ class DeviceController extends Controller{
     public function find_devices(Request $data){
         $views = [];
         $searched_string = $data->string;
-
-        // $searched_string_matched_device_ids = Unit::where('inventory_code', 'LIKE', "%$searched_string%")
-        //     ->orWhere('identification_code', 'LIKE', "%$searched_string%")
-        //     ->orWhere('model', 'ilike', "%$searched_string%")
-        //     ->orWhere('properties', 'ilike', "%$searched_string%")
-        //     ->orWhere(function($query){
-        //         $query->select('name')
-        //             ->from('types')
-        //             ->whereColumn('id', 'units.type_id');
-        //     }, 'ilike', "%$searched_string%")
-        //     ->orWhere(function($query){
-        //         $query->select('location')
-        //             ->from('movement_logs')
-        //             ->whereColumn('unit_id', 'units.id')
-        //             ->latest('created_at')
-        //             ->orderByDesc('id')
-        //             ->limit(1);
-        //     }, 'ilike', "%$searched_string%")
-        //     ->select('id');
-
-        // $matched_devices_full_info = $this->get_devices($matched_device_ids);
-
-        // foreach($matched_devices_full_info as $device_full_info){
-        //     array_push($views, $this->generate_device_log_view($device_full_info)->render());
-        // }
         
         $keywords = preg_split('/\s+/', $searched_string);
 
         $keywords_matched_device_ids = [];
         foreach($keywords as $keyword) {
-            $keyword_matched_device_ids = Unit::whereRaw('inventory_code::char like ' . "'%$keyword%'")
+            $keyword_matched_device_ids = Unit::select(
+                    'units.id',
+                    'units.inventory_code',
+                    'units.identification_code',
+                    'types.name as type',
+                    'units.model',
+                    'units.properties',
+                )
+                ->addSelect([
+                    'location' => MovementLog::select('location')
+                    ->whereColumn('unit_id', 'units.id')
+                    ->orderByDesc('id')
+                    ->limit(1)
+                ])
+                ->leftJoin('types', 'types.id', '=', 'units.type_id')
+                ->whereRaw('inventory_code::char like ' . "'%$keyword%'")
                 ->orWhereRaw('identification_code::char like ' . "'%$keyword%'")
                 ->orWhereRaw('model ilike ' . "'%$keyword%'")
                 ->orWhereRaw('properties ilike ' . "'%$keyword%'")
@@ -82,17 +72,18 @@ class DeviceController extends Controller{
         $keywords_matched_device_ids_union = $keywords_matched_device_ids[0];
 
         for($i = 1; $i < count($keywords_matched_device_ids); $i++){
-            $keywords_matched_device_ids_union = $keywords_matched_device_ids_union->unionAll($keywords_matched_device_ids[$i]);
+            $keywords_matched_device_ids_union->unionAll($keywords_matched_device_ids[$i]);
         }
 
         $union_query = $keywords_matched_device_ids_union->toSql();
-        $final_query = 'select id, count(id) from (' . $union_query . ') as u group by u.id order by u.count desc';
-        
-        $ids = Arr::pluck(DB::select($final_query), 'id');
-        $devices_full_info = $this->get_devices($ids);
+        $final_query = DB::table(DB::raw("($union_query) as u"))
+            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, properties, location')
+            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location')
+            ->orderByDesc('u.count');
 
-        foreach($ids as $id){
-            $device_full_info = $this->get_device($id);
+        $devices_full_info = $final_query->get();
+        
+        foreach($devices_full_info as $device_full_info){
             array_push($views, $this->generate_device_log_view($device_full_info)->render());
         }
 
