@@ -63,8 +63,8 @@ class DeviceController extends Controller{
                     $leftJoin->on('last_movement_logs.unit_id', '=', 'units.id');
                 })
 
-                ->whereRaw('inventory_code::char like ' . "'%$keyword%'")
-                ->orWhereRaw('identification_code::char like ' . "'%$keyword%'")
+                ->whereRaw('inventory_code::text like ' . "'%$keyword%'")
+                ->orWhereRaw('identification_code::text like ' . "'%$keyword%'")
                 ->orWhereRaw('model ilike ' . "'%$keyword%'")
                 ->orWhereRaw('properties ilike ' . "'%$keyword%'")
                 ->orWhereRaw('(select name from types where types.id = units.type_id) ilike ' . "'%$keyword%'")
