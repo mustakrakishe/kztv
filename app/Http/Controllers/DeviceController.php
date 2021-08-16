@@ -54,6 +54,7 @@ class DeviceController extends Controller{
                     'types.name as type',
                     'units.model',
                     'units.properties',
+                    'last_movement_logs.id as last_movement_log_id',
                     'last_movement_logs.location',
                     'last_movement_logs.created_at'
                 )
@@ -80,10 +81,11 @@ class DeviceController extends Controller{
 
         $union_query = $union_builder->toSql();
         $devices_full_info = DB::table(DB::raw("($union_query) as u"))
-            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, properties, location')
-            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location', 'created_at')
+            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, properties, location, last_movement_log_id')
+            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location', 'created_at', 'last_movement_log_id')
             ->orderByDesc('u.count')
             ->latest('u.created_at')
+            ->orderByDesc('last_movement_log_id', 'id')
             ->get();
         
         foreach($devices_full_info as $device_full_info){
