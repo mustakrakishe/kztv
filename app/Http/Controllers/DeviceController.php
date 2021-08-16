@@ -45,6 +45,8 @@ class DeviceController extends Controller{
 
         $all_keywords_matches = [];
         foreach($keywords as $keyword) {
+            $last_movement_logs = MovementLog::selectRaw('id, unit_id, max(created_at) as created_at, location')->groupBy('id', 'unit_id', 'location');
+
             $single_keyword_matches = Unit::select(
                     'units.id',
                     'units.inventory_code',
@@ -52,20 +54,22 @@ class DeviceController extends Controller{
                     'types.name as type',
                     'units.model',
                     'units.properties',
+                    'last_movement_logs.location',
+                    'last_movement_logs.created_at'
                 )
-                ->addSelect([
-                    'location' => MovementLog::select('location')
-                    ->whereColumn('unit_id', 'units.id')
-                    ->orderByDesc('id')
-                    ->limit(1)
-                ])
+
                 ->leftJoin('types', 'types.id', '=', 'units.type_id')
+                ->leftJoinSub($last_movement_logs, 'last_movement_logs', function($leftJoin){
+                    $leftJoin->on('last_movement_logs.unit_id', '=', 'units.id');
+                })
+
                 ->whereRaw('inventory_code::char like ' . "'%$keyword%'")
                 ->orWhereRaw('identification_code::char like ' . "'%$keyword%'")
                 ->orWhereRaw('model ilike ' . "'%$keyword%'")
                 ->orWhereRaw('properties ilike ' . "'%$keyword%'")
                 ->orWhereRaw('(select name from types where types.id = units.type_id) ilike ' . "'%$keyword%'")
-                ->orWhereRaw('(select  location from  movement_logs where movement_logs.unit_id = units.id order by created_at desc, id desc limit 1) ilike ' . "'%$keyword%'");
+                ->orWhereRaw('(select location from  movement_logs where movement_logs.unit_id = units.id order by created_at desc, id desc limit 1) ilike ' . "'%$keyword%'");
+
                 array_push($all_keywords_matches, $single_keyword_matches);
         }
 
@@ -77,8 +81,9 @@ class DeviceController extends Controller{
         $union_query = $union_builder->toSql();
         $devices_full_info = DB::table(DB::raw("($union_query) as u"))
             ->selectRaw('id, count(id), inventory_code, identification_code, type, model, properties, location')
-            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location')
+            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location', 'created_at')
             ->orderByDesc('u.count')
+            ->latest('u.created_at')
             ->get();
         
         foreach($devices_full_info as $device_full_info){
