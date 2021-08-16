@@ -10,8 +10,4 @@ class Unit extends Model
     use HasFactory;
     
     public $timestamps = false;
-
-    protected $casts = [
-        'inventory_code' => 'char',
-    ];
 }
