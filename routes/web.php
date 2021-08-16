@@ -26,10 +26,6 @@ Route::get('/dashboard', function () {
     // ->middleware(['auth'])
     ->name('dashboard');
 
-    // Route::any('/devices', [DeviceController::class, 'find_devices'])
-    //     // ->middleware(['auth'])
-    //     ->name('devices');
-
 Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices');
@@ -54,6 +50,14 @@ Route::get('/devices', [DeviceController::class, 'show'])
     // ->middleware(['auth'])
     ->name('devices.find_devices');
 
+    Route::get('/devices/get_device_comment_form', [DeviceController::class, 'get_device_comment_form'])
+    // ->middleware(['auth'])
+    ->name('devices.get_device_comment_form');
+
+    Route::get('/devices/get_device_comment_log_view', [DeviceController::class, 'get_device_comment_log_view'])
+    // ->middleware(['auth'])
+    ->name('devices.get_device_comment_log_view');
+
     Route::get('/devices/get_device_form', [DeviceController::class, 'get_device_form'])
     // ->middleware(['auth'])
     ->name('devices.get_device_form');
@@ -77,6 +81,10 @@ Route::get('/devices', [DeviceController::class, 'show'])
     Route::any('/devices/update', [DeviceController::class, 'update'])
     // ->middleware(['auth'])
     ->name('devices.update');
+
+    Route::any('/devices/update_device_comment', [DeviceController::class, 'update_comment'])
+    // ->middleware(['auth'])
+    ->name('devices.update_device_comment');
 
     Route::any('/devices/update_movement_log', [MovementLogController::class, 'update'])
     // ->middleware(['auth'])

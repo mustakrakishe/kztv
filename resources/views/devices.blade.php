@@ -5,6 +5,8 @@
         let links = {
             add_device: @json(route('devices.add')),
             add_movement_log: @json(route('devices.add_movement_log')),
+            get_device_comment_form: @json(route('devices.get_device_comment_form')),
+            get_device_comment_log_view: @json(route('devices.get_device_comment_log_view')),
             get_device_form: @json(route('devices.get_device_form')),
             get_device_log_view: @json(route('devices.get_device_log_view')),
             get_device_more_info: @json(route('devices.get_device_more_info')),
@@ -14,6 +16,7 @@
             delete_movement_log: @json(route('devices.delete_movement_log')),
             find_devices: @json(route('devices.find_devices')),
             update_device: @json(route('devices.update')),
+            update_device_comment: @json(route('devices.update_device_comment')),
             update_movement_log: @json(route('devices.update_movement_log'))
         };
     </script>
@@ -27,7 +30,7 @@
             <div id="wrapper" class="wrapper">
                 <div class="row">
                     <div class="col search-container">
-                        <input type="search" id="device-table-search" class="form-control" placeholder="Пошук фрази..." aria-controls="example1" onkeydown="find_devices(event)">
+                        <input type="search" id="device-table-search" class="form-control" placeholder="Пошук за ключовими словами..." aria-controls="example1" onkeydown="find_devices(event)">
                     </div>
 
                     <div class="col text-right mt-auto" style="padding: 8px 23px;">

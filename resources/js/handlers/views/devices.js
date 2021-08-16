@@ -37,6 +37,17 @@ function cancel_update_device(event){
     })
 }
 
+function cancel_update_device_comment(event){
+    let active_device_log = get_active_device_log(event);
+    let device_id = get_device_log_data(active_device_log).id;
+    get_device_comment_log_view(device_id)
+    .done(old_device_comment_log_view => {
+        let destination = $(active_device_log).find('.section.comment').find('.content');
+        $(destination).empty();
+        $(destination).append(old_device_comment_log_view);
+    })
+}
+
 function cancel_update_movement_log(event){
     let active_movement_log_form = get_active_movement_log_edit_form(event);
     let movement_log_id = get_movement_log_form_data(active_movement_log_form).id;
@@ -110,6 +121,17 @@ function hide_device_more_info(event){
     $(btn_more).attr('onclick', 'show_device_more_info(event)');
 }
 
+function show_device_comment_edit_form(event){
+    let active_device_log = get_active_device_log(event);
+    let device_id = get_device_log_data($(active_device_log)).id;
+    get_device_comment_form(device_id)
+    .done(device_comment_edit_form => {
+        let destination = $(active_device_log).find('.section.comment').find('.content');
+        $(destination).empty();
+        $(destination).append(device_comment_edit_form);
+    })
+}
+
 function show_device_edit_form(event){
     let active_device_log = get_active_device_log(event);
     let device_id = get_device_log_data($(active_device_log)).id;
@@ -177,9 +199,22 @@ function update_device(event){
     });
 }
 
+function update_device_comment(event){
+    let active_device_log = get_active_device_log(event);
+    let comment_form = $(active_device_log).find('.additional-info').find('.section.comment').find('.content');
+    let send_data = get_form_data(comment_form);
+    send_data.device_id = get_device_log_data(active_device_log).id;
+    update_device_comment_in_db(send_data)
+    .done(updated_device_comment_view => {
+        let destination = $(active_device_log).find('.section.comment').find('.content');
+        $(destination).empty();
+        $(destination).append(updated_device_comment_view);
+    });
+}
+
 function update_movement_log(event){
     let active_movement_log_edit_form = get_active_movement_log_edit_form(event);
-    let input_data = get_movement_log_form_data(active_movement_log_edit_form);
+    let input_data = get_form_data(active_movement_log_edit_form);
     update_movement_log_in_db(input_data)
     .done(updated_movement_log => {
         $(active_movement_log_edit_form).replaceWith(updated_movement_log);

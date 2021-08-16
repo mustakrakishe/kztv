@@ -53,15 +53,11 @@
         margin: 0 auto;
     }
 
-    .additional-info .section-title{
-        margin-bottom: 12px;
-    }
-
-        .additional-info .section-title > .line{
+        .additional-info .section .title > .line{
             border-top: 2px solid #6c757d;
         }
 
-        .additional-info .section-title > p{
+        .additional-info .section .title > p{
             margin: -12px auto 0;
             padding: 0 12px;
             font-weight: bold;
@@ -73,4 +69,9 @@
 
     .additional-info .table .table-row:nth-of-type(odd){
         background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .section.comment .comment-content{
+        min-height: 48px;
+        background-color: rgba(255, 255, 255, 0.075);
     }

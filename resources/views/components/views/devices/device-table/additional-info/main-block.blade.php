@@ -1,4 +1,12 @@
 <div class="row additional-info">
+    <x-views.devices.device-table.additional-info.section class="col-2 comment">
+        <x-slot name="title">Коментар</x-slot>
+        <x-slot name="content">
+            <x-views.devices.device-table.additional-info.comment.log>
+                <x-slot name="text">{{ $comment }}</x-slot>
+            </x-views.devices.device-table.additional-info.comment.log>
+        </x-slot>
+    </x-views.devices.device-table.additional-info.section>
 
     <x-views.devices.device-table.additional-info.section class="col-8">
         <x-slot name="title">Історія переміщення</x-slot>
@@ -30,7 +38,7 @@
                     </x-slot>
                 </x-table>
             </div>
+
         </x-slot>
     </x-views.devices.device-table.additional-info.section>
-
 </div>

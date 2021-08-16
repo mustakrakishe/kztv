@@ -1,12 +1,12 @@
 <div {{ $attributes->merge(['class' => 'section']) }}>
-    <div class="row section-title">
+    <div class="row title">
         <div class="line col"></div>
         <p>{{ $title }}</p>
         <div class="line col"></div>
     </div>
 
-    <div class="row section-content">
-        <div class="col">
+    <div class="row">
+        <div class="col content">
             {{ $content }}
         </div>
     </div>

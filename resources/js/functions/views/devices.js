@@ -41,7 +41,7 @@ function get_active_device_edit_form(event){
 
 function get_active_device_log(event){
     let activated_btn = event.currentTarget;
-    let active_device_log = $(activated_btn).parents().eq(6);
+    let active_device_log = $(activated_btn).parents('.table-row.log');
     return active_device_log;
 }
 
@@ -74,6 +74,20 @@ function get_active_movement_history_table(event){
     let active_additional_info_content = $(activated_btn).parents().eq(4);
     let active_movement_history_table = $(active_additional_info_content).find('.movement-history-table');
     return active_movement_history_table;
+}
+
+function get_device_comment_form(device_id){
+    return $.ajax({
+        url: links.get_device_comment_form, // links from the Devices view
+        data: {id: device_id}
+    });
+}
+
+function get_device_comment_log_view(device_id){
+    return $.ajax({
+        url: links.get_device_comment_log_view, // links from the Devices view
+        data: {device_id: device_id}
+    });
 }
 
 function get_device_form(device_id = null){
@@ -156,10 +170,10 @@ function get_movement_log_form(send_data){
     });
 }
 
-function get_movement_log_form_data(form){
+function get_form_data(form){
     let form_data = {};
 
-    $(form).find('input')
+    $(form).find('input, textarea')
     .each((index, input) => {
         let name = $(input).attr('name');
         let value = $(input).val();
@@ -173,6 +187,13 @@ function update_device_in_db(device){
     return $.ajax({
         url: links.update_device, // links from the Devices view
         data: device
+    })
+}
+
+function update_device_comment_in_db(send_data){
+    return $.ajax({
+        url: links.update_device_comment, // links from the Devices view
+        data: send_data
     })
 }
 

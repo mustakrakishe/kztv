@@ -143,6 +143,17 @@ class DeviceController extends Controller{
         return $result;
     }
 
+    public function get_device_comment_form(Request $data){
+        $device = Unit::find($data->id);
+
+        return $this->generate_device_comment_form_view($device->comment);
+    }
+
+    public function get_device_comment_log_view(Request $request){
+        $comment_text = Unit::find($request->device_id)->comment;
+        return $this->generate_device_comment_log_view($comment_text);
+    }
+
     public function get_device_form(Request $data){
         $device_full_info = null;
         $types = Type::all();
@@ -167,11 +178,22 @@ class DeviceController extends Controller{
             ->get()
             ->toJSON();
 
-        return view('components.views.devices.device-table.additional-info.main-block', ['movementHistory' => json_decode($movement_history)]);
+        return view('components.views.devices.device-table.additional-info.main-block', [
+            'comment' => Unit::find($device_id)->comment,
+            'movementHistory' => json_decode($movement_history)
+        ]);
+    }
+
+    protected function generate_device_comment_form_view($text){
+        return view('components.views.devices.device-table.additional-info.comment.form', ['text' => $text]);
     }
 
     protected function generate_device_form_view($types, $device){
         return view('components.views.devices.device-table.rows.form', ['types' => $types, 'device' => $device]);
+    }
+
+    protected function generate_device_comment_log_view($text){
+        return view('components.views.devices.device-table.additional-info.comment.log', ['text' => $text]);
     }
 
     protected function generate_device_log_view($device){
@@ -216,5 +238,13 @@ class DeviceController extends Controller{
 
         $updated_device_full_info = $this->get_device($device->id);
         return $this->generate_device_log_view($updated_device_full_info);
+    }
+
+    public function update_comment(Request $request){
+        $device = Unit::find($request->device_id);
+        $device->comment = $request->comment;
+        $device->save();
+
+        return $this->generate_device_comment_log_view($device->comment);
     }
 }
