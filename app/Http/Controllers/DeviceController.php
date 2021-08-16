@@ -43,9 +43,9 @@ class DeviceController extends Controller{
         
         $keywords = preg_split('/\s+/', $searched_string);
 
-        $keywords_matched_device_ids = [];
+        $all_keywords_matches = [];
         foreach($keywords as $keyword) {
-            $keyword_matched_device_ids = Unit::select(
+            $single_keyword_matches = Unit::select(
                     'units.id',
                     'units.inventory_code',
                     'units.identification_code',
@@ -66,22 +66,20 @@ class DeviceController extends Controller{
                 ->orWhereRaw('properties ilike ' . "'%$keyword%'")
                 ->orWhereRaw('(select name from types where types.id = units.type_id) ilike ' . "'%$keyword%'")
                 ->orWhereRaw('(select  location from  movement_logs where movement_logs.unit_id = units.id order by created_at desc, id desc limit 1) ilike ' . "'%$keyword%'");
-                array_push($keywords_matched_device_ids, $keyword_matched_device_ids);
+                array_push($all_keywords_matches, $single_keyword_matches);
         }
 
-        $keywords_matched_device_ids_union = $keywords_matched_device_ids[0];
-
-        for($i = 1; $i < count($keywords_matched_device_ids); $i++){
-            $keywords_matched_device_ids_union->unionAll($keywords_matched_device_ids[$i]);
+        $union_builder = $all_keywords_matches[0];
+        for($i = 1; $i < count($all_keywords_matches); $i++){
+            $union_builder->unionAll($all_keywords_matches[$i]);
         }
 
-        $union_query = $keywords_matched_device_ids_union->toSql();
-        $final_query = DB::table(DB::raw("($union_query) as u"))
+        $union_query = $union_builder->toSql();
+        $devices_full_info = DB::table(DB::raw("($union_query) as u"))
             ->selectRaw('id, count(id), inventory_code, identification_code, type, model, properties, location')
             ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location')
-            ->orderByDesc('u.count');
-
-        $devices_full_info = $final_query->get();
+            ->orderByDesc('u.count')
+            ->get();
         
         foreach($devices_full_info as $device_full_info){
             array_push($views, $this->generate_device_log_view($device_full_info)->render());
