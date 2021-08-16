@@ -103,6 +103,11 @@ function find_devices(event){
     })
 }
 
+function hide_device_log_control(event){
+    let active_device_log = event.currentTarget;
+    let control_cell = $(active_device_log).find('.cell[name="control"]').children().attr('hidden', 'hidden');
+}
+
 function hide_device_more_info(event){
     let active_device_log = get_active_device_log(event);
     
@@ -129,6 +134,11 @@ function show_device_comment_edit_form(event){
         $(destination).empty();
         $(destination).append(device_comment_edit_form);
     })
+}
+
+function show_device_log_control(event){
+    let active_device_log = event.currentTarget;
+    let control_cell = $(active_device_log).find('.cell[name="control"]').children().removeAttr('hidden');
 }
 
 function show_device_edit_form(event){

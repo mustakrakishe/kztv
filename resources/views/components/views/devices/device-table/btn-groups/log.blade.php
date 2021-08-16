@@ -1,4 +1,4 @@
-<div class="row">
+<div {{ $attributes->merge(['class' => 'row']) }}>
     <div class="col-4">
         <label class="btn btn-link m-0 p-0">
             <button class="more" onclick="show_device_more_info(event)" hidden></button>

@@ -16,6 +16,10 @@
         overflow: hidden;
     }
 
+        .table .table-row .main-info{
+            min-height: 53px;
+        }
+
     .table-row:nth-of-type(odd){
         background-color: rgba(0, 0, 0, 0.05);
     }
