@@ -88,20 +88,19 @@ function delete_movement_log(event){
 }
 
 function find_devices(event){
-    if(event.key === 'Enter'){
-        let input = event.target;
-        let input_string = $(input).val();
-        $(input).after('<div id="search_info">Йде пошук...</div>');
-        find_devices_in_db(input_string)
-        .done(device_logs => {
-            $('#search_info').remove();
-            let destination = $('#device-table').find('div[name="body"]').first();
-            $(destination).empty();
-            device_logs.forEach(function(log){
-                $(destination).append(log);
-            })
+    event.preventDefault();
+    let input = $('input#search-keywords');
+    let input_string = $(input).val();
+    $('#search-status').text('Йде пошук...');
+    find_devices_in_db(input_string)
+    .done(device_logs => {
+        $('#search-status').empty();
+        let destination = $('#device-table').find('div[name="body"]').first();
+        $(destination).empty();
+        device_logs.forEach(function(log){
+            $(destination).append(log);
         })
-    }
+    })
 }
 
 function hide_device_more_info(event){

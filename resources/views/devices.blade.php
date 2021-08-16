@@ -29,16 +29,30 @@
         <div class="card-body">
             <div id="wrapper" class="wrapper">
                 <div class="row">
-                    <div class="col search-container">
-                        <input type="search" id="device-table-search" class="form-control" placeholder="Пошук за ключовими словами..." aria-controls="example1" onkeydown="find_devices(event)">
+                    <div class="col-4">
+                        <form onsubmit='find_devices(event)'>
+                            <div class="input-group mb-3 search-container form-row align-items-center">
+                                <input type="search" id="search-keywords" class="form-control" placeholder="Пошук за ключовими словами...">
+                                <div class="input-group-append">
+                                    <button id="search_devices" class="btn btn-secondary" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="col-4 my-auto ">
+                        <div id="search-status" class="text-secondary"></div>
                     </div>
 
                     <div class="col text-right mt-auto" style="padding: 8px 23px;">
                         <label class="btn btn-link m-0 p-0">
-                            <button name="btn_new_device" id="new_device" onclick="show_new_device_form()" hidden></button>
+                            <button id="new_device" onclick="show_new_device_form()" hidden></button>
                             <i class="fas fa-plus"></i>
                         </label>
                     </div>
+
                 </div>
 
                 <div class="row">
