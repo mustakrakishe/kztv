@@ -15,6 +15,13 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.7
+- CSA - Devices:
+    - a search by keywords is available;
+    - a search field has a run button;
+    - an additional info has a comment field;
+    - device table row control buttons a hoverable.
+
 ### 1.0.6
 - CSA - A device search by specified phrase matching any field is available.
 
