@@ -199,6 +199,14 @@ function show_new_movement_log_form(event){
     })
 }
 
+function switch_tabs(event){
+    let tab_group_name = $(event.target).attr('name');
+    let activated_tab_name = $(event.target).attr('value');
+    $('.' + tab_group_name).attr('hidden', 'hidden');
+    $('#' + activated_tab_name).removeAttr('hidden');
+
+}
+
 function update_device(event){
     let active_device_edit_form = get_active_device_edit_form(event);
     let input_data = get_device_form_data(active_device_edit_form);

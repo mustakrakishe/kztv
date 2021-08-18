@@ -1,17 +1,16 @@
 {
+    "Authorization": "Вхід",
     "Characteristics": "Характеристики",
     "Comment": "Коментар",
     "Date": "Дата",
     "Devices": "Пристрої",
-    "Email": "Пошта",
     "Forgot your password?": "Забули пароль?",
     "Ident. №": "Ідент. №",
     "Identification code": "Ідентифікаційний код",
     "Inv. №": "Інв. №",
     "Inventory code": "Інвентарний код",
     "Location": "Розташування",
-    "Log In": "Увійти",
-    "Login": "Вхід",
+    "Login": "Логін",
     "Model": "Модель",
     "Movement history": "Історія переміщення",
     "New": "Новий",
@@ -19,6 +18,8 @@
     "Registration": "Реєстрація",
     "Remember me": "Запам'ятати мене",
     "Search by keywords": "Пошук за ключовими словами",
+    "Sign In": "Увійти",
+    "Sign Up": "Зареєструватися",
     "Type": "Тип",
     "Welcome": "Ласкаво просимо"
 }

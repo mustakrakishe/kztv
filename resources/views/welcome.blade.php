@@ -28,10 +28,10 @@
                             <div class="card-footer p-0">
                                 <div class="row m-0">
                                     <div class="col p-0">
-                                        <x-tab name="auth-card" value="login" checked>{{ __('Login') }}</x-tab>
+                                        <x-tab name="auth-actions" value="sign-in-actions" onclick="switch_tabs(event)" checked>{{ __('Authorization') }}</x-tab>
                                     </div>
                                     <div class="col p-0">
-                                        <x-tab name="auth-card" value="register">{{ __('Registration') }}</x-tab>
+                                        <x-tab name="auth-actions" value="sign-up-actions" onclick="switch_tabs(event)">{{ __('Registration') }}</x-tab>
                                     </div>
                                 </div>
                             </div>
@@ -43,5 +43,6 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 
 </x-guest-layout>
