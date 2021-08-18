@@ -9,7 +9,7 @@
     </x-views.devices.device-table.additional-info.section>
 
     <x-views.devices.device-table.additional-info.section class="col-8">
-        <x-slot name="title">Історія переміщення</x-slot>
+        <x-slot name="title">{{ __('Movement history') }}</x-slot>
         <x-slot name="content">
             
             <div class="row">
@@ -24,9 +24,9 @@
             <div class="row">
                 <x-table class="movement-history-table">
                     <x-slot name="head">
-                        <div class="cell col-3">Дата</div>
-                        <div class="cell col-4">Розташування</div>
-                        <div class="cell col-4">Коментар</div>
+                        <div class="cell col-3">{{ __('Date') }}</div>
+                        <div class="cell col-4">{{ __('Location') }</div>
+                        <div class="cell col-4">{{ __('Comment') }</div>
                     </x-slot>
 
                     <x-slot name="body">

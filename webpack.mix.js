@@ -24,3 +24,4 @@ mix.scripts([
     ], 'public/js/scenarios/devices.js');
 
 mix.postCss('resources/css/devices.css', 'public/css');
+mix.postCss('resources/css/welcome.css', 'public/css');
