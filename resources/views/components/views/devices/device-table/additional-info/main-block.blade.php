@@ -25,8 +25,8 @@
                 <x-table class="movement-history-table">
                     <x-slot name="head">
                         <div class="cell col-3">{{ __('Date') }}</div>
-                        <div class="cell col-4">{{ __('Location') }</div>
-                        <div class="cell col-4">{{ __('Comment') }</div>
+                        <div class="cell col-4">{{ __('Location') }}</div>
+                        <div class="cell col-4">{{ __('Comment') }}</div>
                     </x-slot>
 
                     <x-slot name="body">

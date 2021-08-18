@@ -22,16 +22,17 @@
                         <div class="card m-0">
 
                             <div class="card-body">
-                                <x-auth-card class="text-light"/>
+                                <x-views.welcome.auth.cards.authorization id="authorization-card" class="auth-card text-light"/>
+                                <x-views.welcome.auth.cards.registration id="registration-card" class="auth-card text-light" hidden/>
                             </div>
 
                             <div class="card-footer p-0">
                                 <div class="row m-0">
                                     <div class="col p-0">
-                                        <x-tab name="auth-actions" value="sign-in-actions" onclick="switch_tabs(event)" checked>{{ __('Authorization') }}</x-tab>
+                                        <x-tab name="auth-card" value="authorization-card" onclick="switch_tabs(event); $('.auth-messages').remove();" checked>{{ __('Authorization') }}</x-tab>
                                     </div>
                                     <div class="col p-0">
-                                        <x-tab name="auth-actions" value="sign-up-actions" onclick="switch_tabs(event)">{{ __('Registration') }}</x-tab>
+                                        <x-tab name="auth-card" value="registration-card" onclick="switch_tabs(event); $('.auth-messages').remove();">{{ __('Registration') }}</x-tab>
                                     </div>
                                 </div>
                             </div>

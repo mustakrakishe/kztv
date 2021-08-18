@@ -6,3 +6,7 @@
 #auth{
     background-color: rgba(255, 255, 255, 0.075);
 }
+
+.tab input:checked + .label{
+    background-color: rgb(63, 71, 78);
+}
