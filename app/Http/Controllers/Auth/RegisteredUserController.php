@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'login' => 'required|string|max:255|unique:users',
-            'password' => ['required', Rules\Password::min(8)],
+            'password' => ['required', Rules\Password::min(4)],
         ]);
 
         $user = User::create([
