@@ -1,0 +1,7 @@
+.tab input:checked + .label{
+    background-color: rgb(63, 71, 78);
+}
+
+.tab input:disabled + .label{
+    color: rgba(128, 128, 128, 0.25)!important;
+}

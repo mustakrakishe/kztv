@@ -22,8 +22,8 @@
     </script>
     <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 
-    <x-slot name="pageTitle">Пристрої</x-slot>
-    <x-slot name="header">Пристрої</x-slot>
+    <x-slot name="pageTitle">{{ __('Devices') }}</x-slot>
+    <x-slot name="header">{{ __('Devices') }}</x-slot>
 
     <div class="card">
         <div class="card-body">
@@ -32,7 +32,7 @@
                     <div class="col-4">
                         <form onsubmit='find_devices(event)'>
                             <div class="input-group mb-3 search-container form-row align-items-center">
-                                <input type="search" id="search-keywords" class="form-control" placeholder="Пошук за ключовими словами...">
+                                <input type="search" id="search-keywords" class="form-control" placeholder="{{ __('Search by keywords') }}...">
                                 <div class="input-group-append">
                                     <button id="search_devices" class="btn btn-secondary" type="submit">
                                         <i class="fas fa-search"></i>
@@ -59,11 +59,11 @@
 
                     <x-table id="device-table">
                         <x-slot name="head">
-                            <div class="cell col-1">Інв. №</div>
-                            <div class="cell col-2">Тип</div>
-                            <div class="cell col-2">Модель</div>
-                            <div class="cell col-3">Характеристики</div>
-                            <div class="cell col-3">Розташування</div>
+                            <div class="cell col-1">{{ __('Inv. №') }}</div>
+                            <div class="cell col-2">{{ __('Type') }}</div>
+                            <div class="cell col-2">{{ __('Model') }}</div>
+                            <div class="cell col-3">{{ __('Characteristics') }}</div>
+                            <div class="cell col-3">{{ __('Location') }}</div>
                         </x-slot>
                         <x-slot name="body">
                             @foreach($devices as $device)

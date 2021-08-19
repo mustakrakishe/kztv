@@ -13,5 +13,5 @@
 
 <div class="row comment-content">
     @csrf
-    <textarea name="comment" class="form-control cell" cols="30" rows="3" placeholder="Коментар...">{{ $text }}</textarea>
+    <textarea name="comment" class="form-control cell" cols="30" rows="3" placeholder="{{ __('Comment') }}...">{{ $text }}</textarea>
 </div>
