@@ -15,6 +15,9 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.8
+- Authorization is available.
+
 ### 1.0.7
 - CSA - Devices:
     - a search by keywords is available;
