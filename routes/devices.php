@@ -5,7 +5,7 @@ use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\MovementLogController;
 
 Route::get('/devices', [DeviceController::class, 'show'])
-    // ->middleware(['auth'])
+    ->middleware(['auth'])
     ->name('devices');
 
     Route::any('/devices/add', [DeviceController::class, 'add'])

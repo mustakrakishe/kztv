@@ -32,7 +32,7 @@
                                         <x-tab name="auth-card" value="authorization-card" onclick="switch_tabs(event); $('.auth-messages').remove();" checked>{{ __('Authorization') }}</x-tab>
                                     </div>
                                     <div class="col p-0">
-                                        <x-tab name="auth-card" value="registration-card" onclick="switch_tabs(event); $('.auth-messages').remove();">{{ __('Registration') }}</x-tab>
+                                        <x-tab name="auth-card" value="registration-card" onclick="switch_tabs(event); $('.auth-messages').remove();" disabled>{{ __('Registration') }}</x-tab>
                                     </div>
                                 </div>
                             </div>
