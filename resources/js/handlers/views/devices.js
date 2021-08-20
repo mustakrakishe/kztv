@@ -1,10 +1,12 @@
 function add_new_device(event){
-    let new_device_form = get_active_new_device_form(event);
-    let input_data = get_device_form_data(new_device_form);
-    add_device_to_db(input_data)
-    .done((new_device_log) => {
-        $('#device-table').find('.new-device-form').last().after(new_device_log);
-        $(new_device_form).remove();
+    event.preventDefault();
+    let new_device_form = event.target;
+    let new_device_input_data = get_form_data($(new_device_form));
+    add_device_to_db(new_device_input_data)
+    .done((log_new_entry) => {
+        $('#device-table').find('.new-device-form').last().after(log_new_entry);
+        let new_device_form_table_row = $(new_device_form).parents('.table-row');
+        $(new_device_form_table_row).remove();
     });
 }
 
@@ -19,8 +21,10 @@ function add_new_movement_log(event){
 }
 
 function cancel_add_new_device(event){
-    let new_device_form = get_active_new_device_form(event);
-    $(new_device_form).remove();
+    event.preventDefault();
+    let new_device_form = event.target;
+    let new_device_form_table_row = $(new_device_form).parents('.table-row');
+    $(new_device_form_table_row).remove();
 }
 
 function cancel_add_new_movement_log(event){
@@ -29,11 +33,13 @@ function cancel_add_new_movement_log(event){
 }
 
 function cancel_update_device(event){
-    let active_device_edit_form = get_active_device_edit_form(event);
-    let device_id = get_device_form_data(active_device_edit_form).id;
+    event.preventDefault();
+    let active_device_edit_form = event.target;
+    let device_id = get_form_data($(active_device_edit_form)).id;
     get_device_log_view(device_id)
-    .done(old_device_log => {
-        $(active_device_edit_form).replaceWith(old_device_log);
+    .done(log_old_entry_table_row => {
+        let device_edit_form_table_row = $(active_device_edit_form).parents('.table-row');
+        $(device_edit_form_table_row).replaceWith(log_old_entry_table_row);
     })
 }
 
@@ -59,22 +65,24 @@ function cancel_update_movement_log(event){
 
 function check_type(event){
     let select = event.target;
-    let selected_type = $(select).children('option:selected').val();
-    if(selected_type == 'new'){
+    let selected_option = $(select).children('option:selected');
+    if(selected_option.val() == 'new'){
+        $(selected_option).attr('disabled', 'disabled');
         let new_type_input = '<input type="text" name="type" class="form-control" placeholder="Тип"></input>';
         $(select).after(new_type_input);
     }
     else{
         $(select).siblings('input').remove();
+        $(select).children('option[value="new"]').removeAttr('disabled');
     }
 }
 
 function delete_device(event){
-    let active_device_log = get_active_device_log(event);
-    let device_id = get_device_log_data($(active_device_log)).id;
+    let active_table_row = get_active_device_log(event);
+    let device_id = get_device_log_data($(active_table_row)).id;
     delete_device_from_db(device_id)
     .done(() => {
-        $(active_device_log).remove();
+        $(active_table_row).remove();
     })
 }
 
@@ -104,8 +112,8 @@ function find_devices(event){
 }
 
 function hide_device_log_control(event){
-    let active_device_log = event.currentTarget;
-    let control_cell = $(active_device_log).find('.cell[name="control"]').children().attr('hidden', 'hidden');
+    let active_table_row = event.currentTarget;
+    let control_cell = $(active_table_row).find('.cell[name="control"]').children().attr('hidden', 'hidden');
 }
 
 function hide_device_more_info(event){
@@ -137,16 +145,16 @@ function show_device_comment_edit_form(event){
 }
 
 function show_device_log_control(event){
-    let active_device_log = event.currentTarget;
-    let control_cell = $(active_device_log).find('.cell[name="control"]').children().removeAttr('hidden');
+    let active_table_row = event.currentTarget;
+    let control_cell = $(active_table_row).find('.cell[name="control"]').children().removeAttr('hidden');
 }
 
 function show_device_edit_form(event){
-    let active_device_log = get_active_device_log(event);
-    let device_id = get_device_log_data($(active_device_log)).id;
+    let active_device_log_table_row = get_active_device_log(event);
+    let device_id = get_device_log_data($(active_device_log_table_row)).id;
     get_device_form(device_id)
-    .done(device_edit_form => {
-        $(active_device_log).replaceWith(device_edit_form);
+    .done(device_edit_form_table_row => {
+        $(active_device_log_table_row).replaceWith(device_edit_form_table_row);
     })
 }
 
@@ -184,8 +192,8 @@ function show_movement_log_edit_form(event){
 
 function show_new_device_form(){
     get_device_form()
-    .done(new_device_form => {
-        $('#device-table').find('[name="body"]').first().prepend(new_device_form);
+    .done(new_device_form_table_row => {
+        $('#device-table').find('[name="body"]').first().prepend(new_device_form_table_row);
     })
 }
 
@@ -208,11 +216,13 @@ function switch_tabs(event){
 }
 
 function update_device(event){
-    let active_device_edit_form = get_active_device_edit_form(event);
-    let input_data = get_device_form_data(active_device_edit_form);
+    event.preventDefault();
+    let active_device_edit_form = event.target;
+    let input_data = get_form_data($(active_device_edit_form));
     update_device_in_db(input_data)
-    .done(updated_device_log => {
-        $(active_device_edit_form).replaceWith(updated_device_log);
+    .done(new_table_row => {
+        let active_table_row = $(active_device_edit_form).parents('.table-row');
+        $(active_table_row).replaceWith(new_table_row);
     });
 }
 
@@ -236,4 +246,14 @@ function update_movement_log(event){
     .done(updated_movement_log => {
         $(active_movement_log_edit_form).replaceWith(updated_movement_log);
     });
+}
+
+function validate_device_form(event){
+    // let active_device_form = get_active_form(event);
+    // console.log(active_device_form);
+    // let input_data = get_device_form_data(active_device_edit_form);
+    // update_device_in_db(input_data)
+    // .done(updated_device_log => {
+    //     $(active_device_edit_form).replaceWith(updated_device_log);
+    // });
 }

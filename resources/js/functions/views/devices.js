@@ -33,22 +33,10 @@ function find_devices_in_db(searched_string){
     });
 }
 
-function get_active_device_edit_form(event){
-    let activated_btn = event.currentTarget;
-    let active_device_edit_form = $(activated_btn).parents().eq(6);
-    return active_device_edit_form;
-}
-
 function get_active_device_log(event){
     let activated_btn = event.currentTarget;
     let active_device_log = $(activated_btn).parents('.table-row.log');
     return active_device_log;
-}
-
-function get_active_new_device_form(event){
-    let activated_btn = event.currentTarget;
-    let active_new_device_form = $(activated_btn).parents().eq(6);
-    return active_new_device_form;
 }
 
 function get_active_movement_log(event){
@@ -143,6 +131,15 @@ function get_device_form_data(form){
     return form_data;
 }
 
+function get_form_data(form){
+    let key_value_pairs = form.serializeArray();
+    let form_data = Object.fromEntries(key_value_pairs.map(field => {
+        return [field.name, field.value];
+    }));
+
+    return form_data;
+}
+
 function get_movement_log_view(log_id){
     return $.ajax({
         url: links.get_movement_log_view, // links from the Devices view
@@ -168,19 +165,6 @@ function get_movement_log_form(send_data){
         url: links.get_movement_log_form, // links from the Devices view
         data: send_data
     });
-}
-
-function get_form_data(form){
-    let form_data = {};
-
-    $(form).find('input, textarea')
-    .each((index, input) => {
-        let name = $(input).attr('name');
-        let value = $(input).val();
-        form_data[name] = value;
-    });
-
-    return form_data;
 }
 
 function update_device_in_db(device){

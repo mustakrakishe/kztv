@@ -1,4 +1,5 @@
 <x-views.devices.device-table.rows.layout class="log" onmouseover="show_device_log_control(event)" onmouseleave="hide_device_log_control(event)">
+
     <x-slot name="id"><div class="info" name="id">{{ $device->id }}</div></x-slot>
     <x-slot name="inventory_code"><div class="info" name="inventory_code">{{ $device->inventory_code }}</div></x-slot>
     <x-slot name="identification_code">

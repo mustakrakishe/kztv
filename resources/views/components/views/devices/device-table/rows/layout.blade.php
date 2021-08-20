@@ -1,7 +1,16 @@
+@props(['onSubmit' => null, 'onReset' => null])
+
 <div {{ $attributes->merge(['class' => 'table-row row']) }}>
     <div class="col table-row-content">
 
         <div class="row main-info">
+
+            @if(str_ends_with($attributes->get('class'), 'form'))
+                <form class="col" onsubmit="{{ $onSubmit }};" onreset="{{ $onReset }}">
+                    @csrf
+                    <div class="row">
+            @endif
+
             {{ $slot }}
             <div class="cell" name="id" hidden>{{ $id }}</div>
             <div class="cell col-1">
@@ -13,6 +22,11 @@
             <div class="cell col-3" name="properties">{{ $properties }}</div>
             <div class="cell col-3" name="location">{{ $location }}</div>
             <div class="cell col-1" name="control">{{ $control }}</div>
+            
+            @if(str_ends_with($attributes->get('class'), 'form'))
+                    </div>
+                </form>
+            @endif
         </div>
 
     </div>
