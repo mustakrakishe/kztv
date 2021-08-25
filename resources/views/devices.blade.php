@@ -65,6 +65,7 @@
                             <div class="cell col-3">{{ __('Characteristics') }}</div>
                             <div class="cell col-3">{{ __('Location') }}</div>
                         </x-slot>
+
                         <x-slot name="body">
                             @foreach($devices as $device)
                                 <x-views.devices.device-table.rows.log :device="$device"/>
@@ -72,6 +73,10 @@
                         </x-slot>
                     </x-table>
 
+                </div>
+
+                <div id="device-table-paginator" class="row">
+                    {{ $devices->links() }}
                 </div>
             </div>
         </div>

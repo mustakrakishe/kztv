@@ -110,6 +110,8 @@ function find_devices(event){
         device_logs.forEach(function(log){
             $(destination).append(log);
         })
+
+        $('#device-table-paginator').remove();
     })
 }
 

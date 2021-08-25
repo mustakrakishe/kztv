@@ -138,7 +138,7 @@ class DeviceController extends Controller{
             $device_full_info->whereIn('units.id', $ids);
         }
         
-        $result = $device_full_info->get();
+        $result = $device_full_info->paginate(20);
         
         return $result;
     }
@@ -208,7 +208,7 @@ class DeviceController extends Controller{
 
     public function show(){
         $allDevices = $this->get_devices();
-        return view('devices', ['devices' => $allDevices->take(10)]);
+        return view('devices', ['devices' => $allDevices]);
     }
 
     public function update(Request $input_data){
