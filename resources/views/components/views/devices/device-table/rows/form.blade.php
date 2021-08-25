@@ -10,8 +10,6 @@
         $onReset = 'cancel_add_new_entry(event)';
     }
 
-    $btnGroupComponentName = 'views.devices.device-table.btn-groups.' . $rowClass;
-
     function checkSelected($device, $type){
         if(isset($device) && $type->name == $device->type){
             return 'selected';
@@ -61,6 +59,6 @@
     </x-slot>
 
     <x-slot name="control">
-        <x-dynamic-component :component="$btnGroupComponentName"/>
+        <x-views.devices.device-table.btn-groups.form/>
     </x-slot>
 </x-views.devices.device-table.rows.layout>
