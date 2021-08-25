@@ -7,7 +7,7 @@
     else{
         $rowClass = 'new-device-form';
         $onSubmit = 'add_new_device(event)';
-        $onReset = 'cancel_add_new_device(event)';
+        $onReset = 'cancel_add_new_entry(event)';
     }
 
     $btnGroupComponentName = 'views.devices.device-table.btn-groups.' . $rowClass;

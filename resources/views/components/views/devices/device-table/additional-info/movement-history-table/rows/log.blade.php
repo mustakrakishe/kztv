@@ -6,6 +6,6 @@
     <x-slot name="comment">{{ $log->comment }}</x-slot>
 
     <x-slot name="control">
-        <x-views.devices.device-table.additional-info.movement-history-table.btn-groups.log/>
+        <x-views.devices.device-table.additional-info.movement-history-table.btn-groups.log :id="$log->id"/>
     </x-slot>
 </x-views.devices.device-table.additional-info.movement-history-table.rows.layout>

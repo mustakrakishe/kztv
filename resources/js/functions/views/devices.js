@@ -39,10 +39,9 @@ function get_active_device_log(event){
     return active_device_log;
 }
 
-function get_active_movement_log(event){
-    let activated_btn = event.currentTarget;
-    let active_device_log = $(activated_btn).parents().eq(4);
-    return active_device_log;
+function get_active_table_row(table_row_component){
+    let active_table_row = $(table_row_component).closest('.table-row');
+    return active_table_row;
 }
 
 function get_active_movement_log_edit_form(event){
@@ -147,17 +146,17 @@ function get_movement_log_view(log_id){
     });
 }
 
-function get_movement_log_data(log){
-    let log_data = {};
+function get_table_row_data(log){
+    let table_row_data = {};
 
     let fields = $(log).find('.info');
     $(fields).each((index, field) => {
         let name = $(field).attr('name');
         let value = $(field).text();
-        log_data[name] = value;
+        table_row_data[name] = value;
     });
 
-    return log_data;
+    return table_row_data;
 }
 
 function get_movement_log_form(send_data){

@@ -13,6 +13,6 @@
     <x-slot name="location"><div class="info" name="location">{{ $device->location }}</div></x-slot>
 
     <x-slot name="control">
-        <x-views.devices.device-table.btn-groups.log hidden/>
+        <x-views.devices.device-table.btn-groups.log :id="$device->id" hidden/>
     </x-slot>
 </x-views.devices.device-table.rows.layout>

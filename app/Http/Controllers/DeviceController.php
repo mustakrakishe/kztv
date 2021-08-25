@@ -143,15 +143,14 @@ class DeviceController extends Controller{
         return $result;
     }
 
-    public function get_device_comment_form(Request $data){
-        $device = Unit::find($data->id);
-
-        return $this->generate_device_comment_form_view($device->comment);
+    public function get_device_comment_form(Request $request){
+        $device = Unit::find($request->id);
+        return $this->generate_device_comment_form_view($device->id, $device->comment);
     }
 
     public function get_device_comment_log_view(Request $request){
-        $comment_text = Unit::find($request->device_id)->comment;
-        return $this->generate_device_comment_log_view($comment_text);
+        $device = Unit::find($request->device_id);
+        return $this->generate_device_comment_log_view($device->id, $device->comment);
     }
 
     public function get_device_form(Request $data){
@@ -179,21 +178,28 @@ class DeviceController extends Controller{
             ->toJSON();
 
         return view('components.views.devices.device-table.additional-info.main-block', [
+            'device_id' => $device_id,
             'comment' => Unit::find($device_id)->comment,
             'movementHistory' => json_decode($movement_history)
         ]);
     }
 
-    protected function generate_device_comment_form_view($text){
-        return view('components.views.devices.device-table.additional-info.comment.form', ['text' => $text]);
+    protected function generate_device_comment_form_view($device_id, $comment){
+        return view('components.views.devices.device-table.additional-info.comment.form', [
+            'device_id' => $device_id,
+            'comment' => $comment
+        ]);
     }
 
     protected function generate_device_form_view($types, $device){
         return view('components.views.devices.device-table.rows.form', ['types' => $types, 'device' => $device]);
     }
 
-    protected function generate_device_comment_log_view($text){
-        return view('components.views.devices.device-table.additional-info.comment.log', ['text' => $text]);
+    protected function generate_device_comment_log_view($device_id, $comment){
+        return view('components.views.devices.device-table.additional-info.comment.log', [
+            'deviceId' => $device_id,
+            'comment' => $comment
+        ]);
     }
 
     protected function generate_device_log_view($device){
@@ -245,6 +251,6 @@ class DeviceController extends Controller{
         $device->comment = $request->comment;
         $device->save();
 
-        return $this->generate_device_comment_log_view($device->comment);
+        return $this->generate_device_comment_log_view($device->id, $device->comment);
     }
 }
