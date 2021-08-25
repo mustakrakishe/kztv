@@ -15,6 +15,9 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.9
+- CSA - Forms are validated for empty required fields.
+
 ### 1.0.8
 - Authorization is available.
 
