@@ -119,7 +119,8 @@ function hide_device_log_control(event){
 }
 
 function hide_device_more_info(event){
-    let active_device_log = get_active_device_log(event);
+    let activated_btn = event.currentTarget;
+    let active_device_log = get_active_table_row(activated_btn);
     
     // animate an addition info block collapsing
     let main_info_block = $(active_device_log).find('.main-info');
@@ -138,11 +139,11 @@ function hide_device_more_info(event){
 function show_device_comment_edit_form(event){
     let activated_btn = event.target;
     let device_id = $(activated_btn).val();
-    get_device_comment_form(device_id)
-    .done(device_comment_edit_form => {
+    get_device_comment_form_view(device_id)
+    .done(device_comment_edit_form_view => {
         let destination = get_active_table_row(activated_btn).find('.section.comment').find('.content');
         $(destination).empty();
-        $(destination).append(device_comment_edit_form);
+        $(destination).append(device_comment_edit_form_view);
     })
 }
 
@@ -154,7 +155,7 @@ function show_device_log_control(event){
 function show_device_edit_form(event){
     let activated_btn = event.target;
     let device_id = $(activated_btn).val();
-    get_device_form(device_id)
+    get_device_form_view(device_id)
     .done(device_edit_form_table_row => {
         get_active_table_row(activated_btn)
             .replaceWith(device_edit_form_table_row);
@@ -164,10 +165,10 @@ function show_device_edit_form(event){
 function show_device_more_info(event){
     let activated_btn = event.target;
     let device_id = $(activated_btn).val();
-    get_device_more_info(device_id)
-    .done(device_additional_info => {
+    get_device_more_info_view(device_id)
+    .done(device_additional_info_view => {
         let active_table_row = get_active_table_row(activated_btn);
-        $(active_table_row).children('.table-row-content').append(device_additional_info);
+        $(active_table_row).children('.table-row-content').append(device_additional_info_view);
 
         // animate an addition info block expanding
         let main_info_block = $(active_table_row).find('.main-info');
@@ -190,7 +191,7 @@ function show_movement_log_edit_form(event){
     let activated_btn = event.target;
     let movement_log_id = $(activated_btn).val();
 
-    get_movement_log_form({log_id: movement_log_id})
+    get_movement_log_form_view({log_id: movement_log_id})
     .done(movement_log_edit_form_table_row => {
         get_active_table_row(activated_btn)
             .replaceWith(movement_log_edit_form_table_row);
@@ -198,19 +199,20 @@ function show_movement_log_edit_form(event){
 }
 
 function show_new_device_form(){
-    get_device_form()
+    get_device_form_view()
     .done(new_device_form_table_row => {
         $('#device-table').find('[name="body"]').first().prepend(new_device_form_table_row);
     })
 }
 
-function show_new_movement_log_form(event){
-    let active_movement_history_table = get_active_movement_history_table(event);
-    let active_device_log = $(active_movement_history_table).parents().eq(6);
-    let device_id = get_device_log_data($(active_device_log)).id;
-    get_movement_log_form({unit_id: device_id})
-    .done(new_movement_log_form => {
-        $(active_movement_history_table).find('[name="body"]').prepend(new_movement_log_form);
+function show_new_movement_log_form(activated_btn){
+    let active_table_row = get_active_table_row(activated_btn);
+    let active_movement_history_table = $(active_table_row).find('.movement-history-table');
+    let device_id = $(activated_btn).val();
+    
+    get_movement_log_form_view({unit_id: device_id})
+    .done(new_movement_log_form_view => {
+        $(active_movement_history_table).find('[name="body"]').prepend(new_movement_log_form_view);
     })
 }
 

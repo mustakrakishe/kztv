@@ -143,7 +143,7 @@ class DeviceController extends Controller{
         return $result;
     }
 
-    public function get_device_comment_form(Request $request){
+    public function get_device_comment_form_view(Request $request){
         $device = Unit::find($request->id);
         return $this->generate_device_comment_form_view($device->id, $device->comment);
     }
@@ -153,7 +153,7 @@ class DeviceController extends Controller{
         return $this->generate_device_comment_log_view($device->id, $device->comment);
     }
 
-    public function get_device_form(Request $data){
+    public function get_device_form_view(Request $data){
         $device_full_info = null;
         $types = Type::all();
 
@@ -169,7 +169,7 @@ class DeviceController extends Controller{
         return $this->generate_device_log_view($device_full_info);
     }
 
-    public function get_device_more_info(Request $data){
+    public function get_device_more_info_view(Request $data){
         $device_id = $data->id;
         $movement_history = MovementLog::where('unit_id', $device_id)
             ->latest('created_at')

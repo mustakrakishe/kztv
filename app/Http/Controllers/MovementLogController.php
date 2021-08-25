@@ -37,7 +37,7 @@ class MovementLogController extends Controller{
         return $this->generate_log_view($log);
     }
 
-    public function get_form(Request $request){
+    public function get_form_view(Request $request){
         $log = null;
         $unit_id = null;
 

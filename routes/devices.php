@@ -28,33 +28,33 @@ Route::get('/devices', [DeviceController::class, 'show'])
     ->middleware(['auth'])
     ->name('devices.find_devices');
 
-    Route::get('/devices/get_device_comment_form', [DeviceController::class, 'get_device_comment_form'])
+    Route::get('/devices/get_device_comment_form_view', [DeviceController::class, 'get_device_comment_form_view'])
     ->middleware(['auth'])
-    ->name('devices.get_device_comment_form');
+    ->name('devices.get_device_comment_form_view');
 
     Route::get('/devices/get_device_comment_log_view', [DeviceController::class, 'get_device_comment_log_view'])
     ->middleware(['auth'])
     ->name('devices.get_device_comment_log_view');
 
-    Route::get('/devices/get_device_form', [DeviceController::class, 'get_device_form'])
+    Route::get('/devices/get_device_form_view', [DeviceController::class, 'get_device_form_view'])
     ->middleware(['auth'])
-    ->name('devices.get_device_form');
+    ->name('devices.get_device_form_view');
 
     Route::get('/devices/get_device_log_view', [DeviceController::class, 'get_device_log_view'])
     ->middleware(['auth'])
     ->name('devices.get_device_log_view');
 
-    Route::get('/devices/get_device_more_info', [DeviceController::class, 'get_device_more_info'])
+    Route::get('/devices/get_device_more_info_view', [DeviceController::class, 'get_device_more_info_view'])
     ->middleware(['auth'])
-    ->name('devices.get_device_more_info');
+    ->name('devices.get_device_more_info_view');
 
     Route::get('/devices/get_movement_log_view', [MovementLogController::class, 'get_log_view'])
     ->middleware(['auth'])
     ->name('devices.get_movement_log_view');
 
-    Route::get('/devices/get_movement_log_form', [MovementLogController::class, 'get_form'])
+    Route::get('/devices/get_movement_log_form_view', [MovementLogController::class, 'get_form_view'])
     ->middleware(['auth'])
-    ->name('devices.get_movement_log_form');
+    ->name('devices.get_movement_log_form_view');
 
     Route::any('/devices/update', [DeviceController::class, 'update'])
     ->middleware(['auth'])

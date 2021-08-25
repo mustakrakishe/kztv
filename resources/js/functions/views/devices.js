@@ -33,39 +33,14 @@ function find_devices_in_db(searched_string){
     });
 }
 
-function get_active_device_log(event){
-    let activated_btn = event.currentTarget;
-    let active_device_log = $(activated_btn).parents('.table-row.log');
-    return active_device_log;
-}
-
 function get_active_table_row(table_row_component){
     let active_table_row = $(table_row_component).closest('.table-row');
     return active_table_row;
 }
 
-function get_active_movement_log_edit_form(event){
-    let activated_btn = event.currentTarget;
-    let active_movement_log_edit_form = $(activated_btn).parents().eq(4);
-    return active_movement_log_edit_form;
-}
-
-function get_active_new_movement_log_form(event){
-    let activated_btn = event.currentTarget;
-    let active_new_movement_log_form = $(activated_btn).parents().eq(4);
-    return active_new_movement_log_form;
-}
-
-function get_active_movement_history_table(event){
-    let activated_btn = event.currentTarget;
-    let active_additional_info_content = $(activated_btn).parents().eq(4);
-    let active_movement_history_table = $(active_additional_info_content).find('.movement-history-table');
-    return active_movement_history_table;
-}
-
-function get_device_comment_form(device_id){
+function get_device_comment_form_view(device_id){
     return $.ajax({
-        url: links.get_device_comment_form, // links from the Devices view
+        url: links.get_device_comment_form_view, // links from the Devices view
         data: {id: device_id}
     });
 }
@@ -77,9 +52,9 @@ function get_device_comment_log_view(device_id){
     });
 }
 
-function get_device_form(device_id = null){
+function get_device_form_view(device_id = null){
     return $.ajax({
-        url: links.get_device_form, // links from the Devices view
+        url: links.get_device_form_view, // links from the Devices view
         data: {id: device_id}
     });
 }
@@ -91,43 +66,11 @@ function get_device_log_view(device_id){
     });
 }
 
-function get_device_log_data(device_log){
-    let device_log_data = {};
-
-    let fields = $(device_log).find('.main-info').find('.info');
-    $(fields).each((index, field) => {
-        let name = $(field).attr('name');
-        let value = $(field).text();
-        device_log_data[name] = value;
-    });
-
-    return device_log_data;
-}
-
-function get_device_more_info(device_id){
+function get_device_more_info_view(device_id){
     return $.ajax({
-        url: links.get_device_more_info, // links from the Devices view
+        url: links.get_device_more_info_view, // links from the Devices view
         data: {id: device_id}
     });
-}
-
-function get_device_form_data(form){
-    let form_data = {};
-
-    $(form).find('.main-info').find('input')
-    .each((index, input) => {
-        let name = $(input).attr('name');
-        let value = $(input).val();
-        form_data[name] = value;
-    });
-
-    if(!form_data.hasOwnProperty('type')){
-        let select = $(form).find('.main-info').find('select[name="type"]');
-        let value = $(select).children('option:selected').text();
-        form_data['type'] = value;
-    }
-
-    return form_data;
 }
 
 function get_form_data(form){
@@ -146,22 +89,9 @@ function get_movement_log_view(log_id){
     });
 }
 
-function get_table_row_data(log){
-    let table_row_data = {};
-
-    let fields = $(log).find('.info');
-    $(fields).each((index, field) => {
-        let name = $(field).attr('name');
-        let value = $(field).text();
-        table_row_data[name] = value;
-    });
-
-    return table_row_data;
-}
-
-function get_movement_log_form(send_data){
+function get_movement_log_form_view(send_data){
     return $.ajax({
-        url: links.get_movement_log_form, // links from the Devices view
+        url: links.get_movement_log_form_view, // links from the Devices view
         data: send_data
     });
 }
