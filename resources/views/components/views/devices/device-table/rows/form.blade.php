@@ -26,17 +26,17 @@
     </x-slot>
 
     <x-slot name="inventory_code">
-        <input type="text" name="inventory_code" class="form-control" placeholder="{{ __('Inv. №') }}" value="@isset($device){{ $device->inventory_code }}@endisset" onchange="validate_device_form(event)">
+        <input type="text" name="inventory_code" class="form-control" placeholder="{{ __('Inv. №') }}" value="@isset($device){{ $device->inventory_code }}@endisset">
     </x-slot>
 
     <x-slot name="identification_code">
-        <input type="text" name="identification_code" class="form-control" placeholder="{{ __('Ident. №') }}" value="@isset($device){{ $device->identification_code }}@endisset" onchange="validate_device_form(event)">
+        <input type="text" name="identification_code" class="form-control" placeholder="{{ __('Ident. №') }}" value="@isset($device){{ $device->identification_code }}@endisset">
     </x-slot>
 
     <x-slot name="type">
-        <select name="type" class="form-control" onchange="check_type(event)">
+        <select name="type" class="form-control" onchange="check_type(event);" required>
             @empty($device)
-                <option class="placeholder" disabled selected>{{ __('Type') }}</option>
+                <option class="placeholder" value="" disabled selected>{{ __('Type') }}</option>
             @endempty
 
             @foreach ($types as $type)
@@ -49,15 +49,15 @@
     </x-slot>
 
     <x-slot name="model">
-        <input type="text" name="model" class="form-control" placeholder="{{ __('Model') }}" value="@isset($device){{ $device->model }}@endisset" onchange="validate_device_form(event)">
+        <input type="text" name="model" class="form-control" placeholder="{{ __('Model') }}" value="@isset($device){{ $device->model }}@endisset"">
     </x-slot>
 
     <x-slot name="properties">
-        <input type="text" name="properties" class="form-control" placeholder="{{ __('Characteristics') }}" value="@isset($device){{ $device->properties }}@endisset" onchange="validate_device_form(event)">
+        <input type="text" name="properties" class="form-control" placeholder="{{ __('Characteristics') }}" value="@isset($device){{ $device->properties }}@endisset"">
     </x-slot>
 
     <x-slot name="location">
-        <input type="text" name="location" class="form-control" placeholder="{{ __('Location') }}" value="@isset($device){{ $device->location }}@endisset" onchange="validate_device_form(event)">
+        <input type="text" name="location" class="form-control" placeholder="{{ __('Location') }}" value="@isset($device){{ $device->location }}@endisset"" required>
     </x-slot>
 
     <x-slot name="control">

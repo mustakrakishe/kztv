@@ -247,13 +247,3 @@ function update_movement_log(event){
         $(active_movement_log_edit_form).replaceWith(updated_movement_log);
     });
 }
-
-function validate_device_form(event){
-    // let active_device_form = get_active_form(event);
-    // console.log(active_device_form);
-    // let input_data = get_device_form_data(active_device_edit_form);
-    // update_device_in_db(input_data)
-    // .done(updated_device_log => {
-    //     $(active_device_edit_form).replaceWith(updated_device_log);
-    // });
-}
