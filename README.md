@@ -15,8 +15,11 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.10
+- CSA - Devices: Fixed bug when search returned the same device several times if it has few entries in the movement log.
+
 ### 1.0.9
-- CSA - Forms are validated for empty required fields.
+- CSA - Devices: Forms are validated for empty required fields.
 
 ### 1.0.8
 - Authorization is available.
@@ -29,10 +32,10 @@ It will be a collection of the services or subapplications for each company depa
     - device table row control buttons a hoverable.
 
 ### 1.0.6
-- CSA - A device search by specified phrase matching any field is available.
+- CSA - Devices: A device search by specified phrase matching any field is available.
 
 ### 1.0.5
-- CSA - Movement history editing is available.
+- CSA - Devices: Movement history editing is available.
 
 ### 1.0.4
 - CSA - Devices:
