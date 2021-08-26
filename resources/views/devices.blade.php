@@ -74,10 +74,6 @@
                     </x-table>
 
                 </div>
-
-                <div id="device-table-paginator" class="row">
-                    {{ $devices->links() }}
-                </div>
             </div>
         </div>
         <!-- /.card-body -->

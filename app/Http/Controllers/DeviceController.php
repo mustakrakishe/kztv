@@ -44,32 +44,19 @@ class DeviceController extends Controller{
         $keywords = preg_split('/\s+/', $searched_string);
 
         $all_keywords_matches = [];
+
+        $select_full_device_log_sql = $this->get_devices()->toSql();
+
         foreach($keywords as $keyword) {
-            $last_movement_logs = MovementLog::selectRaw('id, unit_id, max(created_at) as created_at, location')->groupBy('id', 'unit_id', 'location');
 
-            $single_keyword_matches = Unit::select(
-                    'units.id',
-                    'units.inventory_code',
-                    'units.identification_code',
-                    'types.name as type',
-                    'units.model',
-                    'units.properties',
-                    'last_movement_logs.id as last_movement_log_id',
-                    'last_movement_logs.location',
-                    'last_movement_logs.created_at'
-                )
-
-                ->leftJoin('types', 'types.id', '=', 'units.type_id')
-                ->leftJoinSub($last_movement_logs, 'last_movement_logs', function($leftJoin){
-                    $leftJoin->on('last_movement_logs.unit_id', '=', 'units.id');
-                })
-
-                ->whereRaw('inventory_code::text like ' . "'%$keyword%'")
-                ->orWhereRaw('identification_code::text like ' . "'%$keyword%'")
-                ->orWhereRaw('model ilike ' . "'%$keyword%'")
-                ->orWhereRaw('properties ilike ' . "'%$keyword%'")
-                ->orWhereRaw('(select name from types where types.id = units.type_id) ilike ' . "'%$keyword%'")
-                ->orWhereRaw('(select location from  movement_logs where movement_logs.unit_id = units.id order by created_at desc, id desc limit 1) ilike ' . "'%$keyword%'");
+            $single_keyword_matches = DB::table(DB::raw("($select_full_device_log_sql) as t"))
+                ->whereRaw('t.inventory_code::text like ' . "'%$keyword%'")
+                ->orWhereRaw('t.type ilike ' . "'%$keyword%'")
+                ->orWhereRaw('t.identification_code::text like ' . "'%$keyword%'")
+                ->orWhereRaw('t.model ilike ' . "'%$keyword%'")
+                ->orWhereRaw('t.properties ilike ' . "'%$keyword%'")
+                ->orWhereRaw('t.location ilike ' . "'%$keyword%'")
+                ->orWhereRaw('t.comment ilike ' . "'%$keyword%'");
 
                 array_push($all_keywords_matches, $single_keyword_matches);
         }
@@ -96,7 +83,7 @@ class DeviceController extends Controller{
     }
 
     protected function get_device($id){
-        return ($this->get_devices([$id]))[0];
+        return ($this->get_devices([$id])->get())[0];
     }
 
     protected function get_devices($ids = null){
@@ -104,6 +91,7 @@ class DeviceController extends Controller{
             ->addSelect([
                 'movement_log_id' => MovementLog::select('id')
                 ->whereColumn('unit_id', 'units.id')
+                ->latest('created_at')
                 ->orderByDesc('id')
                 ->limit(1)
             ]);
@@ -120,15 +108,11 @@ class DeviceController extends Controller{
                 $leftJoin->on('units.id', '=', 'last_movement_logs.unit_id');
             })
             ->select(
-                'units.id',
-                'units.inventory_code',
-                'units.identification_code',
+                'units.*',
                 'types.name as type',
-                'units.model',
-                'units.properties',
-                'last_movement_logs.location',
                 'last_movement_logs.id as last_movement_log_id',
                 'last_movement_logs.created_at',
+                'last_movement_logs.location',
             )
             ->latest('last_movement_logs.created_at')
             ->orderByDesc('last_movement_log_id', 'id');
@@ -138,9 +122,7 @@ class DeviceController extends Controller{
             $device_full_info->whereIn('units.id', $ids);
         }
         
-        $result = $device_full_info->paginate(20);
-        
-        return $result;
+        return $device_full_info;
     }
 
     public function get_device_comment_form_view(Request $request){
@@ -207,7 +189,7 @@ class DeviceController extends Controller{
     }
 
     public function show(){
-        $allDevices = $this->get_devices();
+        $allDevices = $this->get_devices()->get();
         return view('devices', ['devices' => $allDevices]);
     }
 
