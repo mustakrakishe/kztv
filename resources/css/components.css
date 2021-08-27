@@ -1,4 +1,22 @@
+/* additional info */
+
+.additional-info{
+    width: 90%;
+    margin: auto;
+    padding: 24px 0;
+}
+
+/* field */
+
+.field .text{
+    min-height: 102px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.075);
+    border: 1px solid #6c757d;
+}
+
 /* tab */
+
 .tab input:checked + .label{
     background-color: rgb(63, 71, 78);
 }
@@ -7,7 +25,49 @@
     color: rgba(128, 128, 128, 0.25)!important;
 }
 
+/* table */
+
+.table{
+    width: 100%;
+    padding: 0 7.5px;
+}
+
+    .table > div[name="head"]{
+        font-weight: bold;
+        border: 1px solid #6c757d;
+        border-left: none;
+        border-right: none;
+    }
+
+    .table .table-row{
+        border-bottom: 1px solid #6c757d;
+        overflow: hidden;
+    }
+
+        .table .table-row .main-info{
+            min-height: 53px;
+        }
+
+    .table-row:nth-of-type(odd){
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .table .cell{
+        padding: 12px;
+    }
+
+    .table input,
+    .table select{
+        margin-left: -12px;
+        width: calc(100% + 12px);
+    }
+
+    .table select{
+        padding-left: 8px;
+    }
+
 /* section */
+
 .section{
     margin: 0 auto;
 }
