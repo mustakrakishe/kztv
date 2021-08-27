@@ -19,8 +19,8 @@
             </div>
             <div class="cell col-2" name="type">{{ $type }}</div>
             <div class="cell col-2" name="model">{{ $model }}</div>
-            <div class="cell col-3" name="properties">{{ $properties }}</div>
             <div class="cell col-3" name="location">{{ $location }}</div>
+            <div class="cell col-3" name="comment">{{ $comment }}</div>
             <div class="cell col-1" name="control">{{ $control }}</div>
             
             @if(str_ends_with($attributes->get('class'), 'form'))

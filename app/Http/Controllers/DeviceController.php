@@ -21,7 +21,7 @@ class DeviceController extends Controller{
         $new_device->identification_code = $input_data['identification_code'];
         $new_device->type_id = $type->id;
         $new_device->model = $input_data['model'];
-        $new_device->properties = $input_data['properties'];
+        $new_device->comment = $input_data['comment'];
         $new_device->save();
 
         $new_movement_log = new MovementLog;
@@ -157,12 +157,12 @@ class DeviceController extends Controller{
             ->latest('created_at')
             ->orderByDesc('id')
             ->get()
-            ->toJSON();
+            ->toJSON(); //json encode-decode for laravel datetime data casting
 
         return view('components.views.devices.device-table.additional-info.main-block', [
             'device_id' => $device_id,
-            'comment' => Unit::find($device_id)->comment,
-            'movementHistory' => json_decode($movement_history)
+            'characteristics' => Unit::find($device_id)->properties,
+            'movementHistory' => json_decode($movement_history) //json encode-decode for laravel datetime data casting
         ]);
     }
 
@@ -206,7 +206,7 @@ class DeviceController extends Controller{
         $device->identification_code = $input_data->identification_code;
         $device->type_id = $type->id;
         $device->model = $input_data->model;
-        $device->properties = $input_data->properties;
+        $device->comment = $input_data->comment;
 
         if($device->isDirty()){
             $device->save();
@@ -228,11 +228,11 @@ class DeviceController extends Controller{
         return $this->generate_device_log_view($updated_device_full_info);
     }
 
-    public function update_comment(Request $request){
+    public function update_characteristics(Request $request){
         $device = Unit::find($request->device_id);
-        $device->comment = $request->comment;
+        $device->characteristics = $request->characteristics;
         $device->save();
 
-        return $this->generate_device_comment_log_view($device->id, $device->comment);
+        return $this->generate_device_characteristics_view($device->id, $device->characteristics);
     }
 }

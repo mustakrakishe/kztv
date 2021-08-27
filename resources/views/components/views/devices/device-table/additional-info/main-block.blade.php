@@ -1,24 +1,35 @@
 <div class="row additional-info">
-    <x-views.devices.device-table.additional-info.section class="col-2 comment">
-        <x-slot name="title">{{ __('Comment') }}</x-slot>
+    <x-views.devices.device-table.additional-info.section class="col-4">
+        <x-slot name="title">
+            {{ __('Characteristics') }}
+        </x-slot>
+
+        <x-slot name="controlButtons">
+            <label class="btn btn-link m-0 py-0">
+                <button onclick="show_field_edit_form(event)" hidden></button>
+                <i class="fas fa-pen"></i>
+            </label>
+        </x-slot>
+
         <x-slot name="content">
-            <x-views.devices.device-table.additional-info.comment.log :deviceId="$device_id" :comment="$comment"/>
+            <x-views.devices.device-table.additional-info.field.log :text="$characteristics" :name="'characteristics'"/>
         </x-slot>
     </x-views.devices.device-table.additional-info.section>
 
-    <x-views.devices.device-table.additional-info.section class="col-8">
-        <x-slot name="title">{{ __('Movement history') }}</x-slot>
+    <x-views.devices.device-table.additional-info.section class="col-7">
+
+        <x-slot name="title">
+            {{ __('Movement history') }}
+        </x-slot>
+
+        <x-slot name="controlButtons">
+            <label class="btn btn-link m-0 py-0">
+                <button name="btn_new_device" value="{{ $device_id }}" onclick="show_new_movement_log_form($(this))" hidden></button>
+                <i class="fas fa-plus"></i>
+            </label>
+        </x-slot>
+
         <x-slot name="content">
-            
-            <div class="row">
-                <div class="col text-right mt-auto" style="padding: 8px 23px;">
-                    <label class="btn btn-link m-0 p-0"">
-                        <button name="btn_new_device" value="{{ $device_id }}" onclick="show_new_movement_log_form($(this))" hidden></button>
-                        <i class="fas fa-plus"></i>
-                    </label>
-                </div>
-            </div>
-            
             <div class="row">
                 <x-table class="movement-history-table">
                     <x-slot name="head">
@@ -36,7 +47,7 @@
                     </x-slot>
                 </x-table>
             </div>
-
         </x-slot>
+
     </x-views.devices.device-table.additional-info.section>
 </div>

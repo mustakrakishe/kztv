@@ -138,15 +138,17 @@ function hide_device_more_info(event){
     $(btn_more).attr('onclick', 'show_device_more_info(event)');
 }
 
-function show_device_comment_edit_form(event){
+function show_field_edit_form(event, field_name){
     let activated_btn = event.target;
-    let device_id = $(activated_btn).val();
-    get_device_comment_form_view(device_id)
-    .done(device_comment_edit_form_view => {
-        let destination = get_active_table_row(activated_btn).find('.section.comment').find('.content');
-        $(destination).empty();
-        $(destination).append(device_comment_edit_form_view);
-    })
+    let active_table_row = get_active_table_row(activated_btn);
+    console.log(active_table_row)
+    // let device_id = $(activated_btn).val();
+    // get_device_comment_form_view(device_id)
+    // .done(device_comment_edit_form_view => {
+    //     let destination = get_active_table_row(activated_btn).find('.section.comment').find('.content');
+    //     $(destination).empty();
+    //     $(destination).append(device_comment_edit_form_view);
+    // })
 }
 
 function show_device_log_control(event){

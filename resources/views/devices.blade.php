@@ -1,5 +1,5 @@
 <x-app-layout>
-    <link rel="stylesheet" href="css\devices.css">
+    <link rel="stylesheet" href="{{ asset('css\devices.css') }}">
 
     <script>
         let links = {
@@ -62,8 +62,8 @@
                             <div class="cell col-1">{{ __('Inv. №') }}</div>
                             <div class="cell col-2">{{ __('Type') }}</div>
                             <div class="cell col-2">{{ __('Model') }}</div>
-                            <div class="cell col-3">{{ __('Characteristics') }}</div>
                             <div class="cell col-3">{{ __('Location') }}</div>
+                            <div class="cell col-3">{{ __('Comment') }}</div>
                         </x-slot>
 
                         <x-slot name="body">
@@ -76,6 +76,6 @@
                 </div>
             </div>
         </div>
-        <!-- /.card-body -->
+        
     </div>
 </x-app-layout>

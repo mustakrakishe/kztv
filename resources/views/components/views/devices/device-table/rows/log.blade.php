@@ -9,8 +9,8 @@
     </x-slot>
     <x-slot name="type"><div class="info" name="type">{{ $device->type }}</div></x-slot>
     <x-slot name="model"><div class="info" name="model">{{ $device->model }}</div></x-slot>
-    <x-slot name="properties"><div class="info" name="properties">{{ $device->properties }}</div></x-slot>
     <x-slot name="location"><div class="info" name="location">{{ $device->location }}</div></x-slot>
+    <x-slot name="comment"><div class="info" name="comment">{{ $device->comment }}</div></x-slot>
 
     <x-slot name="control">
         <x-views.devices.device-table.btn-groups.log :id="$device->id" hidden/>
