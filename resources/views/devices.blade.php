@@ -5,7 +5,7 @@
         let links = {
             add_device: @json(route('devices.add')),
             add_movement_log: @json(route('devices.add_movement_log')),
-            get_device_comment_form_view: @json(route('devices.get_device_comment_form_view')),
+            get_device_property_edit_form: @json(route('devices.get_property_edit_form')),
             get_device_comment_log_view: @json(route('devices.get_device_comment_log_view')),
             get_device_form_view: @json(route('devices.get_device_form_view')),
             get_device_log_view: @json(route('devices.get_device_log_view')),

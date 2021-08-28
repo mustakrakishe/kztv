@@ -125,9 +125,13 @@ class DeviceController extends Controller{
         return $device_full_info;
     }
 
-    public function get_device_comment_form_view(Request $request){
-        $device = Unit::find($request->id);
-        return $this->generate_device_comment_form_view($device->id, $device->comment);
+    public function get_property_edit_form(Request $request){
+        $device = Unit::find($request->device_id);
+
+        $deviceId = $request->device_id;
+        $propertyName = $request->property_name;
+        $propertyValue = $device[$propertyName];
+        return $this->generate_property_edit_form($deviceId, $propertyName, $propertyValue);
     }
 
     public function get_device_comment_log_view(Request $request){
@@ -166,10 +170,11 @@ class DeviceController extends Controller{
         ]);
     }
 
-    protected function generate_device_comment_form_view($device_id, $comment){
-        return view('components.views.devices.device-table.additional-info.comment.form', [
-            'device_id' => $device_id,
-            'comment' => $comment
+    protected function generate_property_edit_form($deviceId, $propertyName, $propertyValue){
+        return view('components.model-property.form', [
+            'deviceId' => $deviceId,
+            'propertyName' => $propertyName,
+            'propertyValue' => $propertyValue,
         ]);
     }
 
@@ -189,7 +194,7 @@ class DeviceController extends Controller{
     }
 
     public function show(){
-        $allDevices = $this->get_devices()->get();
+        $allDevices = $this->get_devices()->limit(15)->get();
         return view('devices', ['devices' => $allDevices]);
     }
 

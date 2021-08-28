@@ -6,15 +6,6 @@
     padding: 24px 0;
 }
 
-/* field */
-
-.field .text{
-    min-height: 102px;
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.075);
-    border: 1px solid #6c757d;
-}
-
 /* tab */
 
 .tab input:checked + .label{
@@ -69,9 +60,49 @@
 /* section */
 
 .section{
+    min-width: 320px;
+    border: 1px solid #6c757d;
+
     margin: 0 auto;
+}
+
+.section div[name="head"]{
+    padding: 8px;
+    
+    background-color: rgba(255, 255, 255, 0.075);
+}
+
+.section div[name="head"] > div[name="content"]{
+    height: 28px;
+    position: relative;
+}
+
+.section div[name="head"] > div[name="content"] > *{
+    position: absolute;
+    bottom: 0;
 }
 
 .section div[name="title"]{
     font-weight: bold;
+}
+
+.section div[name="control-buttons"]{
+    right: 0;
+}
+
+.section div[name="body"]{
+    height: calc(100% - 44px);
+    height: 100px;
+
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+/* model-property-section */
+
+.model-property-section div[name="body"] textarea{
+    width: calc(100% + 2px);
+    border-radius: 0;
+
+    margin: -1px;
 }

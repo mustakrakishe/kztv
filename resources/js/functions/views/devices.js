@@ -38,10 +38,13 @@ function get_active_table_row(table_row_component){
     return active_table_row;
 }
 
-function get_device_comment_form_view(device_id){
-    return $.ajax({
-        url: links.get_device_comment_form_view, // links from the Devices view
-        data: {id: device_id}
+function get_device_proprty_form_view(device_id, property_name){
+    return $.get({
+        url: links.get_device_property_edit_form, // links from the Devices view
+        data: {
+            device_id: device_id,
+            property_name: property_name
+        }
     });
 }
 
