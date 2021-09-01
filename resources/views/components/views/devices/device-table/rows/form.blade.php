@@ -59,6 +59,12 @@
     </x-slot>
 
     <x-slot name="control">
-        <x-views.devices.device-table.btn-groups.form/>
+        <x-button type="submit">
+            <i class="fas fa-check"></i>
+        </x-button>
+        
+        <x-button type="reset">
+            <i class="fas fa-ban"></i>
+        </x-button>
     </x-slot>
 </x-views.devices.device-table.rows.layout>

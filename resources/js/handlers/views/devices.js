@@ -87,8 +87,7 @@ function delete_device(activated_btn){
     })
 }
 
-function delete_movement_log(event){
-    let delete_btn = event.target;
+function delete_movement_log(delete_btn){
     let movement_log_id = $(delete_btn).val();
     delete_movement_log_from_db(movement_log_id)
     .done(() => {
@@ -177,9 +176,7 @@ function show_device_more_info(activated_btn){
     $(btn_more).attr('onclick', 'hide_device_more_info(event)');
 }
 
-function show_movement_log_edit_form(event){
-
-    let activated_btn = event.target;
+function show_movement_log_edit_form(activated_btn){
     let movement_log_id = $(activated_btn).val();
 
     get_movement_log_form_view({log_id: movement_log_id})
