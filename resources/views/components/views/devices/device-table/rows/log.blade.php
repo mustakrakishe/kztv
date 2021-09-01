@@ -18,11 +18,11 @@
                 <i class="far fa-window-maximize"></i>
             </x-button>
 
-            <x-button value="{{ $device->id }}" onclick="show_device_edit_form(event)">
+            <x-button value="{{ $device->id }}" onclick="show_device_edit_form(this)">
                 <i class="fas fa-pen"></i>
             </x-button>
                 
-            <x-button value="{{ $device->id }}" onclick="delete_device(event)">
+            <x-button value="{{ $device->id }}" onclick="delete_device(this)">
                 <i class="fas fa-trash-alt"></i>
             </x-button>
         </div>

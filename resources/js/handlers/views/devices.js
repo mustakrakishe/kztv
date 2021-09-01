@@ -78,8 +78,7 @@ function check_type(event){
     }
 }
 
-function delete_device(event){
-    let activated_btn = event.target;
+function delete_device(activated_btn){
     let device_id = $(activated_btn).val();
     delete_device_from_db(device_id)
     .done(() => {
@@ -146,8 +145,7 @@ function show_device_log_control(event){
     let control_cell = $(active_table_row).find('div[name="control"]').children().removeAttr('hidden');
 }
 
-function show_device_edit_form(event){
-    let activated_btn = event.target;
+function show_device_edit_form(activated_btn){
     let device_id = $(activated_btn).val();
     get_device_form_view(device_id)
     .done(device_edit_form_table_row => {
