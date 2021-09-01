@@ -68,8 +68,8 @@ class DeviceController extends Controller{
 
         $union_query = $union_builder->toSql();
         $devices_full_info = DB::table(DB::raw("($union_query) as u"))
-            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, properties, location, last_movement_log_id')
-            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location', 'created_at', 'last_movement_log_id')
+            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, location, comment, last_movement_log_id')
+            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'location', 'comment', 'created_at', 'last_movement_log_id')
             ->orderByDesc('u.count')
             ->latest('u.created_at')
             ->orderByDesc('last_movement_log_id', 'id')
