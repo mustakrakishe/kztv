@@ -5,9 +5,9 @@
             @csrf
     @endif
 
-    <div name="head">
+    <div name="head" class="p-2">
         <div name="content">
-            <div name="title">
+            <div name="title" class="{{ $contentType == 'table' ? 'text-center' : '' }}">
                 {{ $title }}
             </div>
             
@@ -17,9 +17,7 @@
         </div>
     </div>
 
-    <div name="body">
-        {{ $content }}
-    </div>
+    <div name="body">{{ $content }}</div>
 
     @if(str_ends_with($attributes->get('class'), 'form'))
         </form>

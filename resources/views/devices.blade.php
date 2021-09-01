@@ -46,11 +46,10 @@
                         <div id="search-status" class="text-secondary"></div>
                     </div>
 
-                    <div class="col text-right mt-auto" style="padding: 8px 23px;">
-                        <label class="btn btn-link m-0 p-0">
-                            <button id="new_device" onclick="show_new_device_form()" hidden></button>
+                    <div class="col-4 text-right mt-auto" style="padding: 8px 23px;">
+                        <x-button title="{{ __('New entry') }}">
                             <i class="fas fa-plus"></i>
-                        </label>
+                        </x-button>
                     </div>
 
                 </div>

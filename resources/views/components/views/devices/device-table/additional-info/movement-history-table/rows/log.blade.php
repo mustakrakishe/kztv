@@ -6,11 +6,11 @@
     <x-slot name="comment">{{ $log->comment }}</x-slot>
 
     <x-slot name="control">
-        <x-button value="{{ $id }}" onclick="show_movement_log_edit_form(event)">
+        <x-button value="{{ $log->id }}" onclick="show_movement_log_edit_form(event)">
             <i class="fas fa-pen"></i>
         </x-button>
         
-        <x-button value="{{ $id }}" onclick="delete_movement_log(event)">
+        <x-button value="{{ $log->id }}" onclick="delete_movement_log(event)">
             <i class="fas fa-trash-alt"></i>
         </x-button>
     </x-slot>

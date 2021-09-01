@@ -1,10 +1,10 @@
 /* additional info */
 
-.additional-info{
+/* .additional-info{
     width: 90%;
     margin: auto;
     padding: 24px 0;
-}
+} */
 
 /* tab */
 
@@ -30,14 +30,14 @@
         border-right: none;
     }
 
-    .table .table-row{
+    .table-row{
         border-bottom: 1px solid #6c757d;
         overflow: hidden;
     }
 
-        .table .table-row .main-info{
-            min-height: 53px;
-        }
+    .table-row .control{
+        text-align: right;
+    }
 
     .table-row:nth-of-type(odd){
         background-color: rgba(0, 0, 0, 0.05);
@@ -60,14 +60,10 @@
 /* section */
 
 .section{
-    min-width: 320px;
-    border: 1px solid #6c757d;
-
-    margin: 0 auto;
-}
-
-.section div[name="head"]{
-    padding: 8px;
+    /* min-width: 320px; */
+    margin: 0;
+    padding: 0;
+    /* border: 1px solid #6c757d; */
     
     background-color: rgba(255, 255, 255, 0.075);
 }
@@ -83,6 +79,10 @@
 }
 
 .section div[name="title"]{
+    position: relative;
+
+    width: 100%;
+
     font-weight: bold;
 }
 
@@ -92,7 +92,7 @@
 
 .section div[name="body"]{
     height: calc(100% - 44px);
-    height: 100px;
+    width: 100%;
 
     background-color: rgba(0, 0, 0, 0.05);
 }
@@ -100,9 +100,12 @@
 
 /* model-property-section */
 
-.model-property-section div[name="body"] textarea{
+.section div[name="body"] > *{
     width: calc(100% + 2px);
-    border-radius: 0;
-
+    height: calc(100% + 2px);
+    min-height: 100px;
     margin: -1px;
+    padding: 8px;
+
+    border-radius: 0;
 }
