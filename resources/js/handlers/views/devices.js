@@ -90,8 +90,10 @@ function delete_device(activated_btn){
 function delete_movement_log(delete_btn){
     let movement_log_id = $(delete_btn).val();
     delete_movement_log_from_db(movement_log_id)
-    .done(() => {
-        get_active_table_row(delete_btn).remove();
+    .done((isDeleted) => {
+        if(isDeleted){
+            get_active_table_row(delete_btn).remove();
+        }
     })
 }
 
