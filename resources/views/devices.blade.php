@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="col-4 text-right mt-auto" style="padding: 8px 23px;">
-                        <x-button title="{{ __('New entry') }}">
+                        <x-button title="{{ __('New entry') }}" onclick="show_new_device_form()">
                             <i class="fas fa-plus"></i>
                         </x-button>
                     </div>
