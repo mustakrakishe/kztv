@@ -34,7 +34,13 @@ class DeviceController extends Controller{
     }
 
     public function delete(Request $data){
-        Unit::find($data->id)->delete();
+        $unit_to_delete = Unit::find($data->id);
+        $type_to_delete = Type::find($unit_to_delete->type_id);
+
+        $unit_to_delete->delete();
+        if(Unit::where('type_id', $type_to_delete->id)->doesntExist()){
+            $type_to_delete->delete();
+        }
     }
 
     public function find_devices(Request $data){
