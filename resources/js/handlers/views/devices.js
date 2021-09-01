@@ -135,7 +135,7 @@ function hide_device_more_info(event){
     });
 
     let btn_more = event.currentTarget;
-    $(btn_more).attr('onclick', 'show_device_more_info(event)');
+    $(btn_more).attr('onclick', 'show_device_more_info(this)');
 }
 
 function show_characteristics_edit_form(){
@@ -156,8 +156,7 @@ function show_device_edit_form(event){
     })
 }
 
-function show_device_more_info(event){
-    let activated_btn = event.target;
+function show_device_more_info(activated_btn){
     let device_id = $(activated_btn).val();
     get_device_more_info_view(device_id)
     .done(device_additional_info_view => {

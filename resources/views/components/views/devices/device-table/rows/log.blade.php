@@ -13,6 +13,18 @@
     <x-slot name="comment"><div class="info" name="comment">{{ $device->comment }}</div></x-slot>
 
     <x-slot name="control">
-        <x-views.devices.device-table.btn-groups.log :id="$device->id" hidden/>
+        <div hidden>
+            <x-button value="{{ $device->id }}" onclick="show_device_more_info(this)">
+                <i class="far fa-window-maximize"></i>
+            </x-button>
+
+            <x-button value="{{ $device->id }}" onclick="show_device_edit_form(event)">
+                <i class="fas fa-pen"></i>
+            </x-button>
+                
+            <x-button value="{{ $device->id }}" onclick="delete_device(event)">
+                <i class="fas fa-trash-alt"></i>
+            </x-button>
+        </div>
     </x-slot>
 </x-views.devices.device-table.rows.layout>
