@@ -1,11 +1,11 @@
 <x-app-layout>
-    <link rel="stylesheet" href="css\devices.css">
+    <link rel="stylesheet" href="{{ asset('css\devices.css') }}">
 
     <script>
         let links = {
             add_device: @json(route('devices.add')),
             add_movement_log: @json(route('devices.add_movement_log')),
-            get_device_comment_form_view: @json(route('devices.get_device_comment_form_view')),
+            get_device_property_edit_form: @json(route('devices.get_property_edit_form')),
             get_device_comment_log_view: @json(route('devices.get_device_comment_log_view')),
             get_device_form_view: @json(route('devices.get_device_form_view')),
             get_device_log_view: @json(route('devices.get_device_log_view')),
@@ -26,8 +26,11 @@
     <x-slot name="header">{{ __('Devices') }}</x-slot>
 
     <div class="card">
+
         <div class="card-body">
+
             <div id="wrapper" class="wrapper">
+
                 <div class="row">
                     <div class="col-4">
                         <form onsubmit='find_devices(event)'>
@@ -46,11 +49,10 @@
                         <div id="search-status" class="text-secondary"></div>
                     </div>
 
-                    <div class="col text-right mt-auto" style="padding: 8px 23px;">
-                        <label class="btn btn-link m-0 p-0">
-                            <button id="new_device" onclick="show_new_device_form()" hidden></button>
+                    <div class="col-4 text-right mt-auto" style="padding: 8px 23px;">
+                        <x-button title="{{ __('New entry') }}" onclick="show_new_device_form()">
                             <i class="fas fa-plus"></i>
-                        </label>
+                        </x-button>
                     </div>
 
                 </div>
@@ -62,8 +64,8 @@
                             <div class="cell col-1">{{ __('Inv. №') }}</div>
                             <div class="cell col-2">{{ __('Type') }}</div>
                             <div class="cell col-2">{{ __('Model') }}</div>
-                            <div class="cell col-3">{{ __('Characteristics') }}</div>
                             <div class="cell col-3">{{ __('Location') }}</div>
+                            <div class="cell col-3">{{ __('Comment') }}</div>
                         </x-slot>
 
                         <x-slot name="body">
@@ -74,8 +76,10 @@
                     </x-table>
 
                 </div>
+                
             </div>
+
         </div>
-        <!-- /.card-body -->
+
     </div>
 </x-app-layout>

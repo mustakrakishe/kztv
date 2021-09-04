@@ -50,15 +50,21 @@
         <input type="text" name="model" class="form-control" placeholder="{{ __('Model') }}" value="@isset($device){{ $device->model }}@endisset"">
     </x-slot>
 
-    <x-slot name="properties">
-        <input type="text" name="properties" class="form-control" placeholder="{{ __('Characteristics') }}" value="@isset($device){{ $device->properties }}@endisset"">
-    </x-slot>
-
     <x-slot name="location">
         <input type="text" name="location" class="form-control" placeholder="{{ __('Location') }}" value="@isset($device){{ $device->location }}@endisset"" required>
     </x-slot>
 
+    <x-slot name="comment">
+        <input type="text" name="comment" class="form-control" placeholder="{{ __('Comment') }}" value="@isset($device){{ $device->comment }}@endisset"">
+    </x-slot>
+
     <x-slot name="control">
-        <x-views.devices.device-table.btn-groups.form/>
+        <x-button type="submit">
+            <i class="fas fa-check"></i>
+        </x-button>
+        
+        <x-button type="reset">
+            <i class="fas fa-ban"></i>
+        </x-button>
     </x-slot>
 </x-views.devices.device-table.rows.layout>

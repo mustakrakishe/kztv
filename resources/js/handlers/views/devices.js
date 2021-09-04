@@ -78,8 +78,7 @@ function check_type(event){
     }
 }
 
-function delete_device(event){
-    let activated_btn = event.target;
+function delete_device(activated_btn){
     let device_id = $(activated_btn).val();
     delete_device_from_db(device_id)
     .done(() => {
@@ -88,12 +87,13 @@ function delete_device(event){
     })
 }
 
-function delete_movement_log(event){
-    let delete_btn = event.target;
+function delete_movement_log(delete_btn){
     let movement_log_id = $(delete_btn).val();
     delete_movement_log_from_db(movement_log_id)
-    .done(() => {
-        get_active_table_row(delete_btn).remove();
+    .done((isDeleted) => {
+        if(isDeleted){
+            get_active_table_row(delete_btn).remove();
+        }
     })
 }
 
@@ -117,7 +117,7 @@ function find_devices(event){
 
 function hide_device_log_control(event){
     let active_table_row = event.currentTarget;
-    let control_cell = $(active_table_row).find('.cell[name="control"]').children().attr('hidden', 'hidden');
+    let control_cell = $(active_table_row).find('div[name="control"]').children().attr('hidden', 'hidden');
 }
 
 function hide_device_more_info(event){
@@ -135,27 +135,18 @@ function hide_device_more_info(event){
     });
 
     let btn_more = event.currentTarget;
-    $(btn_more).attr('onclick', 'show_device_more_info(event)');
+    $(btn_more).attr('onclick', 'show_device_more_info(this)');
 }
 
-function show_device_comment_edit_form(event){
-    let activated_btn = event.target;
-    let device_id = $(activated_btn).val();
-    get_device_comment_form_view(device_id)
-    .done(device_comment_edit_form_view => {
-        let destination = get_active_table_row(activated_btn).find('.section.comment').find('.content');
-        $(destination).empty();
-        $(destination).append(device_comment_edit_form_view);
-    })
+function show_characteristics_edit_form(){
 }
 
 function show_device_log_control(event){
     let active_table_row = event.currentTarget;
-    let control_cell = $(active_table_row).find('.cell[name="control"]').children().removeAttr('hidden');
+    let control_cell = $(active_table_row).find('div[name="control"]').children().removeAttr('hidden');
 }
 
-function show_device_edit_form(event){
-    let activated_btn = event.target;
+function show_device_edit_form(activated_btn){
     let device_id = $(activated_btn).val();
     get_device_form_view(device_id)
     .done(device_edit_form_table_row => {
@@ -164,8 +155,7 @@ function show_device_edit_form(event){
     })
 }
 
-function show_device_more_info(event){
-    let activated_btn = event.target;
+function show_device_more_info(activated_btn){
     let device_id = $(activated_btn).val();
     get_device_more_info_view(device_id)
     .done(device_additional_info_view => {
@@ -188,9 +178,7 @@ function show_device_more_info(event){
     $(btn_more).attr('onclick', 'hide_device_more_info(event)');
 }
 
-function show_movement_log_edit_form(event){
-
-    let activated_btn = event.target;
+function show_movement_log_edit_form(activated_btn){
     let movement_log_id = $(activated_btn).val();
 
     get_movement_log_form_view({log_id: movement_log_id})

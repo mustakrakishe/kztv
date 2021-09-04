@@ -1,42 +1,29 @@
 <div class="row additional-info">
-    <x-views.devices.device-table.additional-info.section class="col-2 comment">
-        <x-slot name="title">{{ __('Comment') }}</x-slot>
-        <x-slot name="content">
-            <x-views.devices.device-table.additional-info.comment.log :deviceId="$device_id" :comment="$comment"/>
-        </x-slot>
-    </x-views.devices.device-table.additional-info.section>
 
-    <x-views.devices.device-table.additional-info.section class="col-8">
-        <x-slot name="title">{{ __('Movement history') }}</x-slot>
-        <x-slot name="content">
+    <div class="container">
+        <div name="table-title-row" class="row p-2 justify-content-end">
+            <div name="title" class="col-4 text-center overflow-visible font-weight-bold">{{ __('Movement history') }}</div>
             
-            <div class="row">
-                <div class="col text-right mt-auto" style="padding: 8px 23px;">
-                    <label class="btn btn-link m-0 p-0"">
-                        <button name="btn_new_device" value="{{ $device_id }}" onclick="show_new_movement_log_form($(this))" hidden></button>
-                        <i class="fas fa-plus"></i>
-                    </label>
-                </div>
+            <div name="control-buttons" class="col-4 text-right">
+                <x-buttons.with-icon value="{{ $device_id }}" onclick="show_new_movement_log_form($(this))"><i class="fas fa-plus"></i></x-buttons.with-icon>
             </div>
-            
-            <div class="row">
-                <x-table class="movement-history-table">
-                    <x-slot name="head">
-                        <div class="cell col-3">{{ __('Date') }}</div>
-                        <div class="cell col-4">{{ __('Location') }}</div>
-                        <div class="cell col-4">{{ __('Comment') }}</div>
-                    </x-slot>
+        </div>
 
-                    <x-slot name="body">
-                        @isset($movementHistory)
-                            @foreach($movementHistory as $log)
-                                <x-views.devices.device-table.additional-info.movement-history-table.rows.log :log="$log"/>
-                            @endforeach
-                        @endisset
-                    </x-slot>
-                </x-table>
-            </div>
+        <x-table class="movement-history-table">
+            <x-slot name="head">
+                <div class="cell col-3">{{ __('Date') }}</div>
+                <div class="cell col-4">{{ __('Location') }}</div>
+                <div class="cell col-4">{{ __('Comment') }}</div>
+            </x-slot>
 
-        </x-slot>
-    </x-views.devices.device-table.additional-info.section>
+            <x-slot name="body">
+                @isset($movementHistory)
+                    @foreach($movementHistory as $log)
+                        <x-views.devices.device-table.additional-info.movement-history-table.rows.log :log="$log"/>
+                    @endforeach
+                @endisset
+            </x-slot>
+        </x-table>
+    </div>
+        
 </div>

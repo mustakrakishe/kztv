@@ -21,7 +21,15 @@ class MovementLogController extends Controller{
     }
 
     public function delete(Request $data){
-        MovementLog::find($data->id)->delete();
+        $isDeleted = false;
+
+        $log_to_delete = MovementLog::find($data->id);
+        if(MovementLog::where('unit_id', $log_to_delete->unit_id)->count() > 1){
+            $log_to_delete->delete();
+            $isDeleted = true;
+        }
+
+        return $isDeleted;
     }
 
     protected function generate_form_view($log, $unit_id){

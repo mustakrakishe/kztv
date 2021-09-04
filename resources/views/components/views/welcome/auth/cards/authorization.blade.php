@@ -24,7 +24,7 @@
                 </div>
 
                 <div>
-                    <x-button>{{ __('Sign In') }}</x-button>
+                    <x-button>{{__('Sign In')}}</x-button>
                 </div>
             </div>
         </div>

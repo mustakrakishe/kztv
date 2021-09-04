@@ -12,7 +12,7 @@
         $time = time();
     }
 
-    $created_at = date('Y-m-d', $time) . 'T' . date('H:i', $time);
+    $created_at = date('Y-m-d', $time) . 'T' . date('H:i:s', $time);
 @endphp
 
 <x-views.devices.device-table.additional-info.movement-history-table.rows.layout class="{{ $rowClass }}" :onSubmit="$onSubmit" :onReset="$onReset">
@@ -24,6 +24,12 @@
     <x-slot name="comment"><input type="text" name="comment" class="form-control" placeholder="{{ __('Comment') }}" value="@isset($log){{ $log->comment }}@endisset"></x-slot>
 
     <x-slot name="control">
-        <x-views.devices.device-table.additional-info.movement-history-table.btn-groups.form/>
+        <x-button type="submit">
+            <i class="fas fa-check"></i>
+        </x-button>
+        
+        <x-button type="reset">
+            <i class="fas fa-ban"></i>
+        </x-button>
     </x-slot>
 </x-views.devices.device-table.additional-info.movement-history-table.rows.layout>

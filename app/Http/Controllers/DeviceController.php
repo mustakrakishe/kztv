@@ -21,7 +21,7 @@ class DeviceController extends Controller{
         $new_device->identification_code = $input_data['identification_code'];
         $new_device->type_id = $type->id;
         $new_device->model = $input_data['model'];
-        $new_device->properties = $input_data['properties'];
+        $new_device->comment = $input_data['comment'];
         $new_device->save();
 
         $new_movement_log = new MovementLog;
@@ -34,7 +34,13 @@ class DeviceController extends Controller{
     }
 
     public function delete(Request $data){
-        Unit::find($data->id)->delete();
+        $unit_to_delete = Unit::find($data->id);
+        $type_to_delete = Type::find($unit_to_delete->type_id);
+
+        $unit_to_delete->delete();
+        if(Unit::where('type_id', $type_to_delete->id)->doesntExist()){
+            $type_to_delete->delete();
+        }
     }
 
     public function find_devices(Request $data){
@@ -68,8 +74,8 @@ class DeviceController extends Controller{
 
         $union_query = $union_builder->toSql();
         $devices_full_info = DB::table(DB::raw("($union_query) as u"))
-            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, properties, location, last_movement_log_id')
-            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'properties', 'location', 'created_at', 'last_movement_log_id')
+            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, location, comment, last_movement_log_id')
+            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'location', 'comment', 'created_at', 'last_movement_log_id')
             ->orderByDesc('u.count')
             ->latest('u.created_at')
             ->orderByDesc('last_movement_log_id', 'id')
@@ -125,9 +131,13 @@ class DeviceController extends Controller{
         return $device_full_info;
     }
 
-    public function get_device_comment_form_view(Request $request){
-        $device = Unit::find($request->id);
-        return $this->generate_device_comment_form_view($device->id, $device->comment);
+    public function get_property_edit_form(Request $request){
+        $device = Unit::find($request->device_id);
+
+        $deviceId = $request->device_id;
+        $propertyName = $request->property_name;
+        $propertyValue = $device[$propertyName];
+        return $this->generate_property_edit_form($deviceId, $propertyName, $propertyValue);
     }
 
     public function get_device_comment_log_view(Request $request){
@@ -157,19 +167,20 @@ class DeviceController extends Controller{
             ->latest('created_at')
             ->orderByDesc('id')
             ->get()
-            ->toJSON();
+            ->toJSON(); //json encode-decode for laravel datetime data casting
 
         return view('components.views.devices.device-table.additional-info.main-block', [
             'device_id' => $device_id,
-            'comment' => Unit::find($device_id)->comment,
-            'movementHistory' => json_decode($movement_history)
+            'characteristics' => Unit::find($device_id)->properties,
+            'movementHistory' => json_decode($movement_history) //json encode-decode for laravel datetime data casting
         ]);
     }
 
-    protected function generate_device_comment_form_view($device_id, $comment){
-        return view('components.views.devices.device-table.additional-info.comment.form', [
-            'device_id' => $device_id,
-            'comment' => $comment
+    protected function generate_property_edit_form($deviceId, $propertyName, $propertyValue){
+        return view('components.model-property.form', [
+            'deviceId' => $deviceId,
+            'propertyName' => $propertyName,
+            'propertyValue' => $propertyValue,
         ]);
     }
 
@@ -189,7 +200,7 @@ class DeviceController extends Controller{
     }
 
     public function show(){
-        $allDevices = $this->get_devices()->get();
+        $allDevices = $this->get_devices()->limit(15)->get();
         return view('devices', ['devices' => $allDevices]);
     }
 
@@ -206,7 +217,7 @@ class DeviceController extends Controller{
         $device->identification_code = $input_data->identification_code;
         $device->type_id = $type->id;
         $device->model = $input_data->model;
-        $device->properties = $input_data->properties;
+        $device->comment = $input_data->comment;
 
         if($device->isDirty()){
             $device->save();
@@ -228,11 +239,11 @@ class DeviceController extends Controller{
         return $this->generate_device_log_view($updated_device_full_info);
     }
 
-    public function update_comment(Request $request){
+    public function update_characteristics(Request $request){
         $device = Unit::find($request->device_id);
-        $device->comment = $request->comment;
+        $device->characteristics = $request->characteristics;
         $device->save();
 
-        return $this->generate_device_comment_log_view($device->id, $device->comment);
+        return $this->generate_device_characteristics_view($device->id, $device->characteristics);
     }
 }

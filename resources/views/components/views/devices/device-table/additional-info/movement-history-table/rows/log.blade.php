@@ -6,6 +6,12 @@
     <x-slot name="comment">{{ $log->comment }}</x-slot>
 
     <x-slot name="control">
-        <x-views.devices.device-table.additional-info.movement-history-table.btn-groups.log :id="$log->id"/>
+        <x-button value="{{ $log->id }}" onclick="show_movement_log_edit_form(this)">
+            <i class="fas fa-pen"></i>
+        </x-button>
+        
+        <x-button value="{{ $log->id }}" onclick="delete_movement_log(this)">
+            <i class="fas fa-trash-alt"></i>
+        </x-button>
     </x-slot>
 </x-views.devices.device-table.additional-info.movement-history-table.rows.layout>
