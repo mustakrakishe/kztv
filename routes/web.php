@@ -24,4 +24,7 @@ Route::get('/', function () {
 });
 
 require __DIR__.'/auth.php';
-require __DIR__.'/devices.php';
+
+Route::middleware(['auth'])->group(function(){
+    require __DIR__.'/devices.php';
+});

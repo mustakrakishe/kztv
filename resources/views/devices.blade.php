@@ -26,8 +26,11 @@
     <x-slot name="header">{{ __('Devices') }}</x-slot>
 
     <div class="card">
+
         <div class="card-body">
+
             <div id="wrapper" class="wrapper">
+
                 <div class="row">
                     <div class="col-4">
                         <form onsubmit='find_devices(event)'>
@@ -73,8 +76,10 @@
                     </x-table>
 
                 </div>
+                
             </div>
+
         </div>
-        
+
     </div>
 </x-app-layout>
