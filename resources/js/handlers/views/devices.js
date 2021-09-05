@@ -103,16 +103,10 @@ function find_devices(event){
     let input_string = $(input).val();
     $('#search-status').text('Йде пошук...');
     find_devices_in_db(input_string)
-    .done(device_logs => {
+    .done(data => {
         $('#search-status').empty();
-        let destination = $('#device-table').find('div[name="body"]').first();
-        $(destination).empty();
-        device_logs.forEach(function(log){
-            $(destination).append(log);
-        })
-
-        $('#device-table-paginator').remove();
-    })
+        $('#device-table-container').html(data);
+    });
 }
 
 function hide_device_log_control(event){

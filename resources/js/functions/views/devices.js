@@ -26,10 +26,12 @@ function delete_movement_log_from_db(log_id){
     });
 }
 
-function find_devices_in_db(searched_string){
+function find_devices_in_db(search_string){
     return $.ajax({
         url: links.find_devices, // links from the Devices view
-        data: {string: searched_string}
+        data: {filters: {
+            search_string: search_string
+        }}
     });
 }
 

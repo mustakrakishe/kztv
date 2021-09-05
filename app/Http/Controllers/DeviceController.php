@@ -10,6 +10,7 @@ use App\Models\Devices\MovementLog;
 use Illuminate\Support\Arr;
 
 class DeviceController extends Controller{
+
     public function add(Request $input_data){
         // Type is selecting not by id because somebody can delete this type from the table while you are trying to set this type id.
         $type = Type::firstOrCreate(
@@ -43,16 +44,24 @@ class DeviceController extends Controller{
         }
     }
 
-    public function find_devices(Request $data){
-        $views = [];
-        $searched_string = $data->string;
+    public function fetch_data(Request $request){
+        if($request->ajax()){
+            $devices = $request->filters
+                ? $this->get_devices($request->filters)->paginate(10)
+                : $this->get_devices()->paginate(10);
+            return view('components.views.devices.device-table', compact('devices'))->render();
+        }
+    }
+
+    protected function find_devices($devices, $search_string){
         
-        $keywords = preg_split('/\s+/', $searched_string);
+        $keywords = preg_split('/\s+/', trim($search_string));
 
         $all_keywords_matches = [];
 
-        $select_full_device_log_sql = $this->get_devices()->toSql();
+        $select_full_device_log_sql = $devices->toSql();
 
+        $views = [];
         foreach($keywords as $keyword) {
 
             $single_keyword_matches = DB::table(DB::raw("($select_full_device_log_sql) as t"))
@@ -73,26 +82,21 @@ class DeviceController extends Controller{
         }
 
         $union_query = $union_builder->toSql();
-        $devices_full_info = DB::table(DB::raw("($union_query) as u"))
+        $devices = DB::table(DB::raw("($union_query) as u"))
             ->selectRaw('id, count(id), inventory_code, identification_code, type, model, location, comment, last_movement_log_id')
             ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'location', 'comment', 'created_at', 'last_movement_log_id')
             ->orderByDesc('u.count')
             ->latest('u.created_at')
-            ->orderByDesc('last_movement_log_id', 'id')
-            ->get();
-        
-        foreach($devices_full_info as $device_full_info){
-            array_push($views, $this->generate_device_log_view($device_full_info)->render());
-        }
+            ->orderByDesc('last_movement_log_id', 'id');
 
-        return $views;
+        return $devices;
     }
 
     protected function get_device($id){
         return ($this->get_devices([$id])->get())[0];
     }
 
-    protected function get_devices($ids = null){
+    protected function get_devices($filters = null){
         $last_movement_log_ids = Unit::select('id as unit_id')
             ->addSelect([
                 'movement_log_id' => MovementLog::select('id')
@@ -123,9 +127,9 @@ class DeviceController extends Controller{
             ->latest('last_movement_logs.created_at')
             ->orderByDesc('last_movement_log_id', 'id');
             
-        
-        if($ids !== null){
-            $device_full_info->whereIn('units.id', $ids);
+        if($filters){
+            if(isset($filters['id'])) $device_full_info->whereIn('units.id', $filters['id']);
+            if(isset($filters['search_string'])) $device_full_info = $this->find_devices($device_full_info, $filters['search_string']);
         }
         
         return $device_full_info;
@@ -199,9 +203,9 @@ class DeviceController extends Controller{
         return view('components.views.devices.device-table.rows.log', ['device' => $device]);
     }
 
-    public function show(){
-        $allDevices = $this->get_devices()->limit(15)->get();
-        return view('devices', ['devices' => $allDevices]);
+    public function index(){
+        $devices = $this->get_devices()->paginate(10);
+        return view('devices', compact('devices'));
     }
 
     public function update(Request $input_data){

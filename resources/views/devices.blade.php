@@ -1,26 +1,6 @@
 <x-app-layout>
     <link rel="stylesheet" href="{{ asset('css\devices.css') }}">
 
-    <script>
-        let links = {
-            add_device: @json(route('devices.add')),
-            add_movement_log: @json(route('devices.add_movement_log')),
-            get_device_property_edit_form: @json(route('devices.get_property_edit_form')),
-            get_device_comment_log_view: @json(route('devices.get_device_comment_log_view')),
-            get_device_form_view: @json(route('devices.get_device_form_view')),
-            get_device_log_view: @json(route('devices.get_device_log_view')),
-            get_device_more_info_view: @json(route('devices.get_device_more_info_view')),
-            get_movement_log_view: @json(route('devices.get_movement_log_view')),
-            get_movement_log_form_view: @json(route('devices.get_movement_log_form_view')),
-            delete_device: @json(route('devices.delete')),
-            delete_movement_log: @json(route('devices.delete_movement_log')),
-            find_devices: @json(route('devices.find_devices')),
-            update_device: @json(route('devices.update')),
-            update_device_comment: @json(route('devices.update_device_comment')),
-            update_movement_log: @json(route('devices.update_movement_log'))
-        };
-    </script>
-    <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 
     <x-slot name="pageTitle">{{ __('Devices') }}</x-slot>
     <x-slot name="header">{{ __('Devices') }}</x-slot>
@@ -57,24 +37,8 @@
 
                 </div>
 
-                <div class="row">
-
-                    <x-table id="device-table">
-                        <x-slot name="head">
-                            <div class="cell col-1">{{ __('Inv. №') }}</div>
-                            <div class="cell col-2">{{ __('Type') }}</div>
-                            <div class="cell col-2">{{ __('Model') }}</div>
-                            <div class="cell col-3">{{ __('Location') }}</div>
-                            <div class="cell col-3">{{ __('Comment') }}</div>
-                        </x-slot>
-
-                        <x-slot name="body">
-                            @foreach($devices as $device)
-                                <x-views.devices.device-table.rows.log :device="$device"/>
-                            @endforeach
-                        </x-slot>
-                    </x-table>
-
+                <div id="device-table-container" class="row">
+                    <x-views.devices.device-table :devices="$devices"/>
                 </div>
                 
             </div>
@@ -82,4 +46,26 @@
         </div>
 
     </div>
+    
+    <script>
+        let links = {
+            add_device: @json(route('devices.add')),
+            add_movement_log: @json(route('devices.add_movement_log')),
+            get_device_property_edit_form: @json(route('devices.get_property_edit_form')),
+            get_device_comment_log_view: @json(route('devices.get_device_comment_log_view')),
+            get_device_form_view: @json(route('devices.get_device_form_view')),
+            get_device_log_view: @json(route('devices.get_device_log_view')),
+            get_device_more_info_view: @json(route('devices.get_device_more_info_view')),
+            get_movement_log_view: @json(route('devices.get_movement_log_view')),
+            get_movement_log_form_view: @json(route('devices.get_movement_log_form_view')),
+            delete_device: @json(route('devices.delete')),
+            delete_movement_log: @json(route('devices.delete_movement_log')),
+            find_devices: @json(route('devices.find_devices')),
+            fetch_data: @json(route('devices.fetch_data')),
+            update_device: @json(route('devices.update')),
+            update_device_comment: @json(route('devices.update_device_comment')),
+            update_movement_log: @json(route('devices.update_movement_log'))
+        };
+    </script>
+    <script src="{{ asset('js/scenarios/devices.js') }}"></script>
 </x-app-layout>
