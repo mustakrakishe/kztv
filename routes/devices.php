@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\MovementLogController;
 
-Route::get('/devices', [DeviceController::class, 'show'])
+Route::get('/devices', [DeviceController::class, 'index'])
         ->name('devices');
 
     Route::any('/devices/add', [DeviceController::class, 'add'])
@@ -18,6 +18,9 @@ Route::get('/devices', [DeviceController::class, 'show'])
 
     Route::any('/devices/delete_movement_log', [MovementLogController::class, 'delete'])
         ->name('devices.delete_movement_log');
+
+    Route::get('/devices/fetch_data', [DeviceController::class, 'fetch_data'])
+        ->name('devices.fetch_data');
 
     Route::get('/devices/edit_property', [DeviceController::class, 'get_property_edit_form'])
         ->name('devices.get_property_edit_form');

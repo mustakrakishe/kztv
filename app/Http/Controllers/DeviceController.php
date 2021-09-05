@@ -43,6 +43,13 @@ class DeviceController extends Controller{
         }
     }
 
+    function fetch_data(Request $request){
+        if($request->ajax()){
+            $devices = $this->get_devices()->paginate(10);
+            return view('components.views.devices.device-table', compact('devices'))->render();
+        }
+    }
+
     public function find_devices(Request $data){
         $views = [];
         $searched_string = $data->string;
@@ -199,9 +206,9 @@ class DeviceController extends Controller{
         return view('components.views.devices.device-table.rows.log', ['device' => $device]);
     }
 
-    public function show(){
-        $allDevices = $this->get_devices()->limit(15)->get();
-        return view('devices', ['devices' => $allDevices]);
+    public function index(){
+        $devices = $this->get_devices()->paginate(10);
+        return view('devices', compact('devices'));
     }
 
     public function update(Request $input_data){
