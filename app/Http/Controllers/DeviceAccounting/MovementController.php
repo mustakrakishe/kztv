@@ -25,7 +25,7 @@ class MovementController extends Controller{
         $isDeleted = false;
 
         $log_to_delete = Movement::find($data->id);
-        if(Movement::where('device_id', $log_to_delete->unit_id)->count() > 1){
+        if(Movement::where('device_id', $log_to_delete->device_id)->count() > 1){
             $log_to_delete->delete();
             $isDeleted = true;
         }
@@ -33,8 +33,8 @@ class MovementController extends Controller{
         return $isDeleted;
     }
 
-    protected function generate_form_view($log, $unit_id){
-        return view('components.views.devices.device-table.additional-info.movement-history-table.rows.form', ['log' => $log, 'unit_id' =>  $unit_id]);
+    protected function generate_form_view($log, $device_id){
+        return view('components.views.devices.device-table.additional-info.movement-history-table.rows.form', ['log' => $log, 'device_id' =>  $device_id]);
     }
 
     protected function generate_log_view($log){
@@ -48,17 +48,17 @@ class MovementController extends Controller{
 
     public function get_form_view(Request $request){
         $log = null;
-        $unit_id = null;
+        $device_id = null;
 
         if(isset($request->log_id)){
             $log = Movement::find($request->log_id);
-            $unit_id = $log->unit_id;
+            $device_id = $log->device_id;
         }
         else{
-            $unit_id = $request->unit_id;
+            $device_id = $request->device_id;
         }
 
-        return $this->generate_form_view($log, $unit_id);
+        return $this->generate_form_view($log, $device_id);
     }
 
     protected function get_log($id){
@@ -84,7 +84,6 @@ class MovementController extends Controller{
 
     public function update(Request $input_data){
         $log = Movement::find($input_data->id);
-        $log->device_id = $input_data->device_id;
         $log->date = $input_data->date;
         $log->location = $input_data->location;
         $log->comment = $input_data->comment;

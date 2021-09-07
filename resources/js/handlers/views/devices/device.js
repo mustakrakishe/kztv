@@ -14,6 +14,7 @@ function add_new_movement_log(event){
     event.preventDefault();
     let new_movement_log_form = event.target;
     let input_data = get_form_data($(new_movement_log_form));
+
     add_movement_log_to_db(input_data)
     .done((new_movement_log) => {
         let table = $(new_movement_log_form).parents('.table').first();
@@ -194,7 +195,7 @@ function show_new_movement_log_form(activated_btn){
     let active_movement_history_table = $(active_table_row).find('.movement-history-table');
     let device_id = $(activated_btn).val();
     
-    get_movement_log_form_view({unit_id: device_id})
+    get_movement_log_form_view({device_id: device_id})
     .done(new_movement_log_form_view => {
         $(active_movement_history_table).find('[name="body"]').prepend(new_movement_log_form_view);
     })

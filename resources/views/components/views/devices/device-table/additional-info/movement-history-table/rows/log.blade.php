@@ -1,9 +1,6 @@
 <x-views.devices.device-table.additional-info.movement-history-table.rows.layout>
-
-<script>
-        console.log({{ $log }});
-    </script>    
-<x-slot name="id">{{ $log->id }}</x-slot>
+   
+    <x-slot name="id">{{ $log->id }}</x-slot>
     <x-slot name="date">{{ $log->date }}</x-slot>
     <x-slot name="location">{{ $log->location }}</x-slot>
     <x-slot name="comment">{{ $log->comment }}</x-slot>
