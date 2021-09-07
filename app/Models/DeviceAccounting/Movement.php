@@ -11,7 +11,7 @@ class Movement extends Model
 
     public $timestamps = false;
 
-    protected function serializeDate($date){
-        return $date->format('d.m.Y H:i');
-    }
+    protected $casts = [
+        'date' => 'datetime:d.m.Y H:i',
+    ];
 }
