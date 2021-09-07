@@ -13,6 +13,7 @@
 
             {{ $slot }}
             <div class="cell" name="id" hidden>{{ $id }}</div>
+            <div class="cell" name="status_id" hidden>{{ $status_id }}</div>
             <div class="cell col-1">
                 <div class="row m-0"><div name="inventory_code" title="{{ __('Inventory code') }}">{{ $inventory_code }}</div></div>
                 <div class="row m-0"><div name="identification_code" title="{{ __('Identification code') }}">{{ $identification_code }}</div></div>

@@ -3,11 +3,13 @@
         $rowClass = 'edit-device-form';
         $onSubmit = 'update_device(event)';
         $onReset = 'cancel_update_device(event)';
+        $status_id = $device->status_id;
     }
     else{
         $rowClass = 'new-device-form';
         $onSubmit = 'add_new_device(event)';
         $onReset = 'cancel_add_new_entry(event)';
+        $status_id = 1;
     }
 
     function checkSelected($device, $type){
@@ -21,6 +23,10 @@
 
     <x-slot name="id">
         <input type="text" name="id" class="form-control" value="@isset($device){{ $device->id }}@endisset">
+    </x-slot>
+
+    <x-slot name="status_id">
+        <input type="text" name="status_id" class="form-control" value="{{ $status_id }}">
     </x-slot>
 
     <x-slot name="inventory_code">

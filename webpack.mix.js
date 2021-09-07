@@ -19,7 +19,7 @@ mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'pub
 
 mix.scripts([
         'resources/js/functions/views/devices.js',
-        'resources/js/handlers/views/devices.js',
+        'resources/js/handlers/views/devices/device.js',
         'resources/js/listeners/views/devices.js'
     ], 'public/js/scenarios/devices.js');
 

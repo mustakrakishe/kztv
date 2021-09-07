@@ -10,8 +10,9 @@
 
     {{ $slot }}
     <div class="cell info" name="id" hidden>{{ $id }}</div>
+    <div class="cell info" name="status_id" hidden>{{ $statis_id }}</div>
     <div class="cell info col-3" name="date">{{ $date }}</div>
-    <div class="cell info col-4" name="location">{{ $location }}</div>
+    <div class="cell info col-4" name="characteristics">{{ $characteristics }}</div>
     <div class="cell info col-4" name="comment">{{ $comment }}</div>
     <div class="cell control col-1">{{ $control }}</div>
             

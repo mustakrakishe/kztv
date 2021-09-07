@@ -1,15 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DeviceAccounting;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Devices\Type;
-use App\Models\Devices\Unit;
-use App\Models\Devices\MovementLog;
-use Illuminate\Support\Arr;
 
-class DeviceController extends Controller{
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\DeviceAccounting\DeviceController;
+
+use App\Models\DeviceAccounting\Type;
+use App\Models\DeviceAccounting\Device;
+use App\Models\DeviceAccounting\Movement;
+// use Illuminate\Support\Arr;
+
+class DeviceAccountController extends Controller{
 
     public function add(Request $input_data){
         // Type is selecting not by id because somebody can delete this type from the table while you are trying to set this type id.
@@ -17,7 +21,8 @@ class DeviceController extends Controller{
             ['name' => $input_data['type']]
         );
         
-        $new_device = new Unit;
+        $new_device = new Device;
+        $new_device->status_id = $input_data['status_id'];
         $new_device->inventory_code = $input_data['inventory_code'];
         $new_device->identification_code = $input_data['identification_code'];
         $new_device->type_id = $type->id;
@@ -25,8 +30,8 @@ class DeviceController extends Controller{
         $new_device->comment = $input_data['comment'];
         $new_device->save();
 
-        $new_movement_log = new MovementLog;
-        $new_movement_log->unit_id = $new_device->id;
+        $new_movement_log = new Movement;
+        $new_movement_log->device_id = $new_device->id;
         $new_movement_log->location = $input_data['location'];
         $new_movement_log->save();
 
@@ -35,11 +40,11 @@ class DeviceController extends Controller{
     }
 
     public function delete(Request $data){
-        $unit_to_delete = Unit::find($data->id);
-        $type_to_delete = Type::find($unit_to_delete->type_id);
+        $device_to_delete = Device::find($data->id);
+        $type_to_delete = Type::find($device_to_delete->type_id);
 
-        $unit_to_delete->delete();
-        if(Unit::where('type_id', $type_to_delete->id)->doesntExist()){
+        $device_to_delete->delete();
+        if(Device::where('type_id', $type_to_delete->id)->doesntExist()){
             $type_to_delete->delete();
         }
     }
@@ -69,7 +74,6 @@ class DeviceController extends Controller{
                 ->orWhereRaw('t.type ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.identification_code::text like ' . "'%$keyword%'")
                 ->orWhereRaw('t.model ilike ' . "'%$keyword%'")
-                ->orWhereRaw('t.properties ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.location ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.comment ilike ' . "'%$keyword%'");
 
@@ -83,11 +87,11 @@ class DeviceController extends Controller{
 
         $union_query = $union_builder->toSql();
         $devices = DB::table(DB::raw("($union_query) as u"))
-            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, location, comment, last_movement_log_id')
-            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'location', 'comment', 'created_at', 'last_movement_log_id')
+            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, location, comment, last_movement_id')
+            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'location', 'comment', 'date', 'last_movement_id')
             ->orderByDesc('u.count')
-            ->latest('u.created_at')
-            ->orderByDesc('last_movement_log_id', 'id');
+            ->latest('u.date')
+            ->orderByDesc('last_movement_id', 'id');
 
         return $devices;
     }
@@ -97,38 +101,38 @@ class DeviceController extends Controller{
     }
 
     protected function get_devices($filters = null){
-        $last_movement_log_ids = Unit::select('id as unit_id')
+        $last_movement_ids = Device::select('id as device_id')
             ->addSelect([
-                'movement_log_id' => MovementLog::select('id')
-                ->whereColumn('unit_id', 'units.id')
-                ->latest('created_at')
+                'movement_log_id' => Movement::select('id')
+                ->whereColumn('device_id', 'devices.id')
+                ->latest('date')
                 ->orderByDesc('id')
                 ->limit(1)
             ]);
 
-        $last_movement_logs = DB::table('movement_logs')
-            ->joinSub($last_movement_log_ids, 'last_movement_log_ids', function($join){
-                $join->on('movement_logs.id', '=', 'last_movement_log_ids.movement_log_id');
+        $last_movements = DB::table('movements')
+            ->joinSub($last_movement_ids, 'last_movement_log_ids', function($join){
+                $join->on('movements.id', '=', 'last_movement_log_ids.movement_log_id');
             })
-            ->select('movement_logs.*');
+            ->select('movements.*');
 
-        $device_full_info = DB::table('units')
-            ->join('types', 'types.id', 'units.type_id')
-            ->leftJoinSub($last_movement_logs, 'last_movement_logs', function($leftJoin){
-                $leftJoin->on('units.id', '=', 'last_movement_logs.unit_id');
+        $device_full_info = DB::table('devices')
+            ->join('types', 'types.id', 'devices.type_id')
+            ->leftJoinSub($last_movements, 'last_movements', function($leftJoin){
+                $leftJoin->on('devices.id', '=', 'last_movements.device_id');
             })
             ->select(
-                'units.*',
+                'devices.*',
                 'types.name as type',
-                'last_movement_logs.id as last_movement_log_id',
-                'last_movement_logs.created_at',
-                'last_movement_logs.location',
+                'last_movements.id as last_movement_id',
+                'last_movements.date',
+                'last_movements.location',
             )
-            ->latest('last_movement_logs.created_at')
-            ->orderByDesc('last_movement_log_id', 'id');
+            ->latest('last_movements.date')
+            ->orderByDesc('last_movement_id', 'id');
             
         if($filters){
-            if(isset($filters['id'])) $device_full_info->whereIn('units.id', $filters['id']);
+            if(isset($filters['id'])) $device_full_info->whereIn('devices.id', $filters['id']);
             if(isset($filters['search_string'])) $device_full_info = $this->find_devices($device_full_info, $filters['search_string']);
         }
         
@@ -136,7 +140,7 @@ class DeviceController extends Controller{
     }
 
     public function get_property_edit_form(Request $request){
-        $device = Unit::find($request->device_id);
+        $device = Device::find($request->device_id);
 
         $deviceId = $request->device_id;
         $propertyName = $request->property_name;
@@ -145,7 +149,7 @@ class DeviceController extends Controller{
     }
 
     public function get_device_comment_log_view(Request $request){
-        $device = Unit::find($request->device_id);
+        $device = Device::find($request->device_id);
         return $this->generate_device_comment_log_view($device->id, $device->comment);
     }
 
@@ -167,15 +171,14 @@ class DeviceController extends Controller{
 
     public function get_device_more_info_view(Request $data){
         $device_id = $data->id;
-        $movement_history = MovementLog::where('unit_id', $device_id)
-            ->latest('created_at')
+        $movement_history = Movement::where('device_id', $device_id)
+            ->latest('date')
             ->orderByDesc('id')
             ->get()
             ->toJSON(); //json encode-decode for laravel datetime data casting
 
         return view('components.views.devices.device-table.additional-info.main-block', [
             'device_id' => $device_id,
-            'characteristics' => Unit::find($device_id)->properties,
             'movementHistory' => json_decode($movement_history) //json encode-decode for laravel datetime data casting
         ]);
     }
@@ -216,7 +219,7 @@ class DeviceController extends Controller{
 
         // Update Devices table
         
-        $device = Unit::find($input_data->id);
+        $device = Device::find($input_data->id);
         $device->inventory_code = $input_data->inventory_code;
         $device->identification_code = $input_data->identification_code;
         $device->type_id = $type->id;
@@ -228,13 +231,13 @@ class DeviceController extends Controller{
         }
 
         // Update Movement_logs table
-        $last_movement_log = MovementLog::where('unit_id', $input_data->id)
+        $last_movement_log = Movement::where('device_id', $input_data->id)
             ->orderByDesc('id')
             ->first();
         
         if($last_movement_log->location != $input_data->location){
-            $new_movement_log = new MovementLog;
-            $new_movement_log->unit_id = $device->id;
+            $new_movement_log = new Movement;
+            $new_movement_log->device_id = $device->id;
             $new_movement_log->location = $input_data->location;
             $new_movement_log->save();
         }
@@ -244,7 +247,7 @@ class DeviceController extends Controller{
     }
 
     public function update_characteristics(Request $request){
-        $device = Unit::find($request->device_id);
+        $device = Device::find($request->device_id);
         $device->characteristics = $request->characteristics;
         $device->save();
 

@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DeviceAccounting;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Devices\MovementLog;
+use App\Http\Controllers\Controller;
+use App\Models\DeviceAccounting\Movement;
 
-class MovementLogController extends Controller{
+class MovementController extends Controller{
 
     public function add(Request $input_data){
-        $new_movement_log = new MovementLog;
-        $new_movement_log->unit_id = $input_data['unit_id'];
-        $new_movement_log->created_at = $input_data['created_at'];
+        $new_movement_log = new Movement;
+        $new_movement_log->device_id = $input_data['device_id'];
+        $new_movement_log->date = $input_data['date'];
         $new_movement_log->location = $input_data['location'];
         $new_movement_log->comment = $input_data['comment'];
         $new_movement_log->save();
@@ -23,8 +24,8 @@ class MovementLogController extends Controller{
     public function delete(Request $data){
         $isDeleted = false;
 
-        $log_to_delete = MovementLog::find($data->id);
-        if(MovementLog::where('unit_id', $log_to_delete->unit_id)->count() > 1){
+        $log_to_delete = Movement::find($data->id);
+        if(Movement::where('device_id', $log_to_delete->unit_id)->count() > 1){
             $log_to_delete->delete();
             $isDeleted = true;
         }
@@ -50,7 +51,7 @@ class MovementLogController extends Controller{
         $unit_id = null;
 
         if(isset($request->log_id)){
-            $log = MovementLog::find($request->log_id);
+            $log = Movement::find($request->log_id);
             $unit_id = $log->unit_id;
         }
         else{
@@ -66,7 +67,7 @@ class MovementLogController extends Controller{
     }
 
     protected function get_logs($limits = null){
-        $logs = MovementLog::orderByDesc('created_at');
+        $logs = Movement::orderByDesc('date');
 
         if(isset($limits['ids'])){
             $logs->whereIn('id', $limits['ids']);
@@ -82,9 +83,9 @@ class MovementLogController extends Controller{
     }
 
     public function update(Request $input_data){
-        $log = MovementLog::find($input_data->id);
-        $log->unit_id = $input_data->unit_id;
-        $log->created_at = $input_data->created_at;
+        $log = Movement::find($input_data->id);
+        $log->device_id = $input_data->device_id;
+        $log->date = $input_data->date;
         $log->location = $input_data->location;
         $log->comment = $input_data->comment;
         $log->save();

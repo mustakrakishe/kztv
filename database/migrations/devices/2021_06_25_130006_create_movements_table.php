@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMovementLogsTable extends Migration
+class CreateMovementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateMovementLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('movement_logs', function (Blueprint $table) {
+        Schema::create('movements', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->foreignId('unit_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->string('location');
+            $table->timestamp('date')->useCurrent();
+            $table->text('location');
             $table->text('comment')->nullable();
+            $table->foreignId('device_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ class CreateMovementLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movement_logs');
+        Schema::dropIfExists('movements');
     }
 }
