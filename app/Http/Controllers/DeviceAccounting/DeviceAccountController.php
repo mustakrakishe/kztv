@@ -7,10 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\DeviceAccounting\DeviceController;
+use App\Http\Controllers\DeviceAccounting\MovementController;
+use App\Http\Controllers\DeviceAccounting\ModernizationController;
+use App\Http\Controllers\DeviceAccounting\ModernizationAccountController;
 
 use App\Models\DeviceAccounting\Type;
 use App\Models\DeviceAccounting\Device;
 use App\Models\DeviceAccounting\Movement;
+use App\Models\DeviceAccounting\Condition;
+use App\Models\DeviceAccounting\Modernization;
 // use Illuminate\Support\Arr;
 
 class DeviceAccountController extends Controller{
@@ -169,18 +174,18 @@ class DeviceAccountController extends Controller{
         return $this->generate_device_log_view($device_full_info);
     }
 
-    public function get_device_more_info_view(Request $data){
-        $device_id = $data->id;
-        $movement_history = Movement::where('device_id', $device_id)
-            ->latest('date')
-            ->orderByDesc('id')
-            ->get()
-            ->toJSON(); //json encode-decode for laravel datetime data casting
+    public function show_more_info(Request $data){
+        $deviceId = $data->id;
 
-        return view('components.views.devices.device-table.additional-info.main-block', [
-            'device_id' => $device_id,
-            'movementHistory' => json_decode($movement_history) //json encode-decode for laravel datetime data casting
-        ]);
+        $filters = array('device_id' => [$deviceId]);
+        $movements = MovementController::get($filters);
+        $modernizationAccounts = ModernizationAccountController::get($filters);
+
+        return view('components.views.devices.device-table.additional-info.main-block', compact(
+            'deviceId',
+            'movements',
+            'modernizationAccounts',
+        ));
     }
 
     protected function generate_property_edit_form($deviceId, $propertyName, $propertyValue){

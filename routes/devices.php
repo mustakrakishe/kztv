@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceAccounting\DeviceAccountController;
 use App\Http\Controllers\DeviceAccounting\MovementController;
+use App\Http\Controllers\DeviceAccounting\ModernizationAccountController;
 
 
 Route::middleware(['auth'])->group(function(){
@@ -13,7 +14,7 @@ Route::middleware(['auth'])->group(function(){
     Route::any('/devices/add', [DeviceAccountController::class, 'add'])
         ->name('devices.add');
 
-    Route::any('/devices/add_movement_log', [MovementController::class, 'add'])
+    Route::any('/devices/add_movement_log', [MovementController::class, 'store'])
         ->name('devices.add_movement_log');
 
     Route::any('/devices/delete', [DeviceAccountController::class, 'delete'])
@@ -43,7 +44,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/devices/get_device_log_view', [DeviceAccountController::class, 'get_device_log_view'])
         ->name('devices.get_device_log_view');
 
-    Route::get('/devices/get_device_more_info_view', [DeviceAccountController::class, 'get_device_more_info_view'])
+    Route::get('/devices/get_device_more_info_view', [DeviceAccountController::class, 'show_more_info'])
         ->name('devices.get_device_more_info_view');
 
     Route::get('/devices/get_movement_log_view', [MovementController::class, 'get_log_view'])
@@ -60,4 +61,10 @@ Route::middleware(['auth'])->group(function(){
 
     Route::any('/devices/update_movement_log', [MovementController::class, 'update'])
         ->name('devices.update_movement_log');
+        
+    Route::get('/devices/{deviceId}/modernization/create', [ModernizationAccountController::class, 'create'])
+        ->name('modernization.create');
+
+    Route::post('/devices/{deviceId}/modernization/store', [ModernizationAccountController::class, 'store'])
+        ->name('modernization.store');
 });

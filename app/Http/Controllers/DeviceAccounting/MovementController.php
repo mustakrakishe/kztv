@@ -9,16 +9,17 @@ use App\Models\DeviceAccounting\Movement;
 
 class MovementController extends Controller{
 
-    public function add(Request $input_data){
-        $new_movement_log = new Movement;
-        $new_movement_log->device_id = $input_data['device_id'];
-        $new_movement_log->date = $input_data['date'];
-        $new_movement_log->location = $input_data['location'];
-        $new_movement_log->comment = $input_data['comment'];
-        $new_movement_log->save();
+    public function store(Request $input_data){
+        $new_movement = new Movement;
+        $new_movement->device_id = $input_data['device_id'];
+        $new_movement->date = $input_data['date'];
+        $new_movement->location = $input_data['location'];
+        $new_movement->comment = $input_data['comment'];
+        $new_movement->save();
 
-        $movement_log = $this->get_log($new_movement_log->id);
-        return $this->generate_log_view($movement_log);
+        $filters['id'] = [$new_movement->id];
+        $movement = ($this->get($filters))[0];
+        return $this->generate_log_view($movement);
     }
 
     public function delete(Request $data){
@@ -42,7 +43,8 @@ class MovementController extends Controller{
     }
 
     public function get_log_view(Request $data){
-        $log = $this->get_log($data->id);
+        $filters['id'] = [$data->id];
+        $log = $this->get($filters)[0];
         return $this->generate_log_view($log);
     }
 
@@ -61,23 +63,20 @@ class MovementController extends Controller{
         return $this->generate_form_view($log, $device_id);
     }
 
-    protected function get_log($id){
-        $log = $this->get_logs(['ids' => [$id]]);
-        return $log[0];
-    }
+    public static function get($filters = null){
+        $movements = Movement::latest('date')->orderByDesc('id');
 
-    protected function get_logs($limits = null){
-        $logs = Movement::orderByDesc('date');
-
-        if(isset($limits['ids'])){
-            $logs->whereIn('id', $limits['ids']);
+        if($filters){
+            if(isset($filters['id'])){
+                $movements->whereIn('id', $filters['id']);
+            }
+    
+            if(isset($filters['device_id'])){
+                $movements->whereIn('device_id', $filters['device_id']);
+            }
         }
 
-        if(isset($limits['unit_ids'])){
-            $logs->whereIn('id', $limits['unit_ids']);
-        }
-
-        $result = $logs->get();
+        $result = $movements->get();
         
         return json_decode($result->toJSON()); // Json converting for model property MovementLog::casts casts a created_at field.
     }
@@ -93,7 +92,8 @@ class MovementController extends Controller{
             $log->save();
         }
 
-        $updated_log = $this->get_log($log->id);
+        $filters['id'] = [$log->id];
+        $updated_log = $this->get($filters);
         return $this->generate_log_view($updated_log);
     }
 }

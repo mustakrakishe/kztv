@@ -5,96 +5,29 @@ namespace App\Http\Controllers\DeviceAccounting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Models\DeviceAccounting\Movement;
+use App\Models\DeviceAccounting\Condition;
 
 class ConditionController extends Controller{
+    static public function store(Request $request){
+        $condition = new Condition;
+        $condition->device_id = $request->device_id;
+        $condition->characteristics = $request->characteristics;
+        $condition->save();
 
-    public function store(Request $request){
-        $new_condition = new Condition;
-        $new_condition->unit_id = $request['device_id'];
-        $new_condition->date = $request['created_at'];
-        $new_condition->location = $request['location'];
-        $new_condition->comment = $request['comment'];
-        $new_condition->save();
-
-        $movement_log = $this->get_log($new_movement_log->id);
-        return $this->generate_log_view($movement_log);
+        return $condition;
     }
+    
+    static public function get($filters = null){
+        $conditions = Condition::orderByDesc('id');
 
-    public function delete(Request $data){
-        $isDeleted = false;
-
-        $log_to_delete = Movement::find($data->id);
-        if(Movement::where('device_id', $log_to_delete->unit_id)->count() > 1){
-            $log_to_delete->delete();
-            $isDeleted = true;
+        if($filters){
+            foreach($filters as $propName => $propValueList){
+                $conditions->whereIn($propName, $propValueList);
+            }
         }
 
-        return $isDeleted;
-    }
-
-    protected function generate_form_view($log, $unit_id){
-        return view('components.views.devices.device-table.additional-info.movement-history-table.rows.form', ['log' => $log, 'unit_id' =>  $unit_id]);
-    }
-
-    protected function generate_log_view($log){
-        return view('components.views.devices.device-table.additional-info.movement-history-table.rows.log', ['log' => $log]);
-    }
-
-    public function get_log_view(Request $data){
-        $log = $this->get_log($data->id);
-        return $this->generate_log_view($log);
-    }
-
-    public function get_form_view(Request $request){
-        $log = null;
-        $unit_id = null;
-
-        if(isset($request->log_id)){
-            $log = Movement::find($request->log_id);
-            $unit_id = $log->unit_id;
-        }
-        else{
-            $unit_id = $request->unit_id;
-        }
-
-        return $this->generate_form_view($log, $unit_id);
-    }
-
-    protected function get_log($id){
-        $log = $this->get_logs(['ids' => [$id]]);
-        return $log[0];
-    }
-
-    protected function get_logs($limits = null){
-        $logs = Movement::orderByDesc('date');
-
-        if(isset($limits['ids'])){
-            $logs->whereIn('id', $limits['ids']);
-        }
-
-        if(isset($limits['unit_ids'])){
-            $logs->whereIn('id', $limits['unit_ids']);
-        }
-
-        $result = $logs->get();
+        $result = $conditions->get();
         
-        return json_decode($result->toJSON()); // Json converting for model property MovementLog::casts casts a created_at field.
-    }
-
-    public function update(Request $input_data){
-        $log = Movement::find($input_data->id);
-        $log->unit_id = $input_data->unit_id;
-        $log->date = $input_data->created_at;
-        $log->location = $input_data->location;
-        $log->comment = $input_data->comment;
-        $log->save();
-
-        if($log->isDirty()){
-            $log->save();
-        }
-
-        $updated_log = $this->get_log($log->id);
-        return $this->generate_log_view($updated_log);
+        return json_decode($result->toJSON()); // Json converting for model casting method.
     }
 }

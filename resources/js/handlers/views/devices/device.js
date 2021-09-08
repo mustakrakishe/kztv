@@ -133,7 +133,34 @@ function hide_device_more_info(event){
     $(btn_more).attr('onclick', 'show_device_more_info(this)');
 }
 
-function show_characteristics_edit_form(){
+function modernization_create(activated_btn){
+    let active_table_row = get_active_table_row(activated_btn);
+    let active_modernization_history_table = $(active_table_row).find('.modernization-history-table');
+    
+    $.get({
+        url: $(activated_btn).attr('link'),
+        data: {device_id: $(activated_btn).val()}
+    })
+    .done(new_modernization_form_view => {
+        $(active_modernization_history_table).find('[name="body"]').prepend(new_modernization_form_view);
+    })
+}
+
+function modernization_store(event){
+    event.preventDefault();
+    let form = event.target;
+    let url = form.action;
+
+    $.post({
+        url: url,
+        data: get_form_data($(form))
+    })
+    .done(new_modernizationAccount_entry_view => {
+        let table = $(form).closest('.table');
+        let create_forms = $(table).find('.new-form');
+        $(create_forms).last().after(new_modernizationAccount_entry_view);
+        $(create_forms).first().remove();
+    });
 }
 
 function show_device_log_control(event){
