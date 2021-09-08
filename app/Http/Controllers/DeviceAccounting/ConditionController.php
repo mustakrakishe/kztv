@@ -30,4 +30,8 @@ class ConditionController extends Controller{
         
         return json_decode($result->toJSON()); // Json converting for model casting method.
     }
+
+    static public function destroy($id){
+        Condition::find($id)->delete();
+    }
 }

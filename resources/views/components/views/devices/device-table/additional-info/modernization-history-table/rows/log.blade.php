@@ -5,11 +5,13 @@
     <x-slot name="comment">{{ $modernizationAccount->comment }}</x-slot>
 
     <x-slot name="control">
-        <x-button value="{{ $modernizationAccount->id }}" onclick="create_modernization(this)">
+        <x-button value="{{ $modernizationAccount->id }}" onclick="modernization_create(this)">
             <i class="fas fa-pen"></i>
         </x-button>
         
-        <x-button value="{{ $modernizationAccount->id }}" onclick="delete_modernization(this)">
+        <x-button value="{{ $modernizationAccount->id }}" token="{{ csrf_token() }}" link="{{ route('modernization.delete', [
+            'modernizationId' => $modernizationAccount->id,
+            'deviceId' => $modernizationAccount->device_id]) }}" onclick="modernization_delete(this)">
             <i class="fas fa-trash-alt"></i>
         </x-button>
     </x-slot>

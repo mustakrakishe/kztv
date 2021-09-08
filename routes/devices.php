@@ -62,9 +62,12 @@ Route::middleware(['auth'])->group(function(){
     Route::any('/devices/update_movement_log', [MovementController::class, 'update'])
         ->name('devices.update_movement_log');
         
-    Route::get('/devices/{deviceId}/modernization/create', [ModernizationAccountController::class, 'create'])
+    Route::get('/devices/{deviceId}/modernizations/create', [ModernizationAccountController::class, 'create'])
         ->name('modernization.create');
 
-    Route::post('/devices/{deviceId}/modernization/store', [ModernizationAccountController::class, 'store'])
+    Route::post('/devices/{deviceId}/modernizations/store', [ModernizationAccountController::class, 'store'])
         ->name('modernization.store');
+
+    Route::delete('/devices/{deviceId}/modernizations/{modernizationId}/delete', [ModernizationAccountController::class, 'destroy'])
+        ->name('modernization.delete');
 });

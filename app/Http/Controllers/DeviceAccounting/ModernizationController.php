@@ -47,6 +47,7 @@ class ModernizationController extends Controller{
     public function update(Request $request, $id){
     }
 
-    public function destroy($id){
+    static public function destroy($id){
+        Modernization::find($id)->delete();
     }
 }

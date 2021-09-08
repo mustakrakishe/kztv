@@ -163,6 +163,26 @@ function modernization_store(event){
     });
 }
 
+function modernization_delete(delete_btn){
+    let url =  $(delete_btn).attr('link');
+    let modernization_id = $(delete_btn).val();
+    let token = $(delete_btn).attr('token');
+    
+    $.ajax({
+        url: url,
+        method: 'delete',
+        data: {
+            id: modernization_id,
+            _token: token
+        }
+    })
+    .done((isDeleted) => {
+        if(isDeleted){
+            get_active_table_row(delete_btn).remove();
+        }
+    })
+}
+
 function show_device_log_control(event){
     let active_table_row = event.currentTarget;
     let control_cell = $(active_table_row).find('div[name="control"]').children().removeAttr('hidden');

@@ -24,13 +24,13 @@ class ModernizationAccountController extends Controller{
         $condition = ConditionController::store($request);
         $request->condition_id = $condition->id;
         $modernization = ModernizationController::store($request);
-
         
         $modernizationAccount = (object)[];
         $modernizationAccount->id = $modernization->id;
         $modernizationAccount->date = $modernization->date;
-        $modernizationAccount->characteristics = $condition->characteristics;
         $modernizationAccount->comment = $modernization->comment;
+        $modernizationAccount->characteristics = $condition->characteristics;
+        $modernizationAccount->device_id = $condition->device_id;
 
         return $this->generateEntryView($modernizationAccount);
     }
@@ -51,7 +51,8 @@ class ModernizationAccountController extends Controller{
         $modernizationAccounts = Modernization::rightJoin('conditions', 'modernizations.condition_id', '=', 'conditions.id')
             ->select(
                 'modernizations.*',
-                'conditions.characteristics'
+                'conditions.characteristics',
+                'conditions.device_id',
             );
             
 
@@ -75,7 +76,24 @@ class ModernizationAccountController extends Controller{
     public function update(Request $request, $id){
     }
     
-    public function destroy($id){
+    public function destroy(Request $request){
+        $isDeleted = false;
+
+        $filters = array('id' => [$request->id]);
+        $modernizationToDelete = ModernizationController::get($filters)[0];
+        $filters = array('id' => [$modernizationToDelete->condition_id]);
+        $conditionToDelete = ConditionController::get($filters)[0];
+
+        $condition_id_list = Condition::where('device_id', $conditionToDelete->device_id)->pluck('id');
+        $isLastModernisation = Modernization::whereIn('condition_id', $condition_id_list)->count() > 1;
+
+        if($isLastModernisation){
+            ModernizationController::destroy($modernizationToDelete->id);
+            ConditionController::destroy($conditionToDelete->id);
+            $isDeleted = true;
+        }
+
+        return $isDeleted;
     }
 
     protected function generateEntryView($modernizationAccount){
