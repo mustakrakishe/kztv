@@ -44,7 +44,16 @@ class ModernizationController extends Controller{
     public function edit($id){
     }
     
-    public function update(Request $request, $id){
+    static public function update(Request $request, $id){
+        $modernization = Modernization::find($id);
+        $modernization->date = $request->date;
+        $modernization->comment = $request->comment;
+
+        if($modernization->isDirty()){
+            $modernization->save();
+        }
+
+        return $modernization;
     }
 
     static public function destroy($id){

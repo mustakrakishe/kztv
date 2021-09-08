@@ -16,6 +16,17 @@ class ConditionController extends Controller{
 
         return $condition;
     }
+
+    static public function update(Request $request, $id){
+        $condition = Condition::find($id);
+        $condition->characteristics = $request->characteristics;
+
+        if($condition->isDirty()){
+            $condition->save();
+        }
+
+        return $condition;
+    }
     
     static public function get($filters = null){
         $conditions = Condition::orderByDesc('id');

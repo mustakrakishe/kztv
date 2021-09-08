@@ -12,38 +12,25 @@ use App\Models\DeviceAccounting\Modernization;
 class ModernizationAccountController extends Controller{
     
     public function index(){
-        
     }
 
     public function create(Request $request){
         $deviceId = $request->device_id;
-        return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.form', compact('deviceId'));
+        // return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.form', compact('deviceId'));
+        return $this->generateFormView(compact('deviceId'));
     }
     
     public function store(Request $request){
         $condition = ConditionController::store($request);
         $request->condition_id = $condition->id;
         $modernization = ModernizationController::store($request);
-        
-        $modernizationAccount = (object)[];
-        $modernizationAccount->id = $modernization->id;
-        $modernizationAccount->date = $modernization->date;
-        $modernizationAccount->comment = $modernization->comment;
-        $modernizationAccount->characteristics = $condition->characteristics;
-        $modernizationAccount->device_id = $condition->device_id;
 
-        return $this->generateEntryView($modernizationAccount);
+        $modernizationAccount = $this->build($modernization, $condition);
+
+        return $this->generateEntryView(compact('modernizationAccount'));
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    
+    public function show($id){
     }
     
     static function get($filters = null){
@@ -70,10 +57,23 @@ class ModernizationAccountController extends Controller{
         return json_decode($result->toJSON()); // Json converting for model casting method.
     }
     
-    public function edit($id){
+    public function edit(Request $request){
+        $modenization = Modernization::find($request->id);
+        $condition = Condition::find($modenization->condition_id);
+        $deviceId = $condition->device_id;
+        $modernizationAccount = $this->build($modenization, $condition);
+        $data = compact('modernizationAccount', 'deviceId');
+
+        return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.form', $data);
     }
     
-    public function update(Request $request, $id){
+    public function update(Request $request){
+        $modernization = ModernizationController::update($request, $request->id);
+        $condition = ConditionController::update($request, $modernization->condition_id);
+
+        $modernizationAccount = $this->build($modernization, $condition);
+
+        return $this->generateEntryView(compact('modernizationAccount'));
     }
     
     public function destroy(Request $request){
@@ -96,7 +96,22 @@ class ModernizationAccountController extends Controller{
         return $isDeleted;
     }
 
-    protected function generateEntryView($modernizationAccount){
-        return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.log', compact('modernizationAccount'));
+    protected function build($modernization, $condition){
+        $modernizationAccount = (object)[];
+        $modernizationAccount->id = $modernization->id;
+        $modernizationAccount->date = $modernization->date;
+        $modernizationAccount->comment = $modernization->comment;
+        $modernizationAccount->characteristics = $condition->characteristics;
+        $modernizationAccount->device_id = $condition->device_id;
+
+        return $modernizationAccount;
+    }
+
+    protected function generateEntryView($data){
+        return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.log', $data);
+    }
+
+    protected function generateFormView($data){
+        return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.form', $data);
     }
 }

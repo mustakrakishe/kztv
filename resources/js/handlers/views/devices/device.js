@@ -141,8 +141,8 @@ function modernization_create(activated_btn){
         url: $(activated_btn).attr('link'),
         data: {device_id: $(activated_btn).val()}
     })
-    .done(new_modernization_form_view => {
-        $(active_modernization_history_table).find('[name="body"]').prepend(new_modernization_form_view);
+    .done(form_view => {
+        $(active_modernization_history_table).find('[name="body"]').prepend(form_view);
     })
 }
 
@@ -160,6 +160,36 @@ function modernization_store(event){
         let create_forms = $(table).find('.new-form');
         $(create_forms).last().after(new_modernizationAccount_entry_view);
         $(create_forms).first().remove();
+    });
+}
+
+function modernization_edit(activated_btn){
+    let modernization_id = $(activated_btn).val();
+    let url = $(activated_btn).attr('link');
+
+    $.get({
+        url: url,
+        data: {id: modernization_id}
+    })
+    .done(form_view => {
+        get_active_table_row(activated_btn)
+        .replaceWith(form_view);
+    })
+}
+
+function modernization_update(event){
+    event.preventDefault();
+    let form = event.target;
+    let url = form.action;
+    let input_data = get_form_data($(form));
+
+    $.post({
+        url: url,
+        data: input_data
+    })
+    .done(updated_entry_table_row => {
+        get_active_table_row(form)
+            .replaceWith(updated_entry_table_row);
     });
 }
 

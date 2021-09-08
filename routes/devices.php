@@ -68,6 +68,12 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/devices/{deviceId}/modernizations/store', [ModernizationAccountController::class, 'store'])
         ->name('modernization.store');
 
+    Route::get('/devices/{deviceId}/modernizations/{modernizationId}/edit', [ModernizationAccountController::class, 'edit'])
+        ->name('modernization.edit');
+
+    Route::post('/devices/{deviceId}/modernizations/{modernizationId}/update', [ModernizationAccountController::class, 'update'])
+        ->name('modernization.update');
+
     Route::delete('/devices/{deviceId}/modernizations/{modernizationId}/delete', [ModernizationAccountController::class, 'destroy'])
         ->name('modernization.delete');
 });
