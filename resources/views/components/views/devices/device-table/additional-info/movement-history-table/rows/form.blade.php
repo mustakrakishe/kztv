@@ -8,7 +8,7 @@
     else{
         $rowClass = 'new-form';
         $onSubmit = 'add_new_movement_log(event)';
-        $onReset = 'cancel_add_new_entry(event)';
+        $onReset = 'cancel_create(event)';
         $time = time();
     }
 

@@ -8,7 +8,7 @@
     else{
         $rowClass = 'new-form';
         $onSubmit = 'modernization_store(event)';
-        $onReset = 'modernization_cancel_create(event)';
+        $onReset = 'cancel_create(event)';
         $time = time();
         $url = route('modernization.store', compact('deviceId'));
     }

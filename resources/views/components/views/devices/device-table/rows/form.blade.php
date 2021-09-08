@@ -8,7 +8,7 @@
     else{
         $rowClass = 'new-device-form';
         $onSubmit = 'add_new_device(event)';
-        $onReset = 'cancel_add_new_entry(event)';
+        $onReset = 'cancel_create(event)';
         $status_id = 1;
     }
 

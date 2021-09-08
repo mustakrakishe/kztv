@@ -23,7 +23,7 @@ function add_new_movement_log(event){
     });
 }
 
-function cancel_add_new_entry(event){
+function cancel_create(event){
     event.preventDefault();
     let form = event.target;
     let form_table_row = $(form).closest('.table-row');
