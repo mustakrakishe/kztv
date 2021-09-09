@@ -15,6 +15,16 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.11
+- CSA - Devices:
+    - page icon is replaced with company logo;
+    - device table row characteristics field is replaced with a device comment field;
+    - device pagination is added;
+    - device more info table type is restyled;
+    - modernization table is added;
+    - repair table is added;
+    - it is type deleting when user deletes a device if there are not devices of it any more.
+
 ### 1.0.10
 - CSA - Devices: Fixed bug when search returned the same device several times if it has few entries in the movement log.
 

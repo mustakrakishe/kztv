@@ -76,8 +76,8 @@ class DeviceAccountController extends Controller{
 
             $single_keyword_matches = DB::table(DB::raw("($select_full_device_log_sql) as t"))
                 ->whereRaw('t.inventory_code::text like ' . "'%$keyword%'")
-                ->orWhereRaw('t.type ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.identification_code::text like ' . "'%$keyword%'")
+                ->orWhereRaw('t.type ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.model ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.location ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.comment ilike ' . "'%$keyword%'");
