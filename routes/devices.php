@@ -68,6 +68,9 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/devices/{deviceId}/modernizations/store', [ModernizationAccountController::class, 'store'])
         ->name('modernization.store');
 
+    Route::get('/devices/{deviceId}/modernizations/{modernizationId}/show', [ModernizationAccountController::class, 'show'])
+        ->name('modernization.show');
+
     Route::get('/devices/{deviceId}/modernizations/{modernizationId}/edit', [ModernizationAccountController::class, 'edit'])
         ->name('modernization.edit');
 

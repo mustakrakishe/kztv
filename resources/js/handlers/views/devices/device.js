@@ -177,6 +177,22 @@ function modernization_edit(activated_btn){
     })
 }
 
+function modernization_cancel_edit(event){
+    event.preventDefault();
+    let active_form = event.target;
+    let modernization_id = get_form_data($(active_form)).id;
+    let url = $(active_form).attr('cancel');
+
+    $.get({
+        url: url,
+        data: {id: modernization_id}
+    })
+    .done(old_entry_table_row => {
+        let active_form_table_row = $(active_form).closest('.table-row');
+        $(active_form_table_row).replaceWith(old_entry_table_row);
+    })
+}
+
 function modernization_update(event){
     event.preventDefault();
     let form = event.target;

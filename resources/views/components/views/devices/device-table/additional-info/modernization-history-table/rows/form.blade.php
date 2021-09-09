@@ -1,24 +1,33 @@
 @php
     if(isset($modernizationAccount)){
         $rowClass = 'edit-form';
+        $modernizationId = $modernizationAccount->id;
+        $url_data = compact('deviceId', 'modernizationId');
+
+        $action = route('modernization.update', $url_data);
+        $cancel = route('modernization.show', $url_data);
+
         $onSubmit = 'modernization_update(event)';
         $onReset = 'modernization_cancel_edit(event)';
+
         $time = strtotime($modernizationAccount->date);
-        $modernizationId = $modernizationAccount->id;
-        $url = route('modernization.update', compact('deviceId', 'modernizationId'));
     }
     else{
         $rowClass = 'new-form';
+
         $onSubmit = 'modernization_store(event)';
         $onReset = 'cancel_create(event)';
+        
+        $action = route('modernization.store', compact('deviceId'));
+        $cancel = '';
+
         $time = time();
-        $url = route('modernization.store', compact('deviceId'));
     }
 
     $date = date('Y-m-d', $time) . 'T' . date('H:i:s', $time);
 @endphp
 
-<x-views.devices.device-table.additional-info.modernization-history-table.rows.layout class="{{ $rowClass }}" :action="$url" :onSubmit="$onSubmit" :onReset="$onReset">
+<x-views.devices.device-table.additional-info.modernization-history-table.rows.layout class="{{ $rowClass }}" :action="$action" :cancel="$cancel" :onSubmit="$onSubmit" :onReset="$onReset">
     
     <input type="text" name="device_id" value="{{ $deviceId }}" hidden>
     <x-slot name="id"><input type="text" name="id" class="form-control" value="@isset($modernizationAccount){{ $modernizationAccount->id }}@endisset"></x-slot>

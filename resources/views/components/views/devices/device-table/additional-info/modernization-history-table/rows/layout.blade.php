@@ -1,5 +1,6 @@
 @props([
     'action' => null,
+    'cancel' => null,
     'onSubmit' => null,
     'onReset' => null
 ])
@@ -7,7 +8,7 @@
 <div {{ $attributes->merge(['class' => 'table-row row']) }}>
 
     @if(str_ends_with($attributes->get('class'), 'form'))
-        <form class="col" action="{{ $action }}" onsubmit="{{ $onSubmit }}" onreset="{{ $onReset }}" >
+        <form class="col" action="{{ $action }}" cancel="{{ $cancel }}" onsubmit="{{ $onSubmit }}" onreset="{{ $onReset }}" >
             @csrf
             <div class="row">
     @endif

@@ -27,10 +27,15 @@ class ModernizationAccountController extends Controller{
 
         $modernizationAccount = $this->build($modernization, $condition);
 
-        return $this->generateEntryView(compact('modernizationAccount'));
+        return $this->generateEntryView($modernizationAccount);
     }
     
-    public function show($id){
+    public function show(Request $request){
+        $filters = array('id' => [$request->id]);
+        $modernizationAccount = $this->get($filters)[0];
+
+        return $this->generateEntryView($modernizationAccount);
+
     }
     
     static function get($filters = null){
@@ -41,9 +46,13 @@ class ModernizationAccountController extends Controller{
                 'conditions.characteristics',
                 'conditions.device_id',
             );
-            
 
         if($filters){
+            if(isset($filters['id'])){
+                $filters['modernizations.id'] = $filters['id'];
+                unset($filters['id']);
+            }
+
             foreach($filters as $propName => $propValueList){
                 $modernizationAccounts->whereIn($propName, $propValueList);
             }
@@ -73,7 +82,7 @@ class ModernizationAccountController extends Controller{
 
         $modernizationAccount = $this->build($modernization, $condition);
 
-        return $this->generateEntryView(compact('modernizationAccount'));
+        return $this->generateEntryView($modernizationAccount);
     }
     
     public function destroy(Request $request){
@@ -107,8 +116,8 @@ class ModernizationAccountController extends Controller{
         return $modernizationAccount;
     }
 
-    protected function generateEntryView($data){
-        return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.log', $data);
+    protected function generateEntryView($modernizationAccount){
+        return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.log', compact('modernizationAccount'));
     }
 
     protected function generateFormView($data){
