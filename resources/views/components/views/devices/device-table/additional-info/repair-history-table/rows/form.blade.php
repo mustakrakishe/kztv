@@ -48,7 +48,7 @@
     </x-slot>
 
     <x-slot name="characteristics">
-        <input type="text" name="characteristics" class="form-control" placeholder="{{ __('Characteristics') }}" value="@isset($repairAccount){{ $repairAccount->characteristics }}@endisset" required>
+        <input type="text" name="characteristics" class="form-control" placeholder="{{ __('Characteristics') }}" value="@isset($repairAccount){{ $repairAccount->characteristics }}@endisset">
     </x-slot>
 
     <x-slot name="control">

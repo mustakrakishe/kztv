@@ -92,8 +92,8 @@ class DeviceAccountController extends Controller{
 
         $union_query = $union_builder->toSql();
         $devices = DB::table(DB::raw("($union_query) as u"))
-            ->selectRaw('id, count(id), inventory_code, identification_code, type, model, location, comment, last_movement_id')
-            ->groupBy('id', 'inventory_code', 'identification_code', 'type', 'model', 'location', 'comment', 'date', 'last_movement_id')
+            ->selectRaw('id, count(id), status_id, inventory_code, identification_code, type, model, location, comment, last_movement_id')
+            ->groupBy('id', 'status_id', 'inventory_code', 'identification_code', 'type', 'model', 'location', 'comment', 'date', 'last_movement_id')
             ->orderByDesc('u.count')
             ->latest('u.date')
             ->orderByDesc('last_movement_id', 'id');
