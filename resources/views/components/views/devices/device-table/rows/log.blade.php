@@ -15,15 +15,15 @@
 
     <x-slot name="control">
         <div hidden>
-            <x-button value="{{ $device->id }}" onclick="show_device_more_info(this)">
+            <x-button title="{{ __('buttons.More') }}" value="{{ $device->id }}" onclick="show_device_more_info(this)">
                 <i class="far fa-window-maximize"></i>
             </x-button>
 
-            <x-button value="{{ $device->id }}" onclick="show_device_edit_form(this)">
+            <x-button title="{{ __('buttons.Edit') }}" value="{{ $device->id }}" onclick="show_device_edit_form(this)">
                 <i class="fas fa-pen"></i>
             </x-button>
                 
-            <x-button value="{{ $device->id }}" onclick="delete_device(this)">
+            <x-button title="{{ __('buttons.Delete') }}" value="{{ $device->id }}" onclick="delete_device(this)">
                 <i class="fas fa-trash-alt"></i>
             </x-button>
         </div>

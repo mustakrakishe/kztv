@@ -180,11 +180,13 @@ class DeviceAccountController extends Controller{
         $filters = array('device_id' => [$deviceId]);
         $movements = MovementController::get($filters);
         $modernizationAccounts = ModernizationAccountController::get($filters);
+        $repairAccounts = RepairAccountController::get($filters);
 
         return view('components.views.devices.device-table.additional-info.main-block', compact(
             'deviceId',
             'movements',
             'modernizationAccounts',
+            'repairAccounts',
         ));
     }
 

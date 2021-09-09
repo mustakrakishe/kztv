@@ -16,7 +16,6 @@ class ModernizationAccountController extends Controller{
 
     public function create(Request $request){
         $deviceId = $request->device_id;
-        // return view('components.views.devices.device-table.additional-info.modernization-history-table.rows.form', compact('deviceId'));
         return $this->generateFormView(compact('deviceId'));
     }
     
@@ -40,7 +39,7 @@ class ModernizationAccountController extends Controller{
     
     static function get($filters = null){
 
-        $modernizationAccounts = Modernization::rightJoin('conditions', 'modernizations.condition_id', '=', 'conditions.id')
+        $modernizationAccounts = Modernization::leftJoin('conditions', 'modernizations.condition_id', '=', 'conditions.id')
             ->select(
                 'modernizations.*',
                 'conditions.characteristics',

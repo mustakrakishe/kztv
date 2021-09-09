@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DeviceAccounting\DeviceAccountController;
 use App\Http\Controllers\DeviceAccounting\MovementController;
 use App\Http\Controllers\DeviceAccounting\ModernizationAccountController;
+use App\Http\Controllers\DeviceAccounting\RepairAccountController;
 
 
 Route::middleware(['auth'])->group(function(){
@@ -61,6 +62,8 @@ Route::middleware(['auth'])->group(function(){
 
     Route::any('/devices/update_movement_log', [MovementController::class, 'update'])
         ->name('devices.update_movement_log');
+
+    // Modernization
         
     Route::get('/devices/{deviceId}/modernizations/create', [ModernizationAccountController::class, 'create'])
         ->name('modernization.create');
@@ -79,4 +82,24 @@ Route::middleware(['auth'])->group(function(){
 
     Route::delete('/devices/{deviceId}/modernizations/{modernizationId}/delete', [ModernizationAccountController::class, 'destroy'])
         ->name('modernization.delete');
+
+        // Repair
+            
+        Route::get('/devices/{deviceId}/repairs/create', [RepairAccountController::class, 'create'])
+            ->name('repair.create');
+    
+        Route::post('/devices/{deviceId}/repairs/store', [RepairAccountController::class, 'store'])
+            ->name('repair.store');
+    
+        Route::get('/devices/{deviceId}/repairs/{repairId}/show', [RepairAccountController::class, 'show'])
+            ->name('repair.show');
+    
+        Route::get('/devices/{deviceId}/repairs/{repairId}/edit', [RepairAccountController::class, 'edit'])
+            ->name('repair.edit');
+    
+        Route::post('/devices/{deviceId}/repairs/{repairId}/update', [RepairAccountController::class, 'update'])
+            ->name('repair.update');
+    
+        Route::delete('/devices/{deviceId}/repairs/{repairId}/delete', [RepairAccountController::class, 'destroy'])
+            ->name('repair.delete');
 });

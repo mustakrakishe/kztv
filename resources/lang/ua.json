@@ -1,6 +1,7 @@
 {
     "Authorization": "Вхід",
     "Characteristics": "Характеристики",
+    "Cause": "Причина",
     "Comment": "Коментар",
     "Date": "Дата",
     "Devices": "Пристрої",
@@ -19,6 +20,8 @@
     "Password": "Пароль",
     "Registration": "Реєстрація",
     "Remember me": "Запам'ятати мене",
+    "Repair history": "Історія ремонту",
+    "Result": "Результат",
     "Search by keywords": "Пошук за ключовими словами",
     "Sign In": "Увійти",
     "Sign Up": "Зареєструватися",

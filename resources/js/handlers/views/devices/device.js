@@ -133,6 +133,8 @@ function hide_device_more_info(event){
     $(btn_more).attr('onclick', 'show_device_more_info(this)');
 }
 
+// Modernization
+
 function modernization_create(activated_btn){
     let active_table_row = get_active_table_row(activated_btn);
     let active_modernization_history_table = $(active_table_row).find('.modernization-history-table');
@@ -219,6 +221,104 @@ function modernization_delete(delete_btn){
         method: 'delete',
         data: {
             id: modernization_id,
+            _token: token
+        }
+    })
+    .done((isDeleted) => {
+        if(isDeleted){
+            get_active_table_row(delete_btn).remove();
+        }
+    })
+}
+
+// Repair
+
+function repair_create(activated_btn){
+    let active_table_row = get_active_table_row(activated_btn);
+    let active_repair_history_table = $(active_table_row).find('.repair-history-table');
+    
+    $.get({
+        url: $(activated_btn).attr('link'),
+        data: {device_id: $(activated_btn).val()}
+    })
+    .done(form_view => {
+        $(active_repair_history_table).find('[name="body"]').prepend(form_view);
+    })
+}
+
+function repair_store(event){
+    event.preventDefault();
+    let form = event.target;
+    let url = form.action;
+
+    $.post({
+        url: url,
+        data: get_form_data($(form))
+    })
+    .done(new_repairAccount_entry_view => {
+        let table = $(form).closest('.table');
+        let create_forms = $(table).find('.new-form');
+        $(create_forms).last().after(new_repairAccount_entry_view);
+        $(create_forms).first().remove();
+    });
+}
+
+function repair_edit(activated_btn){
+    let repair_id = $(activated_btn).val();
+    let url = $(activated_btn).attr('link');
+
+    $.get({
+        url: url,
+        data: {id: repair_id}
+    })
+    .done(form_view => {
+        get_active_table_row(activated_btn)
+        .replaceWith(form_view);
+    })
+}
+
+function repair_cancel_edit(event){
+    event.preventDefault();
+    let active_form = event.target;
+    let repair_id = get_form_data($(active_form)).id;
+    let url = $(active_form).attr('cancel');
+
+    $.get({
+        url: url,
+        data: {id: repair_id}
+    })
+    .done(old_entry_table_row => {
+        let active_form_table_row = $(active_form).closest('.table-row');
+        $(active_form_table_row).replaceWith(old_entry_table_row);
+    })
+}
+
+function repair_update(event){
+    event.preventDefault();
+    let form = event.target;
+    let url = form.action;
+    let input_data = get_form_data($(form));
+
+    $.post({
+        url: url,
+        data: input_data
+    })
+    .done(updated_entry_table_row => {
+        get_active_table_row(form)
+            .replaceWith(updated_entry_table_row);
+    });
+}
+
+function repair_delete(delete_btn){
+    let url =  $(delete_btn).attr('link');
+    let repair_id = $(delete_btn).val();
+    let token = $(delete_btn).attr('token');
+    
+    $.ajax({
+        url: url,
+        method: 'delete',
+        data: {
+            id: repair_id,
             _token: token
         }
     })
