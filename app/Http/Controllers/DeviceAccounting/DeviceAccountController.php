@@ -102,7 +102,8 @@ class DeviceAccountController extends Controller{
     }
 
     protected function get_device($id){
-        return ($this->get_devices([$id])->get())[0];
+        $filters = array('id' => [$id]);
+        return ($this->get_devices($filters)->get())[0];
     }
 
     protected function get_devices($filters = null){
