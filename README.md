@@ -15,6 +15,9 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.12
+- CSA - Devices: Fixed bug when a device edit form returned a wrong device.
+
 ### 1.0.11
 - CSA - Devices:
     - page icon is replaced with company logo;
