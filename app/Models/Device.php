@@ -20,7 +20,6 @@ class Device extends Model
         'type_id',
         'status_id',
     ];
-
     
     public $searchable = [
         'inventory_code',
@@ -42,43 +41,22 @@ class Device extends Model
     }
 
     public function lastMovement(){
-        return $this->hasOne(Movement::class)->ofMany([
-            'date' => 'max',
-            'id' => 'max',
-        ]);
-    }
-
-    public function conditions(){
-        return $this->hasMany(Condition::class);
-    }
-
-    public function lastCondition(){
-        return $lastCondition = $this->hasOne(Condition::class)->ofMany([], function($query){
-            $lastModernization = $this->lastModernization;
-            $lastRepair = $this->lastRepair;
-            $lastModernizationT = strtotime($lastModernization?->date);
-            $lastRepairT = strtotime($lastRepair?->date);
-            $lastConditionId = $lastModernizationT > $lastRepairT
-                ? $lastModernization->condition_id
-                : $lastRepair->condition_id;
-
-            $query->where('id', $lastConditionId);
-        });
+        return $this->hasOne(Movement::class);
     }
 
     public function modernizations(){
-        return $this->hasManyThrough(Modernization::class, Condition::class);
+        return $this->hasMany(Modernization::class);
     }
 
     public function lastModernization(){
-        return $this->hasOneThrough(Modernization::class, Condition::class);
+        return $this->hasOne(Modernization::class);
     }
 
     public function repairs(){
-        return $this->hasManyThrough(Repair::class, Condition::class);
+        return $this->hasMany(Repair::class);
     }
 
     public function lastRepair(){
-        return $this->hasOneThrough(Repair::class, Condition::class);
+        return $this->hasOne(Repair::class);
     }
 }

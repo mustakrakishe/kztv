@@ -8,12 +8,16 @@ use App\Models\Device;
 class DeviceController extends Controller{
     public function index(){
         $devices = Device::with('type')
-            ->with('lastCondition')
             ->with('lastMovement')
             ->get()
             ->sortByDesc('lastMovement.date')
             ->sortBy('device.inventory_code')
             ->sortBy('device.identification_code');
+
+        // $devices->map(function($device){
+        //     $lastModernization = $device->lastModernization;
+        //     $lastRepair = $device->lastRepair;
+        // });
 
         return $devices->values()->all();
     }
