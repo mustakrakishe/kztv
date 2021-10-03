@@ -322,10 +322,8 @@ function repair_delete(delete_btn){
             _token: token
         }
     })
-    .done((isDeleted) => {
-        if(isDeleted){
-            get_active_table_row(delete_btn).remove();
-        }
+    .done(() => {
+        get_active_table_row(delete_btn).remove();
     })
 }
 

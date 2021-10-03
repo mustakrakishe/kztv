@@ -12,10 +12,6 @@ class Modernization extends Model
     
     public $timestamps = false;
 
-    protected $casts = [
-        'date' => 'datetime:d.m.Y H:i',
-    ];
-
     protected static function boot(){
         parent::boot();
 

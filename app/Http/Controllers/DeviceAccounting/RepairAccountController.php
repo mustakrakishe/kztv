@@ -85,23 +85,14 @@ class RepairAccountController extends Controller{
     }
     
     public function destroy(Request $request){
-        $isDeleted = false;
 
         $filters = array('id' => [$request->id]);
         $repairToDelete = RepairController::get($filters)[0];
         $filters = array('id' => [$repairToDelete->condition_id]);
         $conditionToDelete = ConditionController::get($filters)[0];
 
-        $condition_id_list = Condition::where('device_id', $conditionToDelete->device_id)->pluck('id');
-        $isLastModernisation = Repair::whereIn('condition_id', $condition_id_list)->count() > 1;
-
-        if($isLastModernisation){
-            RepairController::destroy($repairToDelete->id);
-            ConditionController::destroy($conditionToDelete->id);
-            $isDeleted = true;
-        }
-
-        return $isDeleted;
+        RepairController::destroy($repairToDelete->id);
+        ConditionController::destroy($conditionToDelete->id);
     }
 
     protected function build($repair, $condition){

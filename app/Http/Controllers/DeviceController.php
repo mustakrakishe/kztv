@@ -7,16 +7,15 @@ use App\Models\Device;
 
 class DeviceController extends Controller{
     public function index(){
-        $devices = Device::all();
-        $deviceAccounts = array_map(function($device){
-            return $deviceAccount = (object)[
-                'device' => $device,
-                'type' => $device->type(),
-                'status' => $device->status(),
-                'movements' => $device->movements(),
-                'conditions' => $device->conditions(),
-            ];
-        }, $devices);
+        $devices = Device::with('type')
+            ->with('lastCondition')
+            ->with('lastMovement')
+            ->get()
+            ->sortByDesc('lastMovement.date')
+            ->sortBy('device.inventory_code')
+            ->sortBy('device.identification_code');
+
+        return $devices->values()->all();
     }
     
     public function create(){
@@ -28,6 +27,8 @@ class DeviceController extends Controller{
     }
     
     public function show($id){
+        return $device = Device::with('lastCondition')->find($id);
+
         return $device = Device::with('type')
             ->with('status')
             ->with('lastMovement')

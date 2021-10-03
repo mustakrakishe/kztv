@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Device extends Model
 {
@@ -52,15 +53,15 @@ class Device extends Model
     }
 
     public function lastCondition(){
-        
-        return $lastCondition = $this->hasOne(condition::class)->ofMany([], function ($query) {
-            
+        return $lastCondition = $this->hasOne(Condition::class)->ofMany([], function($query){
             $lastModernization = $this->lastModernization;
             $lastRepair = $this->lastRepair;
-            $lastConditionId = $lastModernization->date > $lastRepair->date
+            $lastModernizationT = strtotime($lastModernization?->date);
+            $lastRepairT = strtotime($lastRepair?->date);
+            $lastConditionId = $lastModernizationT > $lastRepairT
                 ? $lastModernization->condition_id
                 : $lastRepair->condition_id;
-            
+
             $query->where('id', $lastConditionId);
         });
     }
