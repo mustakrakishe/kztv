@@ -14,10 +14,16 @@ class DeviceController extends Controller{
             ->sortBy('device.inventory_code')
             ->sortBy('device.identification_code');
 
-        // $devices->map(function($device){
-        //     $lastModernization = $device->lastModernization;
-        //     $lastRepair = $device->lastRepair;
-        // });
+        $devices->map(function($device){
+            $lastModernization = $device->lastModernization;
+            $lastRepair = $device->lastRepair;
+
+            $actualCharacteristics = strtotime($lastModernization?->date) > strtotime($lastRepair?->date)
+                ? $lastModernization->characteristics
+                : $lastRepair->characteristics;
+
+            $device['characteristics'] = $actualCharacteristics;
+        });
 
         return $devices->values()->all();
     }
