@@ -15,6 +15,9 @@ It will be a collection of the services or subapplications for each company depa
     - to delete exising device.
 
 ## What's new
+### 1.0.14
+- CSA - Devices: Fixed some technical bugs.
+
 ### 1.0.13
 - CSA - Devices:
     - fixed a bug when movement update did not return a new log view;
