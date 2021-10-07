@@ -39,7 +39,7 @@ class MovementController extends Controller{
     }
 
     protected function generate_log_view($log){
-        return view('components.views.devices.device-table.additional-info.movement-history-table.rows.log', ['log' => $log]);
+        return view('components.views.devices.device-table.additional-info.movement-history-table.rows.log', compact('log'));
     }
 
     public function get_log_view(Request $data){
@@ -94,6 +94,6 @@ class MovementController extends Controller{
 
         $filters['id'] = [$log->id];
         $updated_log = $this->get($filters);
-        return $this->generate_log_view($updated_log);
+        return $this->generate_log_view($updated_log[0]);
     }
 }
