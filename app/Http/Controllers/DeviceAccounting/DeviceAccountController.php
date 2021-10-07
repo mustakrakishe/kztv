@@ -80,7 +80,8 @@ class DeviceAccountController extends Controller{
                 ->orWhereRaw('t.type ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.model ilike ' . "'%$keyword%'")
                 ->orWhereRaw('t.location ilike ' . "'%$keyword%'")
-                ->orWhereRaw('t.comment ilike ' . "'%$keyword%'");
+                ->orWhereRaw('t.comment ilike ' . "'%$keyword%'")
+                ->orWhereRaw('t.last_movement_comment ilike ' . "'%$keyword%'");
 
                 array_push($all_keywords_matches, $single_keyword_matches);
         }
@@ -133,6 +134,7 @@ class DeviceAccountController extends Controller{
                 'last_movements.id as last_movement_id',
                 'last_movements.date',
                 'last_movements.location',
+                'last_movements.comment as last_movement_comment',
             )
             ->latest('last_movements.date')
             ->orderByDesc('last_movement_id', 'id');
