@@ -10,7 +10,7 @@
             <i class="fas fa-pen"></i>
         </x-button>
         
-        <x-button value="{{ $log->id }}" onclick="delete_movement_log(this)">
+        <x-button class="ml-2" value="{{ $log->id }}" onclick="delete_movement_log(this)">
             <i class="fas fa-trash-alt"></i>
         </x-button>
     </x-slot>

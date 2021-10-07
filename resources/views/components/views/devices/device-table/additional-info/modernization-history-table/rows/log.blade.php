@@ -21,6 +21,7 @@
         </x-button>
         
         <x-button
+            class="ml-2"
             value="{{ $modernizationAccount->id }}"
             token="{{ csrf_token() }}"
             link="{{ route('modernization.delete', $link_parameters) }}"

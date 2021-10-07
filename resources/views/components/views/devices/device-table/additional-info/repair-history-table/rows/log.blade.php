@@ -22,6 +22,7 @@
         </x-button>
         
         <x-button
+            class="ml-2"
             value="{{ $repairAccount->id }}"
             token="{{ csrf_token() }}"
             link="{{ route('repair.delete', $link_parameters) }}"

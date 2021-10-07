@@ -28,7 +28,7 @@
             <i class="fas fa-check"></i>
         </x-button>
         
-        <x-button type="reset">
+        <x-button class="ml-2" type="reset">
             <i class="fas fa-ban"></i>
         </x-button>
     </x-slot>
