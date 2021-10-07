@@ -67,5 +67,5 @@
             update_movement_log: @json(route('devices.update_movement_log'))
         };
     </script>
-    <script src="{{ asset('js/scenarios/devices.js') }}"></script>
+    <script src="{{ mix('js/scenarios/devices.js') }}"></script>
 </x-app-layout>

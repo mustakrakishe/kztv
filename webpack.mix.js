@@ -21,7 +21,8 @@ mix.scripts([
         'resources/js/functions/views/devices.js',
         'resources/js/handlers/views/devices/device.js',
         'resources/js/listeners/views/devices.js'
-    ], 'public/js/scenarios/devices.js');
+    ], 'public/js/scenarios/devices.js')
+    .version();
 
 mix.postCss('resources/css/devices.css', 'public/css');
 mix.postCss('resources/css/welcome.css', 'public/css');

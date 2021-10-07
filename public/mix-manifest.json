@@ -1,7 +1,7 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/welcome.css": "/css/welcome.css",
-    "/css/devices.css": "/css/devices.css",
-    "/css/app.css": "/css/app.css",
-    "/js/scenarios/devices.js": "/js/scenarios/devices.js"
+    "/js/app.js": "/js/app.js?id=dc58ca63345cfaa843ae",
+    "/css/welcome.css": "/css/welcome.css?id=dbb3d5bd476da008ec1b",
+    "/css/devices.css": "/css/devices.css?id=13cf925e88f1c272e6c1",
+    "/css/app.css": "/css/app.css?id=a4bb1b72279eea26dcd8",
+    "/js/scenarios/devices.js": "/js/scenarios/devices.js?id=c2c180cece77fa17c15e"
 }
